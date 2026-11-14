@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Airbus A320/A321 Mobile Tech Reference</title>
+    <title>A320 / A321 Mobile Tech Reference</title>
     <style>
         :root {
-            --primary: #00205b;       /* Airbus 经典深蓝 */
-            --secondary: #0072ce;     /* 航空亮蓝 */
-            --accent: #e4002b;        /* 警戒红 */
+            --primary: #00205b;       /* Airbus Navy */
+            --secondary: #0072ce;     /* Aviation Blue */
+            --accent: #e4002b;        /* Caution/Warning Red */
             --bg-body: #f1f5f9;
             --bg-card: #ffffff;
             --text-main: #0f172a;
@@ -38,7 +38,7 @@
             transition: background-color 0.2s, color 0.2s;
         }
 
-        /* 顶部导航 */
+        /* Header */
         header {
             background-color: var(--primary);
             color: #fff;
@@ -56,10 +56,10 @@
         .badge { background: var(--secondary); color: #fff; font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
         .theme-btn {
             background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
+            padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
         }
 
-        /* 全局搜索栏 */
+        /* Global Search Bar */
         .search-bar {
             background: var(--bg-card);
             padding: 10px 16px;
@@ -92,7 +92,7 @@
 
         .container { max-width: 820px; margin: 0 auto; padding: 16px; }
 
-        /* 首页 7 大核心模块（严格还原 airbusHome.php） */
+        /* Home Banner & Grid */
         .home-banner {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -102,7 +102,7 @@
             box-shadow: var(--shadow);
         }
         .home-banner h2 { font-size: 1rem; margin-bottom: 4px; color: var(--secondary); }
-        .home-banner p { font-size: 0.82rem; color: var(--text-muted); }
+        .home-banner p { font-size: 0.84rem; color: var(--text-muted); }
 
         .menu-grid {
             display: grid;
@@ -128,7 +128,7 @@
         .module-title { font-weight: 700; font-size: 0.92rem; }
         .module-count { font-size: 0.74rem; color: var(--text-muted); background: var(--bg-body); padding: 2px 8px; border-radius: 10px; }
 
-        /* 列表头部与返回按钮 */
+        /* Navigation Header */
         .view-header {
             display: flex;
             justify-content: space-between;
@@ -136,15 +136,18 @@
             margin-bottom: 12px;
             padding-bottom: 8px;
             border-bottom: 2px solid var(--secondary);
+            gap: 10px;
         }
         .view-title { font-size: 1.05rem; font-weight: 700; color: var(--secondary); }
+        .nav-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .btn-back {
             background: var(--bg-card); border: 1px solid var(--border-color);
             color: var(--text-main); padding: 5px 12px; border-radius: 6px;
-            font-size: 0.85rem; cursor: pointer; font-weight: 600;
+            font-size: 0.82rem; cursor: pointer; font-weight: 600;
         }
+        .btn-back:hover { border-color: var(--secondary); }
 
-        /* 字母快捷索引条（专用于 Acronyms） */
+        /* Alphabet Filter Bar */
         .alpha-bar {
             display: flex;
             flex-wrap: wrap;
@@ -167,7 +170,7 @@
         }
         .alpha-btn.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
 
-        /* 列表项卡片 */
+        /* List Items */
         .list-group { display: flex; flex-direction: column; gap: 8px; }
         .list-item {
             background: var(--bg-card);
@@ -183,14 +186,15 @@
         }
         .list-item:hover { border-color: var(--secondary); }
         .item-left { display: flex; flex-direction: column; gap: 2px; }
-        .item-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--secondary); font-size: 0.95rem; }
-        .item-name { font-size: 0.9rem; color: var(--text-main); }
+        .item-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--secondary); font-size: 0.92rem; }
+        .item-name { font-size: 0.92rem; font-weight: 600; color: var(--text-main); }
+        .item-sub { font-size: 0.78rem; color: var(--text-muted); }
         .item-badge {
             font-size: 0.72rem; padding: 3px 8px; border-radius: 6px;
-            background: var(--bg-body); color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
+            background: var(--bg-body); color: var(--text-muted); white-space: nowrap; flex-shrink: 0; font-weight: 600;
         }
 
-        /* 详情弹窗 */
+        /* Modal */
         .modal-backdrop {
             position: fixed; inset: 0; background: rgba(0,0,0,0.6);
             display: none; justify-content: center; align-items: flex-end; z-index: 200;
@@ -210,7 +214,8 @@
         .modal-body { font-size: 0.94rem; white-space: pre-line; line-height: 1.6; }
         .ref-tag {
             margin-top: 14px; padding: 10px 12px; border-left: 4px solid var(--secondary);
-            background: rgba(0, 114, 206, 0.08); font-size: 0.84rem; border-radius: 0 6px 6px 0;
+            background: rgba(0, 114, 206, 0.08); font-size: 0.82rem; border-radius: 0 6px 6px 0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
         }
 
         footer {
@@ -226,45 +231,48 @@
 <header>
     <div class="header-left" onclick="goHome()">
         <span class="header-title">✈️ A320 / A321 Mobile Tech</span>
-        <span class="badge">OFFLINE REF</span>
+        <span class="badge">REFERENCE</span>
     </div>
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 夜间模式</button>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 Dark Mode</button>
 </header>
 
 <div class="search-bar">
     <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 全局搜索：输入缩略语 (如 FADEC, BSCU)、ATA 章节 (如 21, 32) 或程序..." oninput="onSearch()">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Global Search: Faults, ATA Chapters, Acronyms (e.g., CAB PRESS, FADEC, 21)..." oninput="onSearch()">
         <button class="clear-search" id="clearBtn" onclick="clearSearch()">✕</button>
     </div>
 </div>
 
 <div class="container">
-    <!-- 首页 7 大核心板块 -->
+    <!-- Home View -->
     <div id="homeView">
         <div class="home-banner">
-            <h2>320 Home Page — 机务快速参考导航</h2>
-            <p>已完整迁移原 Mobile Airlinetechs 架构及全量 480+ 条 Airbus 缩略语词典。点击下方模块或直接使用顶部搜索。</p>
+            <h2>320 Home Page</h2>
+            <p>Enter into the specific region below or use the global search bar above.</p>
         </div>
         <div class="menu-grid" id="moduleGrid"></div>
     </div>
 
-    <!-- 模块列表视图 -->
+    <!-- List View -->
     <div id="listView" style="display: none;">
         <div class="view-header">
-            <span class="view-title" id="viewTitle">模块列表</span>
-            <button class="btn-back" onclick="goHome()">← 返回 320 Home</button>
+            <span class="view-title" id="viewTitle">Section</span>
+            <div class="nav-actions" id="navActions">
+                <button class="btn-back" onclick="goHome()">320 Home</button>
+            </div>
         </div>
         <div id="alphaFilter" class="alpha-bar" style="display: none;"></div>
         <div id="itemsContainer" class="list-group"></div>
     </div>
 
     <footer>
-        <p>Original Architecture & Data Reference: Mobile Airlinetechs (Tobin Miklas)</p>
-        <p style="margin-top: 4px;">This is for <strong>REFERENCE & TRAINING ONLY</strong>. Not approved maintenance data.</p>
+        <p>Powered By: Tobin Miklas — Mobile Airlinetechs Archive</p>
+        <p style="margin-top: 6px;">This is for <strong>REFERENCE ONLY</strong>, it is not approved material and should not be used for signoff's, it's strictly for reference purposes only.</p>
+        <p style="margin-top: 4px;">Training Only</p>
     </footer>
 </div>
 
-<!-- 详情弹窗 -->
+<!-- Detail Modal -->
 <div class="modal-backdrop" id="modal" onclick="closeModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-top">
@@ -281,105 +289,443 @@
 
 <script>
 // =========================================================================
-// 1. 7 大核心模块定义（完全对应 airbusHome.php.html）
+// 1. 7 Main Modules (airbusHome.php)
 // =========================================================================
 const MODULES = [
-    { id: 'acronyms', title: 'Airbus Acronyms', icon: '🔤', desc: '全量缩略语词典' },
-    { id: 'resets', title: 'Resets (ATA List)', icon: '🔄', desc: '23 个系统复位章节' },
-    { id: 'mel', title: 'Airbus 320 MEL List', icon: '⚠️', desc: '29 个 MEL 章节目录' },
-    { id: 'fuel', title: '321 Fuel Transfer', icon: '⛽', desc: '5 项燃油交输程序' },
-    { id: 'locations', title: 'Locations', icon: '📍', desc: '跳开关与电子舱位置' },
-    { id: 'lights', title: 'Light Bulb Part Numbers', icon: '💡', desc: '4 大区域灯光件号索引' },
-    { id: 'callups', title: 'Alpha Call Up Menu', icon: '📢', desc: 'AIDS 监控参数呼叫' }
+    { id: 'resets', title: 'Resets', icon: '🔄', sub: '23 ATA Chapters & Faults' },
+    { id: 'locations', title: 'Locations', icon: '📍', sub: 'C/B, E&E, 80VU & Panels' },
+    { id: 'lights', title: 'Light Bulb Part Numbers', icon: '💡', sub: 'Ext, Cockpit, Int & Cargo' },
+    { id: 'acronyms', title: 'Airbus Acronyms', icon: '🔤', sub: 'A-Z Maintenance Terms' },
+    { id: 'fuel', title: '321 Fuel Transfer Procedure', icon: '⛽', sub: 'ACT & Wing XFR Ops' },
+    { id: 'mel', title: 'Airbus 320 MEL List', icon: '⚠️', sub: '29 MEL ATA Chapters' },
+    { id: 'callups', title: 'Airbus Alpha Call Up Menu', icon: '📢', sub: 'AIDS Alpha Call Ups' }
 ];
 
 // =========================================================================
-// 2. 结构化数据（100% 源自你上传的 7 个 HTML 文件）
+// 2. Complete Reset ATA Chapters & Fault Menus (airbusATA.html + Achapter21..79.html)
 // =========================================================================
-const STATIC_ITEMS = [
-    // --- Resets (来自 airbusATA.html) ---
-    { mod: 'resets', code: 'ATA 21', title: 'Air Conditioning & Pressurization', tag: 'Reset Chapter', source: 'airbus/21/Achapter21.html', detail: '空调与增压系统计算机复位指南（包含 Pack Controller、Zone Controller、CPC 1/2、AEVC 等复位步骤及跳开关位置）。\n\n[待补充具体子页面数据：请抓取原站 21/Achapter21.html 填入此处]' },
-    { mod: 'resets', code: 'ATA 22', title: 'Auto Flight', tag: 'Reset Chapter', source: 'airbus/22/Achapter22.html', detail: '自动飞行系统复位指南（包含 FMGC 1/2、FCU、FAC 1/2 等计算机复位步骤）。\n\n[待补充具体子页面数据：请抓取原站 22/Achapter22.html 填入此处]' },
-    { mod: 'resets', code: 'ATA 23', title: 'Communications', tag: 'Reset Chapter', source: 'airbus/23/Achapter23.html', detail: '通讯系统复位指南（包含 CIDS Director 1/2、AMU、RMP 1/2/3、ACP、VHF/HF 收发机等）。' },
-    { mod: 'resets', code: 'ATA 24', title: 'Electrical Power', tag: 'Reset Chapter', source: 'airbus/24/Achapter24.html', detail: '电源系统复位指南（包含 GCU、BCL 1/2、GPCU、ECMU 等）。' },
-    { mod: 'resets', code: 'ATA 25', title: 'Equipment & Furnishings', tag: 'Reset Chapter', source: 'airbus/25/Achapter25.html', detail: '设备与客舱装饰系统复位（包含客舱座椅电源、厨房设备、应急撤离系统相关控制盒）。' },
-    { mod: 'resets', code: 'ATA 26', title: 'Fire Protection', tag: 'Reset Chapter', source: 'airbus/26/Achapter26.html', detail: '防火系统复位指南（包含 FDU 1/2、APU FDU、SDCU 烟雾探测控制组件等）。' },
-    { mod: 'resets', code: 'ATA 27', title: 'Flight Controls', tag: 'Reset Chapter', source: 'airbus/27/Achapter27.html', detail: '飞行控制系统复位指南（包含 ELAC 1/2、SEC 1/2/3、FCDC 1/2、SFCC 1/2 襟缝翼控制计算机等）。' },
-    { mod: 'resets', code: 'ATA 28', title: 'Fuel', tag: 'Reset Chapter', source: 'airbus/28/Achapter28.html', detail: '燃油系统复位指南（包含 FQI 燃油油量指示计算机、FLSCU 油面传感控制组件等）。' },
-    { mod: 'resets', code: 'ATA 29', title: 'Hydraulics', tag: 'Reset Chapter', source: 'airbus/29/Achapter29.html', detail: '液压系统复位指南（包含 HSMU 液压系统监控组件、电动泵及 PTU 控制电路）。' },
-    { mod: 'resets', code: 'ATA 30', title: 'Ice & Rain', tag: 'Reset Chapter', source: 'airbus/30/Achapter30.html', detail: '防冰与排雨系统复位指南（包含 PHC 1/2/3 探头加温计算机、WHC 1/2 风挡加温计算机、WIPCU 等）。' },
-    { mod: 'resets', code: 'ATA 31', title: 'Indications', tag: 'Reset Chapter', source: 'airbus/31/Achapter31.html', detail: '指示与记录系统复位指南（包含 DMC 1/2/3、FWC 1/2、SDAC 1/2、CFDIU、DFDRS/DMU 等）。' },
-    { mod: 'resets', code: 'ATA 32', title: 'Landing Gear', tag: 'Reset Chapter', source: 'airbus/32/Achapter32.html', detail: '起落架系统复位指南（包含 LGCIU 1/2、BSCU 刹车与转弯控制组件、TPIS 胎压指示系统等）。' },
-    { mod: 'resets', code: 'ATA 33', title: 'Lights', tag: 'Reset Chapter', source: 'airbus/33/Achapter33.html', detail: '灯光系统复位指南（包含 EPSU 应急电源组件、客舱灯光控制模块等）。' },
-    { mod: 'resets', code: 'ATA 34', title: 'Navigation', tag: 'Reset Chapter', source: 'airbus/34/Achapter34.html', detail: '导航系统复位指南（包含 ADIRU 1/2/3、RA 1/2、ILS/MMR、TCAS、GPWS/EGPWS、WXR 气象雷达等）。' },
-    { mod: 'resets', code: 'ATA 35', title: 'Oxygen', tag: 'Reset Chapter', source: 'airbus/35/Achapter35.html', detail: '氧气系统复位指南（包含客舱氧气面罩自动脱落控制电路及 TMR 定时器复位）。' },
-    { mod: 'resets', code: 'ATA 36', title: 'Pneumatic Systems', tag: 'Reset Chapter', source: 'airbus/36/Achapter36.html', detail: '气源系统复位指南（包含 BMC 1/2 引气监控计算机复位步骤）。' },
-    { mod: 'resets', code: 'ATA 38', title: 'Water & Waste', tag: 'Reset Chapter', source: 'airbus/38/Achapter38.html', detail: '水与废水系统复位指南（包含 VSC 真空系统控制器、水量指示及马桶冲洗控制组件）。' },
-    { mod: 'resets', code: 'ATA 46', title: 'Information System (ATSU)', tag: 'Reset Chapter', source: 'airbus/46/Achapter46.html', detail: '信息系统复位指南（包含 ATSU 空中交通服务组件、DCDU、打印机等）。' },
-    { mod: 'resets', code: 'ATA 49', title: 'APU', tag: 'Reset Chapter', source: 'airbus/49/Achapter49.html', detail: '辅助动力装置复位指南（包含 ECB 电子控制盒复位及关车冷却要求）。' },
-    { mod: 'resets', code: 'ATA 52', title: 'Doors', tag: 'Reset Chapter', source: 'airbus/52/Achapter52.html', detail: '舱门系统复位指南（包含舱门警告近地电门及滑梯预位指示电路）。' },
-    { mod: 'resets', code: 'ATA 73', title: 'Engine', tag: 'Reset Chapter', source: 'airbus/73/Achapter73.html', detail: '发动机燃油与控制系统复位指南（包含 FADEC / ECU / EEC、EIU 1/2 发动机接口组件等）。' },
-    { mod: 'resets', code: 'ATA 78', title: 'Exhaust (Reversers)', tag: 'Reset Chapter', source: 'airbus/78/Achapter78.html', detail: '排气与反推系统复位指南（反推作动筒锁定及控制电路）。' },
-    { mod: 'resets', code: 'ATA 79', title: 'Engine Oil', tag: 'Reset Chapter', source: 'airbus/79/Achapter79.html', detail: '发动机滑油系统复位指南（滑油量及压力/温度指示传感器电路）。' },
-
-    // --- MEL List (来自 MELairbusATA.html) ---
-    { mod: 'mel', code: 'MEL 21', title: 'Air Conditioning & Pressurization', tag: 'MEL Chapter', source: 'airbus/MEL/21.html', detail: 'ATA 21 空调与增压系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 22', title: 'Auto Flight', tag: 'MEL Chapter', source: 'airbus/MEL/22.html', detail: 'ATA 22 自动飞行系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 23', title: 'Communications', tag: 'MEL Chapter', source: 'airbus/MEL/23.html', detail: 'ATA 23 通讯系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 24', title: 'Electrical Power', tag: 'MEL Chapter', source: 'airbus/MEL/24.html', detail: 'ATA 24 电源系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 25', title: 'Equipment & Furnishings', tag: 'MEL Chapter', source: 'airbus/MEL/25.html', detail: 'ATA 25 设备与装饰 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 26', title: 'Fire Protection', tag: 'MEL Chapter', source: 'airbus/MEL/26.html', detail: 'ATA 26 防火系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 27', title: 'Flight Controls', tag: 'MEL Chapter', source: 'airbus/MEL/27.html', detail: 'ATA 27 飞行控制系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 28', title: 'Fuel', tag: 'MEL Chapter', source: 'airbus/MEL/28.html', detail: 'ATA 28 燃油系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 29', title: 'Hydraulics', tag: 'MEL Chapter', source: 'airbus/MEL/29.html', detail: 'ATA 29 液压系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 30', title: 'Ice & Rain', tag: 'MEL Chapter', source: 'airbus/MEL/30.html', detail: 'ATA 30 防冰与排雨系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 31', title: 'Indications', tag: 'MEL Chapter', source: 'airbus/MEL/31.html', detail: 'ATA 31 指示与记录系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 32', title: 'Landing Gear', tag: 'MEL Chapter', source: 'airbus/MEL/32.html', detail: 'ATA 32 起落架系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 33', title: 'Lights', tag: 'MEL Chapter', source: 'airbus/MEL/33.html', detail: 'ATA 33 灯光系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 34', title: 'Navigation', tag: 'MEL Chapter', source: 'airbus/MEL/34.html', detail: 'ATA 34 导航系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 35', title: 'Oxygen', tag: 'MEL Chapter', source: 'airbus/MEL/35.html', detail: 'ATA 35 氧气系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 36', title: 'Pneumatic Systems', tag: 'MEL Chapter', source: 'airbus/MEL/36.html', detail: 'ATA 36 气源系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 38', title: 'Water & Waste', tag: 'MEL Chapter', source: 'airbus/38/Achapter38.html', detail: 'ATA 38 水与废水系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 46', title: 'Information System (ATSU)', tag: 'MEL Chapter', source: 'airbus/MEL/46.html', detail: 'ATA 46 信息系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 47', title: 'Fuel Inerting Systems', tag: 'MEL Chapter', source: 'airbus/MEL/47.html', detail: 'ATA 47 燃油箱惰性化系统 (FTIS) MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 49', title: 'APU', tag: 'MEL Chapter', source: 'airbus/MEL/49.html', detail: 'ATA 49 辅助动力装置 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 52', title: 'Doors', tag: 'MEL Chapter', source: 'airbus/MEL/52.html', detail: 'ATA 52 舱门系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 56', title: 'Windows', tag: 'MEL Chapter', source: 'airbus/MEL/56.html', detail: 'ATA 56 风挡与窗户 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 71', title: 'Power Plant', tag: 'MEL Chapter', source: 'airbus/MEL/71.html', detail: 'ATA 71 动力装置 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 73', title: 'Engine Fuel & Control', tag: 'MEL Chapter', source: 'airbus/MEL/73.html', detail: 'ATA 73 发动机燃油与控制 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 74', title: 'Engine Ignition', tag: 'MEL Chapter', source: 'airbus/MEL/74.html', detail: 'ATA 74 发动机点火系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 77', title: 'Engine Indicating', tag: 'MEL Chapter', source: 'airbus/MEL/77.html', detail: 'ATA 77 发动机指示系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 78', title: 'Exhaust (Reversers)', tag: 'MEL Chapter', source: 'airbus/MEL/78.html', detail: 'ATA 78 反推与排气系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 79', title: 'Engine Oil', tag: 'MEL Chapter', source: 'airbus/MEL/79.html', detail: 'ATA 79 发动机滑油系统 MEL 放行条款目录。' },
-    { mod: 'mel', code: 'MEL 80', title: 'Starting', tag: 'MEL Chapter', source: 'airbus/MEL/80.html', detail: 'ATA 80 发动机起动系统 MEL 放行条款目录。' },
-
-    // --- 321 Fuel Transfer Procedure (来自 XFRmenu.html) ---
-    { mod: 'fuel', code: 'XFR-01', title: 'ACT(s) TO CENTER', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/actcenter.html', detail: 'A321 附加中央油箱 (ACT) 向中央油箱 (Center Tank) 传输燃油操作程序。' },
-    { mod: 'fuel', code: 'XFR-02', title: 'WINGS TO ACT(s)', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/wingact.html', detail: 'A321 大翼油箱 (Wing Tanks) 向附加中央油箱 (ACT) 传输燃油操作程序。' },
-    { mod: 'fuel', code: 'XFR-03', title: 'CENTER TO WINGS', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/centerwing.html', detail: 'A321 中央油箱 (Center Tank) 向大翼油箱 (Wing Tanks) 传输燃油操作程序。' },
-    { mod: 'fuel', code: 'XFR-04', title: 'WINGS TO CENTER', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/wingscenter.html', detail: 'A321 大翼油箱 (Wing Tanks) 向中央油箱 (Center Tank) 传输燃油操作程序。' },
-    { mod: 'fuel', code: 'XFR-05', title: 'PRIME ACT PUMPS', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/prime.html', detail: 'A321 附加中央油箱 (ACT) 燃油泵灌充/排气 (Priming) 标准程序。' },
-
-    // --- Locations (来自 locationsmenu.html) ---
-    { mod: 'locations', code: 'LOC-CB', title: 'Circuit Breaker Locations', tag: 'Locations', source: 'airbus/CBlocations.html', detail: '驾驶舱头顶板 (49VU)、后跳开关面板 (121VU - 125VU) 及电子舱跳开关分布索引。' },
-    { mod: 'locations', code: 'LOC-EE', title: 'E&E Locations', tag: 'Locations', source: 'airbus/EElocations.html', detail: '前电子舱 (FWD Avionics Compartment) 及主电子舱设备架分布位置图。' },
-    { mod: 'locations', code: 'LOC-80VU', title: 'Main E&E / 80VU Box Layout', tag: 'Locations', source: 'airbus/80VU.html', detail: '80VU / 90VU 主航电设备架计算机安装槽位布局（ADIRU、FMGC、ELAC、SEC、FWC、SDAC 等）。' },
-    { mod: 'locations', code: 'LOC-OVHD', title: 'Overhead Panel', tag: 'Panels', source: 'airbus/panels/Overhead.html', detail: '驾驶舱头顶控制面板 (21VU - 50VU) 功能区划与面板编号索引。' },
-    { mod: 'locations', code: 'LOC-PED', title: 'Pedestal Panel', tag: 'Panels', source: 'airbus/panels/Pedestal.html', detail: '中央操纵台 (Pedestal) 面板布局（MCDU、RMP、ACP、ECAM 控制面板、雷达及应答机面板）。' },
-
-    // --- Light Bulb Part Numbers (来自 lightmenu.html) ---
-    { mod: 'lights', code: 'LT-EXT', title: 'Exterior Lights', tag: 'Part Numbers', source: 'airbus/Exterior lights/exterior.html', detail: '外部灯光灯泡/组件件号索引（着陆灯、滑行灯、跑道脱离灯、航行灯、频闪灯、防撞灯、机翼及发动机扫描灯）。' },
-    { mod: 'lights', code: 'LT-CKPT', title: 'Cockpit Lights', tag: 'Part Numbers', source: 'airbus/Cockpit lights/cockpit.html', detail: '驾驶舱内部照明及信号指示灯件号索引（顶灯、阅读灯、面板泛光灯、遮光罩灯）。' },
-    { mod: 'lights', code: 'LT-INT', title: 'Interior Lights', tag: 'Part Numbers', source: 'airbus/Interior lights/interior.html', detail: '客舱及厨房/盥洗室照明灯管及应急出口指示灯件号索引。' },
-    { mod: 'lights', code: 'LT-CRG', title: 'Cargo / Service Lights', tag: 'Part Numbers', source: 'airbus/Cargo lights/cargo.html', detail: '前后货舱照明灯、电子舱勤务灯及起落架舱照明灯件号索引。' },
-
-    // --- Alpha Call Up Menu (来自 alphamenu1.html) ---
-    { mod: 'callups', code: 'AIDS-SYS', title: 'CALL UPS BY SYSTEM', tag: 'Alpha Call Ups', source: 'airbus/callups/allcallups.html', detail: '按 ATA 系统分类的 MCDU -> AIDS -> Alpha Call-Up 实时参数代码查询列表。' },
-    { mod: 'callups', code: 'AIDS-ALL', title: 'ALL CALL UPS', tag: 'Alpha Call Ups', source: 'airbus/callups/allcallups.html', detail: '全量字母序排列的 AIDS Alpha Call-Up 监控参数代码词典（如 EGT, FF, N1, N2, TAT, SAT, GW 等）。' }
+const RESET_CHAPTERS = [
+    {
+        ata: '21',
+        title: 'Chapter 21 - Air Conditioning & Pressurization',
+        header: 'Airconditioning & Pressurization',
+        source: 'airbus/21/Achapter21.html',
+        faults: [
+            { name: 'CAB PRESS 1(2) FAULT', file: '21/21cabpress.html' },
+            { name: 'AIR- PACK 1(2) FAULT', file: '21/21airpackfault.html' },
+            { name: 'VENT-AVNC BLOWER FAULT', file: '21/21ventavncsblower.html' },
+            { name: 'VENT-AVNC EXTRACT FAULT', file: '21/21ventavncsextract.html' },
+            { name: 'VENT-AVNC SKIN VAL. FAULT', file: '21/21ventavncsskinvalve.html' },
+            { name: 'VENT-AVNC SYS FAULT', file: '21/21ventavncssys.html' },
+            { name: 'COND-ZONE REGUL FAULT', file: '21/21condzoneregul.html' },
+            { name: 'COND-TRIM AIR SYS FAULT', file: '21/21condtrimair.html' },
+            { name: 'COND-AFT CARGO HEAT FAULT', file: '21/21condaftcargoheat.html' },
+            { name: 'AIR-PACK 1(2) REGUL FAULT', file: '21/21airpackregul.html' },
+            { name: 'COND- RECIRC FAN FAULT', file: '21/21condrecircfan.html' },
+            { name: 'LAV/GALLEY VENT EXTRACT FAN FAULT', file: '21/21lavgalleyextractfan.html' },
+            { name: 'ALL CHAPTER 21 CIRCUIT BREAKERS', file: '21/21allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '22',
+        title: 'Chapter 22 - Auto Flight',
+        header: 'Auto Flight',
+        source: 'airbus/22/Achapter22.html',
+        faults: [
+            { name: 'OFFSIDE RANGE MODE (ON NAV DISPLAY)', file: '22/22offsiderangemode.html' },
+            { name: 'MCDU 1(2) SCREENS BLANK', file: '22/22mcdublank.html' },
+            { name: 'AUTO FLT-RUD TRIM 1(2) FAULT', file: '22/22ruddertrim.html' },
+            { name: 'AUTO FLT-RUD TRIM SYS FAULT', file: '22/22ruddertrimsys.html' },
+            { name: 'AUTO FLT-RUD TRV LIM 1(2) FAULT', file: '22/22ruddertravellimit.html' },
+            { name: 'AUTO FLT-RUD TRV LIM SYS FAULT', file: '22/22ruddertravellimitsys.html' },
+            { name: 'AUTO FLT-YAW DAMPER 1(2) FAULT', file: '22/22yawdamper.html' },
+            { name: 'AUTO FLT-A/P OFF DISPLAYED ON GRND', file: '22/22autofltapoff.html' },
+            { name: 'AUTO FLT-A/P 1(2) DISPLAYED IN INOP STATUS', file: '22/22autofltapinop.html' },
+            { name: 'AUTO FLT-A/THR OFF DISPLAYED ON GRND', file: '22/22autofltathroff.html' },
+            { name: 'OPPOSITE FM IN PROCESS ON MCDU', file: '22/22oppsitefminprocess.html' },
+            { name: 'AUTO FLT-FCU 1(2) FAULT', file: '22/22autofltfcu.html' },
+            { name: 'WINDSHEAR FAULT DISPLAYED', file: '22/22windshear.html' },
+            { name: 'BARO REF FAULT DISPLAYED', file: '22/22baroref.html' },
+            { name: 'RUDDER ARTIFICIAL FEEL INOP', file: '22/22rudderartificialfeel.html' },
+            { name: 'SIDESTICK LOCK', file: '22/22sidesticklock.html' },
+            { name: 'ALL CHAPTER 22 CIRCUIT BREAKERS', file: '22/22allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '23',
+        title: 'Chapter 23 - Communications',
+        header: 'Communications',
+        source: 'airbus/23/Achapter23.html',
+        faults: [
+            { name: 'COM-VHF 1 (2) (3) EMITTING MESSAGE', file: '23/23emiting.html' },
+            { name: 'VHF TRANSMISSION PROBLEMS', file: '23/23vhftransmission.html' },
+            { name: 'RMP-LOCKED UP OR WINDOW BLANK', file: '23/23rmplock.html' },
+            { name: 'ACP INOP', file: '23/23acplock.html' },
+            { name: 'AMU (AUDIO MANAGEMENT UNIT) FAULT', file: '23/23amu.html' },
+            { name: 'ACARS TRANSMISSION PROBLEMS', file: '23/23acars.html' },
+            { name: 'COM-HF 1 (2) FAULT', file: '23/23hf.html' },
+            { name: 'CIDS SYSTEM FAULTS - CAUTION LIGHT ON', file: '23/23cids.html' },
+            { name: 'FLIGHT ATTENDANT PANEL (FAP) LOCKED UP', file: '23/23fap.html' },
+            { name: 'FWD FLIGHT ATTENDANT “PTP” PANEL INOP', file: '23/23ptp.html' },
+            { name: 'FLIGHT INTERPHONE INOP', file: '23/23flightinterphone.html' },
+            { name: 'CABIN PA INOP', file: '23/23pa.html' },
+            { name: 'DEU-A FAULT ON CIDS', file: '23/23deua.html' },
+            { name: 'DEU-B FAULT ON CIDS', file: '23/23deub.html' },
+            { name: 'ALL CHAPTER 23 CIRCUIT BREAKERS', file: '23/23allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '24',
+        title: 'Chapter 24 - Electrical Power',
+        header: 'Electrical Power',
+        source: 'airbus/24/Achapter24.html',
+        faults: [
+            { name: 'ENGINE GENERATOR PARAMETERS NOT SHOWN', file: '24/24engineparameters.html' },
+            { name: 'ELEC-CIRCUIT BREAKER TRIPPED', file: '24/24circuitbreaker.html' },
+            { name: 'TRANSFORMER RECTIFIER PROBLEM', file: '24/24tr.html' },
+            { name: 'ELEC-BCL 1(2) FAULT', file: '24/24bcl.html' },
+            { name: 'GROUND POWER WILL NOT CONNECT', file: '24/24groundpower.html' },
+            { name: 'ALL CHAPTER 24 CIRCUIT BREAKERS', file: '24/24allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '25',
+        title: 'Chapter 25 - Equipment & Furnishings',
+        header: 'Equipment & Furnishings',
+        source: 'airbus/25/Achapter25.html',
+        faults: [
+            { name: 'CREW SEAT PROBLEMS', file: '25/25crewseat.html' },
+            { name: 'OVEN OR TIMER', file: '25/25oven.html' },
+            { name: 'ALL CHAPTER 25 CIRCUIT BREAKERS', file: '25/25allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '26',
+        title: 'Chapter 26 - Fire Protection',
+        header: 'Fire Protection',
+        source: 'airbus/26/Achapter26.html',
+        faults: [
+            { name: 'SMOKE - LAVATORY DET FAULT', file: '26/26lavdet.html' },
+            { name: 'SMOKE - FWD & AFT CARGO DET FAULT', file: '26/26cargosmoke.html' },
+            { name: 'SDCU TROUBLE SHOOTING DATA (TSD) INFO', file: '26/26sdcuts.html' },
+            { name: 'SDCU MAINTENANCE MESSAGE (CLASS 2)', file: '26/26sdcu.html' },
+            { name: 'COND/AIR - AFT CARGO HEAT/VENT FAULTS', file: '26/26aftcargoheat.html' },
+            { name: 'ALL CHAPTER 26 CIRCUIT BREAKERS', file: '26/26allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '27',
+        title: 'Chapter 27 - Flight Controls',
+        header: 'Flight Controls',
+        source: 'airbus/27/Achapter27.html',
+        faults: [
+            { name: 'F/CTL FCDC 1(2) FAULT', file: '27/27fcdc.html' },
+            { name: 'F/CTL MAINTENANCE STATUS (CLASS 2)', file: '27/27class2.html' },
+            { name: 'THS DIDN’T RETURN TO ZERO AFTER LANDING', file: '27/27thszero.html' },
+            { name: 'F/CTL-SEC 1(2)(3) FAULT OR F/CTL-SPLR FAULT', file: '27/27sec.html' },
+            { name: 'F/CTL-ELAC 1(2) FAULTS', file: '27/27elac.html' },
+            { name: 'F/CTL-AIL SERVO FAULT', file: '27/27aileronservo.html' },
+            { name: 'F/CTL ALTN LAW DISPLAYED AT ENG. START', file: '27/27altnlaw.html' },
+            { name: 'F/CTL-FLAP OR SLAT SYS 1(2) FAULT OR SLOW', file: '27/27flapsslow.html' },
+            { name: 'F/CTL-FLAPS (SLATS) LOCKED', file: '27/27flapslocked.html' },
+            { name: 'F/CTL-FLAP/SLAT INDICATION AMBER', file: '27/27flapindication.html' },
+            { name: 'SIDE STICK PRIORITY MESSAGE', file: '27/27sidestick.html' },
+            { name: 'ALL CHAPTER 27 CIRCUIT BREAKERS', file: '27/27allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '28',
+        title: 'Chapter 28 - Fuel',
+        header: 'Fuel (T/S all popped fuel C/B\'s)',
+        source: 'airbus/28/Achapter28.html',
+        faults: [
+            { name: 'FUEL-FQI CHANNEL 1(2) FAULT', file: '28/28fqis.html' },
+            { name: 'FUEL- AUTOFEED FAULT', file: '28/28autofeed.html' },
+            { name: 'CENTER TANK LOW PRESSURE WARNING', file: '28/28centertank.html' },
+            { name: 'INTERCELL TRANSFER VALVES OPEN', file: '28/28intercelltransfer.html' },
+            { name: 'FUEL-APU LP VALVE FAULT MESSAGE', file: '28/28apufuel.html' },
+            { name: 'ALL CHAPTER 28 CIRCUIT BREAKERS', file: '28/28allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '29',
+        title: 'Chapter 29 - Hydraulics',
+        header: 'Hydraulics',
+        source: 'airbus/29/Achapter29.html',
+        faults: [
+            { name: 'HYD RESERVOIR LOW AIR-PRESSURE MSG', file: '29/29lowairpressure.html' },
+            { name: 'PTU FAULT', file: '29/29ptu.html' },
+            { name: 'HYDRAULIC SYSTEM SCHEMATIC', file: '29/29schematic.html' },
+            { name: 'ALL CHAPTER 29 CIRCUIT BREAKERS', file: '29/29allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '30',
+        title: 'Chapter 30 - Ice & Rain',
+        header: 'Ice and Rain',
+        source: 'airbus/30/Achapter30.html',
+        faults: [
+            { name: 'ANTI ICE - LEFT OR RIGHT WINDOW', file: '30/30window.html' },
+            { name: 'ANTI ICE - L (R) WINDSHIELD HEAT FAULTS', file: '30/30windshield.html' },
+            { name: 'DRAIN MAST HEATER FAULTS (FWD/AFT)', file: '30/30drainmast.html' },
+            { name: 'ANTI ICE MESSAGE', file: '30/30antiice.html' },
+            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #1', file: '30/30probe1.html' },
+            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #2', file: '30/30probe2.html' },
+            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #3', file: '30/30probe3.html' },
+            { name: 'ENGINE 1 (2) ANTI-ICE FAULTS', file: '30/30engineantiice.html' },
+            { name: 'ALL CHAPTER 30 CIRCUIT BREAKERS', file: '30/30allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '31',
+        title: 'Chapter 31 - Indications',
+        header: 'Indications',
+        source: 'airbus/31/Achapter31.html',
+        faults: [
+            { name: 'CLASS 2 ACMS MESSAGE', file: '31/31acms.html' },
+            { name: 'DISPLAY UNITS SHOWS TELELOADING', file: '31/31teleloading.html' },
+            { name: 'DISPLAY UNIT IS BLANK OR HAS DIAGONAL LINE', file: '31/31blankscreens.html' },
+            { name: 'EIS - DMC 1(2)(3) FAULT', file: '31/31DMC.html' },
+            { name: 'UNABLE TO SWITCH DISPLAY UNITS (DU’s)', file: '31/31switching.html' },
+            { name: 'NO AIDS PROMPT DISPLAYED ON MCDU', file: '31/31aids.html' },
+            { name: 'PFR PRINTS AUTOMATICALLY AFTER LANDING', file: '31/31pfrprints.html' },
+            { name: 'FLIGHT CONTROL PAGE WON’T AUTO-DISPLAY', file: '31/31autodisplay.html' },
+            { name: 'CLOCK DOESN’T AGREE WITH LOWER ECAM', file: '31/31clock.html' },
+            { name: 'CFDS FAULT MESSAGE PRINTS IN FLIGHT', file: '31/31faultmessage.html' },
+            { name: 'SDAC 1(2) FAULT', file: '31/31SDAC.html' },
+            { name: 'ECAM PAGE(s) LOCKED (DOOR,WHEELS,ETC)', file: '31/31ecamlocked.html' },
+            { name: 'ALL CHAPTER 31 CIRCUIT BREAKERS', file: '31/31allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '32',
+        title: 'Chapter 32 - Landing Gear',
+        header: 'Landing Gear',
+        source: 'airbus/32/Achapter32.html',
+        faults: [
+            { name: 'LGCIU SYSTEM 1(2) FAULTS', file: '32/32LGCIU.html' },
+            { name: 'L/G SYSTEM DISAGREE', file: '32/32LGdisagree.html' },
+            { name: 'BRAKES GRABBING DURING TAXI', file: '32/32brakesgrab.html' },
+            { name: 'BSCU CHANNEL 1(2) FAULTS', file: '32/32BSCU.html' },
+            { name: 'BRAKE SYSTEM 1(2) FAULTS', file: '32/32brakesystem.html' },
+            { name: 'NO BRAKE TEMPS DISPLAYED ON ECAM', file: '32/32braketemps.html' },
+            { name: 'NOSE WHEEL STEERING FAULTY', file: '32/32NWSfault.html' },
+            { name: 'NOSE WHEEL FAULTS @ FLT CONT. CHECK', file: '32/32flightcontrolstearing.html' },
+            { name: 'ALL CHAPTER 32 CIRCUIT BREAKERS', file: '32/32allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '33',
+        title: 'Chapter 33 - Lights',
+        header: 'Lights',
+        source: 'airbus/33/Achapter33.html',
+        faults: [
+            { name: 'INTEGRAL PANEL LIGHTING INOP', file: '33/33integralpanel.html' },
+            { name: 'CABIN LIGHTS STUCK IN BRIGHT', file: '33/33cabinbrite.html' },
+            { name: 'STROBE LIGHT WON’T SHUT OFF', file: '33/33strobelight.html' },
+            { name: 'COCKPIT FLOOR LIGHTING INOP', file: '33/33briefcaselights.html' },
+            { name: 'CABIN LIGHTS WON’T TURN ON', file: '33/33cabinlightsoff.html' },
+            { name: 'PASSENGER READING LIGHTS INOP', file: '33/33readinglight.html' },
+            { name: 'NO LIGHTS IN MLG WHEEL WELL AREA', file: '33/33wheelwell.html' },
+            { name: 'EMERGENCY LIGHTS INOP', file: '33/33EPSU.html' },
+            { name: 'ALL CHAPTER 33 CIRCUIT BREAKERS', file: '33/33allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '34',
+        title: 'Chapter 34 - Navigation',
+        header: 'Navigation',
+        source: 'airbus/34/Achapter34.html',
+        faults: [
+            { name: 'NAV - GPS 1(2) FAULT ONLY', file: '34/34gps.html' },
+            { name: 'MMR OR ILS 1(2) FAULT', file: '34/34ILS.html' },
+            { name: 'ADIRU ALIGN LIGHTS FLASHING AT ALIGNMENT', file: '34/34adiruflashingalignment.html' },
+            { name: 'ADR OR IR 1(2)(3) FAULTS', file: '34/34adiruflashingtakeoff.html' },
+            { name: 'NAV - GPWS FAULT', file: '34/34GPWS.html' },
+            { name: 'WINDSHEAR DET FAULT', file: '34/34windshear.html' },
+            { name: 'NAV - PRED WINDSHEAR DET FAULT', file: '34/34PREDwindshear.html' },
+            { name: 'NAV - TCAS FAULT', file: '34/34TCAS.html' },
+            { name: 'FLIGHT RECORDER FAULT', file: '34/34flightrecorder.html' },
+            { name: 'AUTO-TUNE INOP', file: '34/34autotune.html' },
+            { name: 'WHITE “GPS PRIMARY” MESSAGE SHOWN', file: '34/34gpsprimary.html' },
+            { name: 'NAV RA 1(2) FAULT', file: '34/34RA.html' },
+            { name: 'ALL CHAPTER 34 CIRCUIT BREAKERS', file: '34/34allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '35',
+        title: 'Chapter 35 - Oxygen',
+        header: 'Oxygen',
+        source: 'airbus/35/Achapter35.html',
+        faults: [
+            { name: 'OXYGEN LOW PRESSURE MESSAGE', file: '35/35lowpress.html' },
+            { name: 'ALL CHAPTER 35 CIRCUIT BREAKERS', file: '35/35allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '36',
+        title: 'Chapter 36 - Pneumatic Systems',
+        header: 'Pneumatic',
+        source: 'airbus/36/Achapter36.html',
+        faults: [
+            { name: 'CLASS 2 AIR BLEED MESSAGE', file: '36/36class2airbleed.html' },
+            { name: 'AIR BLEED - LEFT WING LOOP/LEAK MSG', file: '36/36leftwingleak.html' },
+            { name: 'AIR BLEED - RIGHT WING LOOP/LEAK MSG', file: '36/36rightwingleak.html' },
+            { name: 'BMC PROBLEMS', file: '36/36bmcproblem.html' },
+            { name: 'CROSS BLEED VALVE MESSAGE', file: '36/36crossbleedvalve.html' },
+            { name: 'ALL CHAPTER 36 CIRCUIT BREAKERS', file: '36/36allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '38',
+        title: 'Chapter 38 - Water & Waste',
+        header: 'Water & Waste',
+        source: 'airbus/38/Achapter38.html',
+        faults: [
+            { name: 'TOILETS WON’T FLUSH', file: '38/38toilets.html' },
+            { name: 'NO WATER PRESSURE', file: '38/38waterpressure.html' },
+            { name: 'ALL CHAPTER 38 CIRCUIT BREAKERS', file: '38/38allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '46',
+        title: 'Chapter 46 - Information System (ATSU)',
+        header: 'Information Systems',
+        source: 'airbus/46/Achapter46.html',
+        faults: [
+            { name: 'TROUBLE LOADING ATSU SOFTWARE', file: '46/46atsu.html' },
+            { name: 'ATSU LOCKED UP ON MCDU', file: '46/46atsulocked.html' },
+            { name: 'ALL CHAPTER 46 CIRCUIT BREAKERS', file: '46/46allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '49',
+        title: 'Chapter 49 - APU',
+        header: 'APU',
+        source: 'airbus/49/Achapter49.html',
+        faults: [
+            { name: 'APU AUTO SHUTDOWN (131-9A HONEYWELL T/S GUIDE)', file: '49/49honeywell.html' },
+            { name: 'APU WILL NOT START', file: '49/49apu.html' },
+            { name: 'APU WILL NOT SHUT DOWN', file: '49/49apushutdown.html' },
+            { name: 'APU BLEED FAULTS', file: '49/49apubleed.html' },
+            { name: 'APU ELECTRICS NO VOLTS OR FREQS', file: '49/49apugen.html' },
+            { name: 'ALL CHAPTER 49 CIRCUIT BREAKERS', file: '49/49allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '52',
+        title: 'Chapter 52 - Doors',
+        header: 'Doors',
+        source: 'airbus/52/Achapter52.html',
+        faults: [
+            { name: 'COCKPIT DOOR FAULT', file: '52/52cockpit.html' },
+            { name: 'CABIN DOOR PRESSURE LIGHT FLASHES', file: '52/52flashing.html' },
+            { name: 'ALL CHAPTER 52 CIRCUIT BREAKERS', file: '52/52allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '73',
+        title: 'Chapter 73 - Engine',
+        header: 'Engines',
+        source: 'airbus/73/Achapter73.html',
+        faults: [
+            { name: 'ENGINE 1(2) OVERSPEED', file: '73/73overspeed.html' },
+            { name: 'ENGINE 1(2) OVERSPEED PROTECTION FAULT V2500', file: '73/73overspeedprotectionfault.html' },
+            { name: 'ENGINE 1(2) EGT OVERLIMIT', file: '73/73EGT.html' },
+            { name: 'ENGINE 1(2) FADEC A(B) CHANNEL FAULT', file: '73/73fadecchannel.html' },
+            { name: 'ENGINE 1(2) EIU MAINTENANCE STATUS MSG', file: '73/73EIUmaintenance.html' },
+            { name: 'ENGINE 1(2) EIU FAULT', file: '73/73EIU.html' },
+            { name: 'ENGINE 1(2) FADEC FAULT', file: '73/73fadecfault.html' },
+            { name: 'ENGINE 1(2) EPR MODE FAULT MESSAGE', file: '73/73eprmode.html' },
+            { name: 'ALL CHAPTER 73 CIRCUIT BREAKERS', file: '73/73allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '78',
+        title: 'Chapter 78 - Exhaust (Reversers)',
+        header: 'Exhaust',
+        source: 'airbus/78/Achapter78.html',
+        faults: [
+            { name: 'THRUST REV. FAULT ON ENGINE SHUTDOWN', file: '78/78engineshutdown.html' },
+            { name: 'THRUST REV. TEST THRU MCDU WON’T PASS', file: '78/78withengines.html' },
+            { name: 'THRUST REV. FAULT AT ENGINE START', file: '78/78enginestart.html' },
+            { name: 'ALL CHAPTER 78 CIRCUIT BREAKERS', file: '78/78allcircuitbreakers.html' }
+        ]
+    },
+    {
+        ata: '79',
+        title: 'Chapter 79 - Engine Oil',
+        header: 'Oil',
+        source: 'airbus/79/Achapter79.html',
+        faults: [
+            { name: 'ENGINE 1(2) OIL FILTER CLOG MESSAGE', file: '79/79clogged.html' },
+            { name: 'ALL CHAPTER 79 CIRCUIT BREAKERS', file: '79/79allcircuitbreakers.html' }
+        ]
+    }
 ];
 
 // =========================================================================
-// 3. 全量 Airbus 缩略语数据库（100% 完整提取自 acronyms.html）
+// 3. Other Modules Data (MEL, Fuel XFR, Locations, Lights, Callups)
+// =========================================================================
+const OTHER_ITEMS = [
+    // --- MEL List (MELairbusATA.html) ---
+    { mod: 'mel', code: 'MEL 21', title: 'Chapter 21 - Air Conditioning & Pressurization', tag: 'MEL', source: 'airbus/MEL/21.html', detail: 'ATA 21 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 22', title: 'Chapter 22 - Auto Flight', tag: 'MEL', source: 'airbus/MEL/22.html', detail: 'ATA 22 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 23', title: 'Chapter 23 - Communications', tag: 'MEL', source: 'airbus/MEL/23.html', detail: 'ATA 23 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 24', title: 'Chapter 24 - Electrical Power', tag: 'MEL', source: 'airbus/MEL/24.html', detail: 'ATA 24 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 25', title: 'Chapter 25 - Equipment & Furnishings', tag: 'MEL', source: 'airbus/MEL/25.html', detail: 'ATA 25 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 26', title: 'Chapter 26 - Fire Protection', tag: 'MEL', source: 'airbus/MEL/26.html', detail: 'ATA 26 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 27', title: 'Chapter 27 - Flight Controls', tag: 'MEL', source: 'airbus/MEL/27.html', detail: 'ATA 27 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 28', title: 'Chapter 28 - Fuel', tag: 'MEL', source: 'airbus/MEL/28.html', detail: 'ATA 28 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 29', title: 'Chapter 29 - Hydraulics', tag: 'MEL', source: 'airbus/MEL/29.html', detail: 'ATA 29 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 30', title: 'Chapter 30 - Ice & Rain', tag: 'MEL', source: 'airbus/MEL/30.html', detail: 'ATA 30 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 31', title: 'Chapter 31 - Indications', tag: 'MEL', source: 'airbus/MEL/31.html', detail: 'ATA 31 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 32', title: 'Chapter 32 - Landing Gear', tag: 'MEL', source: 'airbus/MEL/32.html', detail: 'ATA 32 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 33', title: 'Chapter 33 - Lights', tag: 'MEL', source: 'airbus/MEL/33.html', detail: 'ATA 33 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 34', title: 'Chapter 34 - Navigation', tag: 'MEL', source: 'airbus/MEL/34.html', detail: 'ATA 34 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 35', title: 'Chapter 35 - Oxygen', tag: 'MEL', source: 'airbus/MEL/35.html', detail: 'ATA 35 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 36', title: 'Chapter 36 - Pneumatic Systems', tag: 'MEL', source: 'airbus/MEL/36.html', detail: 'ATA 36 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 38', title: 'Chapter 38 - Water & Waste', tag: 'MEL', source: 'airbus/38/Achapter38.html', detail: 'ATA 38 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 46', title: 'Chapter 46 - Information System (ATSU)', tag: 'MEL', source: 'airbus/MEL/46.html', detail: 'ATA 46 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 47', title: 'Chapter 47 - Fuel Inerting Systems', tag: 'MEL', source: 'airbus/MEL/47.html', detail: 'ATA 47 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 49', title: 'Chapter 49 - APU', tag: 'MEL', source: 'airbus/MEL/49.html', detail: 'ATA 49 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 52', title: 'Chapter 52 - Doors', tag: 'MEL', source: 'airbus/MEL/52.html', detail: 'ATA 52 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 56', title: 'Chapter 56 - Windows', tag: 'MEL', source: 'airbus/MEL/56.html', detail: 'ATA 56 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 71', title: 'Chapter 71 - Power Plant', tag: 'MEL', source: 'airbus/MEL/71.html', detail: 'ATA 71 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 73', title: 'Chapter 73 - Engine Fuel & Control', tag: 'MEL', source: 'airbus/MEL/73.html', detail: 'ATA 73 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 74', title: 'Chapter 74 - Engine Ignition', tag: 'MEL', source: 'airbus/MEL/74.html', detail: 'ATA 74 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 77', title: 'Chapter 77 - Engine Indicating', tag: 'MEL', source: 'airbus/MEL/77.html', detail: 'ATA 77 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 78', title: 'Chapter 78 - Exhaust (Reversers)', tag: 'MEL', source: 'airbus/MEL/78.html', detail: 'ATA 78 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 79', title: 'Chapter 79 - Engine Oil', tag: 'MEL', source: 'airbus/MEL/79.html', detail: 'ATA 79 MEL Reference Directory.' },
+    { mod: 'mel', code: 'MEL 80', title: 'Chapter 80 - Starting', tag: 'MEL', source: 'airbus/MEL/80.html', detail: 'ATA 80 MEL Reference Directory.' },
+
+    // --- 321 Fuel Transfer Procedure (XFRmenu.html) ---
+    { mod: 'fuel', code: 'XFR-01', title: 'ACT(s) TO CENTER', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/actcenter.html', detail: 'A321 Fuel Transfer Procedure: ACT(s) to Center Tank.' },
+    { mod: 'fuel', code: 'XFR-02', title: 'WINGS TO ACT(s)', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/wingact.html', detail: 'A321 Fuel Transfer Procedure: Wings to ACT(s).' },
+    { mod: 'fuel', code: 'XFR-03', title: 'CENTER TO WINGS', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/centerwing.html', detail: 'A321 Fuel Transfer Procedure: Center Tank to Wings.' },
+    { mod: 'fuel', code: 'XFR-04', title: 'WINGS TO CENTER', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/wingscenter.html', detail: 'A321 Fuel Transfer Procedure: Wings to Center Tank.' },
+    { mod: 'fuel', code: 'XFR-05', title: 'PRIME ACT PUMPS', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/prime.html', detail: 'A321 Fuel Transfer Procedure: Prime ACT Pumps.' },
+
+    // --- Locations (locationsmenu.html) ---
+    { mod: 'locations', code: 'LOC-CB', title: 'Circuit Breaker Locations', tag: 'Locations', source: 'airbus/CBlocations.html', detail: 'Airbus A320 Circuit Breaker Panel Locations.' },
+    { mod: 'locations', code: 'LOC-EE', title: 'E&E Locations', tag: 'Locations', source: 'airbus/EElocations.html', detail: 'Airbus A320 E&E Compartment Locations.' },
+    { mod: 'locations', code: 'LOC-80VU', title: 'Main E&E/80VU Box Layout', tag: 'Locations', source: 'airbus/80VU.html', detail: 'Main E&E / 80VU Avionics Rack Layout.' },
+    { mod: 'locations', code: 'LOC-OVHD', title: 'Overhead Panel', tag: 'Panels', source: 'airbus/panels/Overhead.html', detail: 'Cockpit Overhead Panel Layout.' },
+    { mod: 'locations', code: 'LOC-PED', title: 'Pedestal Panel', tag: 'Panels', source: 'airbus/panels/Pedestal.html', detail: 'Cockpit Pedestal Panel Layout.' },
+
+    // --- Lights (lightmenu.html) ---
+    { mod: 'lights', code: 'LT-EXT', title: 'Exterior Lights', tag: '320 Lights', source: 'airbus/Exterior lights/exterior.html', detail: 'A320 Exterior Light Bulb Part Numbers.' },
+    { mod: 'lights', code: 'LT-CKPT', title: 'Cockpit Lights', tag: '320 Lights', source: 'airbus/Cockpit lights/cockpit.html', detail: 'A320 Cockpit Light Bulb Part Numbers.' },
+    { mod: 'lights', code: 'LT-INT', title: 'Interior Lights', tag: '320 Lights', source: 'airbus/Interior lights/interior.html', detail: 'A320 Interior Light Bulb Part Numbers.' },
+    { mod: 'lights', code: 'LT-CRG', title: 'Cargo/Service Lights', tag: '320 Lights', source: 'airbus/Cargo lights/cargo.html', detail: 'A320 Cargo & Service Light Bulb Part Numbers.' },
+
+    // --- Alpha Call Up Menu (alphamenu1.html) ---
+    { mod: 'callups', code: 'ALPHA-SYS', title: 'CALL UPS BY SYSTEM', tag: 'AIDS Call Ups', source: 'airbus/callups/allcallups.html', detail: 'AIDS - Alpha Call Ups Sorted By System.' },
+    { mod: 'callups', code: 'ALPHA-ALL', title: 'ALL CALL UPS', tag: 'AIDS Call Ups', source: 'airbus/callups/allcallups.html', detail: 'AIDS - Complete Alpha Call Up Parameter List.' }
+];
+
+// =========================================================================
+// 4. Full Airbus Acronyms Dictionary (acronyms.html)
 // =========================================================================
 const RAW_ACRONYMS = `
 A - Amber
@@ -1219,7 +1565,7 @@ ZFW - Zero Fuel Weight
 4D - Four Dimensional (Lat, Long, Alt, Time)
 `;
 
-// 解析 RAW_ACRONYMS 为标准对象数组
+// Build searchable flat array for global search
 const ACRONYM_ITEMS = RAW_ACRONYMS.trim().split('\n').map(line => {
     const idx = line.indexOf(' - ');
     const code = idx > -1 ? line.slice(0, idx).trim() : line.trim();
@@ -1234,24 +1580,43 @@ const ACRONYM_ITEMS = RAW_ACRONYMS.trim().split('\n').map(line => {
     };
 });
 
-// 合并所有数据
-const ALL_DATA = [...STATIC_ITEMS, ...ACRONYM_ITEMS];
+const RESET_FAULT_ITEMS = [];
+RESET_CHAPTERS.forEach(ch => {
+    ch.faults.forEach(f => {
+        RESET_FAULT_ITEMS.push({
+            mod: 'resets',
+            ata: ch.ata,
+            code: `ATA ${ch.ata}`,
+            title: f.name,
+            tag: `Chapter ${ch.ata}`,
+            source: `airbus/${f.file}`,
+            detail: `System: ${ch.header} (ATA ${ch.ata})\nFault / Reset Topic: ${f.name}\n\n[Reset procedure & C/B details ready for subpage data: airbus/${f.file}]`
+        });
+    });
+});
+
+const ALL_SEARCHABLE = [...RESET_FAULT_ITEMS, ...OTHER_ITEMS, ...ACRONYM_ITEMS];
 
 // =========================================================================
-// 4. 界面渲染与交互控制
+// 5. View & Navigation Logic
 // =========================================================================
 let activeModule = null;
+let activeAtaChapter = null;
 let activeLetter = 'ALL';
 
 function initApp() {
     const grid = document.getElementById('moduleGrid');
     grid.innerHTML = MODULES.map(m => {
-        const count = ALL_DATA.filter(i => i.mod === m.id).length;
+        let countLabel = '';
+        if (m.id === 'resets') countLabel = `${RESET_CHAPTERS.length} ATA / ${RESET_FAULT_ITEMS.length} Faults`;
+        else if (m.id === 'acronyms') countLabel = `${ACRONYM_ITEMS.length} Terms`;
+        else countLabel = `${OTHER_ITEMS.filter(i => i.mod === m.id).length} Items`;
+
         return `
             <div class="module-card" onclick="openModule('${m.id}')">
                 <div class="module-icon">${m.icon}</div>
                 <div class="module-title">${m.title}</div>
-                <div class="module-count">${count} 条目</div>
+                <div class="module-count">${countLabel}</div>
             </div>
         `;
     }).join('');
@@ -1259,6 +1624,7 @@ function initApp() {
 
 function goHome() {
     activeModule = null;
+    activeAtaChapter = null;
     activeLetter = 'ALL';
     document.getElementById('searchInput').value = '';
     document.getElementById('clearBtn').style.display = 'none';
@@ -1268,25 +1634,56 @@ function goHome() {
 
 function openModule(modId) {
     activeModule = modId;
+    activeAtaChapter = null;
     activeLetter = 'ALL';
     document.getElementById('searchInput').value = '';
     document.getElementById('clearBtn').style.display = 'none';
 
     const modInfo = MODULES.find(m => m.id === modId);
     document.getElementById('viewTitle').textContent = `${modInfo.icon} ${modInfo.title}`;
+    document.getElementById('navActions').innerHTML = `<button class="btn-back" onclick="goHome()">320 Home</button>`;
+
     document.getElementById('homeView').style.display = 'none';
     document.getElementById('listView').style.display = 'block';
 
-    // 如果是缩略语模块，显示 A-Z 字母筛选栏
     const alphaBar = document.getElementById('alphaFilter');
     if (modId === 'acronyms') {
         alphaBar.style.display = 'flex';
         renderAlphaBar();
+        renderAcronymList();
+    } else if (modId === 'resets') {
+        alphaBar.style.display = 'none';
+        renderResetChapters();
     } else {
         alphaBar.style.display = 'none';
+        renderItemList(OTHER_ITEMS.filter(i => i.mod === modId));
     }
+}
 
-    renderFilteredList();
+function renderResetChapters() {
+    const container = document.getElementById('itemsContainer');
+    container.innerHTML = RESET_CHAPTERS.map(ch => `
+        <div class="list-item" onclick="openAtaChapter('${ch.ata}')">
+            <div class="item-left">
+                <span class="item-code">ATA ${ch.ata}</span>
+                <span class="item-name">${ch.title}</span>
+            </div>
+            <span class="item-badge">${ch.faults.length} Items →</span>
+        </div>
+    `).join('');
+}
+
+function openAtaChapter(ata) {
+    activeAtaChapter = ata;
+    const ch = RESET_CHAPTERS.find(c => c.ata === ata);
+    document.getElementById('viewTitle').textContent = `Chapter ${ch.ata} — ${ch.header}`;
+    document.getElementById('navActions').innerHTML = `
+        <button class="btn-back" onclick="openModule('resets')">ATA List</button>
+        <button class="btn-back" onclick="goHome()">320 Home</button>
+    `;
+
+    const chapterItems = RESET_FAULT_ITEMS.filter(i => i.ata === ata);
+    renderItemList(chapterItems);
 }
 
 function renderAlphaBar() {
@@ -1299,19 +1696,19 @@ function renderAlphaBar() {
 function filterByLetter(letter) {
     activeLetter = letter;
     renderAlphaBar();
-    renderFilteredList();
+    renderAcronymList();
 }
 
-function renderFilteredList() {
-    let items = ALL_DATA.filter(i => i.mod === activeModule);
-    if (activeModule === 'acronyms' && activeLetter !== 'ALL') {
+function renderAcronymList() {
+    let items = ACRONYM_ITEMS;
+    if (activeLetter !== 'ALL') {
         items = items.filter(i => {
             const first = i.code.charAt(0).toUpperCase();
             if (activeLetter === '0-9') return /[0-9]/.test(first);
             return first === activeLetter;
         });
     }
-    renderList(items);
+    renderItemList(items);
 }
 
 function onSearch() {
@@ -1319,7 +1716,8 @@ function onSearch() {
     document.getElementById('clearBtn').style.display = q ? 'block' : 'none';
 
     if (!q) {
-        if (activeModule) openModule(activeModule);
+        if (activeAtaChapter) openAtaChapter(activeAtaChapter);
+        else if (activeModule) openModule(activeModule);
         else goHome();
         return;
     }
@@ -1327,14 +1725,15 @@ function onSearch() {
     document.getElementById('homeView').style.display = 'none';
     document.getElementById('listView').style.display = 'block';
     document.getElementById('alphaFilter').style.display = 'none';
-    document.getElementById('viewTitle').textContent = `🔍 搜索结果: "${q}"`;
+    document.getElementById('viewTitle').textContent = `🔍 Search Results: "${q}"`;
+    document.getElementById('navActions').innerHTML = `<button class="btn-back" onclick="goHome()">320 Home</button>`;
 
-    const matches = ALL_DATA.filter(i =>
+    const matches = ALL_SEARCHABLE.filter(i =>
         i.code.toLowerCase().includes(q) ||
         i.title.toLowerCase().includes(q) ||
         i.detail.toLowerCase().includes(q)
     );
-    renderList(matches);
+    renderItemList(matches);
 }
 
 function clearSearch() {
@@ -1342,14 +1741,14 @@ function clearSearch() {
     onSearch();
 }
 
-function renderList(items) {
+function renderItemList(items) {
     const container = document.getElementById('itemsContainer');
     if (items.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">未找到匹配的条目</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">No matching items found.</div>`;
         return;
     }
     container.innerHTML = items.map(item => {
-        const idx = ALL_DATA.indexOf(item);
+        const idx = ALL_SEARCHABLE.indexOf(item);
         return `
             <div class="list-item" onclick="showDetail(${idx})">
                 <div class="item-left">
@@ -1363,11 +1762,11 @@ function renderList(items) {
 }
 
 function showDetail(index) {
-    const item = ALL_DATA[index];
+    const item = ALL_SEARCHABLE[index];
     document.getElementById('mCode').textContent = item.code;
     document.getElementById('mTitle').textContent = item.title;
     document.getElementById('mDesc').textContent = item.detail;
-    document.getElementById('mPath').textContent = `📁 原站档案路径映射: ${item.source}`;
+    document.getElementById('mPath').textContent = `Archive Source Path: ${item.source}`;
     document.getElementById('modal').classList.add('show');
 }
 
@@ -1382,10 +1781,10 @@ function toggleTheme() {
     const btn = document.getElementById('themeBtn');
     if (body.getAttribute('data-theme') === 'dark') {
         body.removeAttribute('data-theme');
-        btn.textContent = '🌙 夜间模式';
+        btn.textContent = '🌙 Dark Mode';
     } else {
         body.setAttribute('data-theme', 'dark');
-        btn.textContent = '☀️ 日间模式';
+        btn.textContent = '☀️ Light Mode';
     }
 }
 
