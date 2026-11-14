@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Airbus 机务快速参考手册 (Tech Reference)</title>
+    <style>
+        :root {
+            --primary: #00205b;       /* Airbus 经典深蓝 */
+            --secondary: #0072ce;     /* 航空亮蓝 */
+            --accent: #e4002b;        /* 警戒/MEL 提示红 */
+            --bg-body: #f4f6f9;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 2px 8px rgba(0, 32, 91, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --primary: #1e3a8a;
+            --secondary: #38bdf8;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 60px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* 顶部导航栏 */
+        header {
+            background-color: var(--primary);
+            color: #fff;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+        .badge { background: var(--secondary); font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        .theme-btn {
+            background: rgba(255,255,255,0.15); border: none; color: #fff;
+            padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+        }
+
+        /* 全局搜索框 */
+        .search-container {
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 52px;
+            z-index: 90;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: var(--bg-body);
+            color: var(--text-main);
+            outline: none;
+        }
+        .search-input:focus { border-color: var(--secondary); }
+
+        /* 主容器 */
+        .container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+        /* 首页九宫格模块入口（还原原站 thumbs 图标菜单） */
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .menu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.15s, border-color 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-card:active { transform: scale(0.97); }
+        .menu-card.active { border: 2px solid var(--secondary); background: rgba(0, 114, 206, 0.05); }
+        .menu-icon { font-size: 1.8rem; }
+        .menu-label { font-weight: 600; font-size: 0.9rem; }
+        .menu-sub { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* 列表展示区 */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        .section-title { font-size: 1.05rem; font-weight: 700; color: var(--secondary); }
+        .back-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 4px 10px; border-radius: 6px;
+            font-size: 0.85rem; cursor: pointer;
+        }
+
+        .item-list { display: flex; flex-direction: column; gap: 10px; }
+        .list-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 14px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .list-card:hover { border-color: var(--secondary); }
+        .item-code {
+            font-family: monospace; font-weight: 700; font-size: 0.95rem;
+            color: var(--secondary); margin-right: 8px;
+        }
+        .item-title { font-weight: 600; font-size: 0.95rem; }
+        .item-tag {
+            font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;
+            background: var(--bg-body); color: var(--text-muted); white-space: nowrap;
+        }
+
+        /* 详情弹窗 (Modal) */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            display: none; justify-content: center; align-items: flex-end; z-index: 200;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-content {
+            background: var(--bg-card);
+            width: 100%; max-width: 800px; max-height: 85vh;
+            border-radius: 16px 16px 0 0;
+            padding: 20px;
+            overflow-y: auto;
+            animation: slideUp 0.2s ease-out;
+        }
+        @media (min-width: 600px) {
+            .modal-overlay { align-items: center; }
+            .modal-content { border-radius: 12px; width: 90%; }
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; }
+        .modal-body { font-size: 0.92rem; white-space: pre-line; }
+        .warning-box {
+            margin-top: 12px; padding: 10px; border-left: 4px solid var(--accent);
+            background: rgba(228, 0, 43, 0.08); font-size: 0.85rem; border-radius: 0 6px 6px 0;
+        }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-title">
+        <span>✈️ AIRBUS TECH REF</span>
+        <span class="badge">A320 / A330</span>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 夜间模式</button>
+</header>
+
+<div class="search-container">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索 ATA 章节、MEL 条目、缩写 (如: PACK, 21, XFR, Reset)..." oninput="handleSearch()">
+</div>
+
+<div class="container">
+    <!-- 模块导航网格（对应原站 airbusHome.php 的全部核心分类） -->
+    <div id="homeGrid" class="grid-menu"></div>
+
+    <!-- 内容列表区域 -->
+    <div id="contentArea" style="display: none;">
+        <div class="section-header">
+            <span class="section-title" id="currentCategoryTitle">分类列表</span>
+            <button class="back-btn" onclick="showHome()">← 返回主菜单</button>
+        </div>
+        <div id="itemList" class="item-list"></div>
+    </div>
+</div>
+
+<!-- 详情查看弹窗 -->
+<div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <div>
+                <span class="item-code" id="modalCode"></span>
+                <h3 id="modalTitle" style="margin-top: 4px;"></h3>
+            </div>
+            <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body" id="modalDesc"></div>
+        <div class="warning-box" id="modalNote" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // 1. 模块分类定义（完全对应原网页架构）
+    // ==========================================
+    const CATEGORIES = [
+        { id: 'ata', name: 'ATA Chapters', sub: '系统章节目录', icon: '📘' },
+        { id: 'mel', name: 'MEL Reference', sub: '最低设备清单', icon: '⚠️' },
+        { id: 'reset', name: 'System Resets', sub: '计算机复位指南', icon: '🔄' },
+        { id: 'acronyms', name: 'Acronyms', sub: '机务缩略语词典', icon: '🔤' },
+        { id: 'fuel', name: 'Fuel Transfer', sub: '燃油交输与操作', icon: '⛽' },
+        { id: 'lights', name: 'Exterior/Int Lights', sub: '灯光系统索引', icon: '💡' },
+        { id: 'locations', name: 'Component Locations', sub: '部件与跳开关位置', icon: '📍' },
+        { id: 'callups', name: 'ECAM / Callups', sub: '警告与口令参考', icon: '📢' }
+    ];
+
+    // ==========================================
+    // 2. 示例数据库（你可将抓取的本地 HTML 内容整理填入此处）
+    // ==========================================
+    const HANDBOOK_DATA = [
+        {
+            category: 'ata',
+            code: 'ATA 21',
+            title: 'Air Conditioning (空调与增压系统)',
+            tag: 'ATA System',
+            desc: '包含组件控制器(Pack Controller)、区域控制器(Zone Controller)、客舱压力控制器(CPC)及电子舱通风(AEVC)。\n\n常见检查点：\n• Pack Flow Control Valve (流量控制活门)\n• Trim Air Valve (配平空气活门)\n• Outflow Valve (外流活门)',
+            note: '进行气源或空调测试前，确认地面气源车压力稳定在 35-45 PSI。'
+        },
+        {
+            category: 'ata',
+            code: 'ATA 24',
+            title: 'Electrical Power (电源系统)',
+            tag: 'ATA System',
+            desc: '涵盖 IDG（整体驱动发电机）、APU 发电机、TRU（变压整流器）、电瓶(BAT 1/2)及静变流机(Static Inv)。',
+            note: '断开 IDG 脱开电门前，发动机必须处于慢车或关车状态，严禁在地面未运转时按下超过3秒。'
+        },
+        {
+            category: 'mel',
+            code: 'MEL 21-51-01',
+            title: 'Air Conditioning Pack 1 or 2 (空调组件失效)',
+            tag: 'Cat C',
+            desc: '修复期限：10个日历日。\n\n放行条件：\n1. 另一套空调组件工作正常；\n2. 飞行高度限制在 FL310 以下（视具体构型而定）；\n3. 确认失效组件的流量控制活门关闭。',
+            note: '放行前需执行 OEB/MEL 规定的跳开关拔出与挂牌程序 (C/B Pull & Collar)。'
+        },
+        {
+            category: 'reset',
+            code: 'RESET - ATA 22',
+            title: 'FMGC (飞行管理制导计算机) 复位',
+            tag: 'C/B Reset',
+            desc: '适用故障：MCDU 屏幕卡死、双套 FMGC 数据不同步或导航数据库加载异常。\n\n标准复位步骤：\n1. 确认飞机在地面且处于停机刹车状态；\n2. 拔出对应跳开关（FMGC 1: B02 / FMGC 2: M17）；\n3. 等待至少 10 秒钟；\n4. 重新闭合跳开关，等待约 45 秒完成自检。',
+            note: '严禁在空中或滑行过程中同时复位两部 FMGC！'
+        },
+        {
+            category: 'acronyms',
+            code: 'FADEC',
+            title: 'Full Authority Digital Engine Control',
+            tag: 'Abbreviation',
+            desc: '全权限数字式发动机控制。负责控制发动机的燃油流量、放气活门(VBV/VSV)、点火及反推逻辑。',
+            note: ''
+        },
+        {
+            category: 'acronyms',
+            code: 'BSCU',
+            title: 'Brake and Steering Control Unit',
+            tag: 'Abbreviation',
+            desc: '刹车与转弯控制组件（ATA 32）。控制正常刹车、防滞(Anti-skid)及前轮转弯系统。',
+            note: ''
+        },
+        {
+            category: 'fuel',
+            code: 'XFR - DEFUEL',
+            title: 'Gravity / Suction Defueling & Transfer',
+            tag: 'Fuel Ops',
+            desc: '燃油交输基本步骤：\n1. 打开交输活门 (X-FEED ON)；\n2. 关闭目标油箱的燃油泵 (Target Tank Pumps OFF)；\n3. 保持供油油箱燃油泵开启 (Source Tank Pumps ON)；\n4. 监控 ECAM FUEL 页面油量平衡状态。',
+            note: '操作期间必须有专人监控机翼油箱通气口及油量指示，防止溢油。'
+        },
+        {
+            category: 'lights',
+            code: 'ATA 33-40',
+            title: 'Exterior Lighting (外部灯光位置与规格)',
+            tag: 'Lights',
+            desc: '• Nav & Logo Lights: 翼尖及垂尾\n• Strobe Lights: 翼尖及尾椎（高强度闪光，地面测试注意人员安全）\n• Landing Lights: 左右机翼根部收放式\n• Runway Turnoff / Taxi: 前起落架减震支柱',
+            note: '更换大功率着陆灯或频闪灯前，务必切断对应电源并等待灯具冷却。'
+        },
+        {
+            category: 'locations',
+            code: 'ZONE 120',
+            title: 'Avionics Compartment (电子舱设备架)',
+            tag: 'Location',
+            desc: '包含 80VU / 90VU 计算机架：\n• ADIRU 1/2/3\n• ELAC 1/2, SEC 1/2/3\n• FWC 1/2, SDAC 1/2\n• LGCIU 1/2',
+            note: '进入前电子舱需注意头顶天线及静电防护。'
+        },
+        {
+            category: 'callups',
+            code: 'CALLUP - 31',
+            title: 'ECAM Warning & Memo Logic',
+            tag: 'Callups',
+            desc: 'Level 3 (红警告): 需立即采取行动（如 ENG FIRE, CAB PR EXCESS ALT）。\nLevel 2 (琥珀色警戒): 需机组注意但不必立即动作（如 BLEED, HYD）。\nLevel 1 (琥珀色信息): 仅状态提示，无音响警告。',
+            note: ''
+        }
+    ];
+
+    // ==========================================
+    // 3. 页面渲染与交互逻辑
+    // ==========================================
+    let currentCategory = null;
+
+    function init() {
+        renderHomeGrid();
+    }
+
+    function renderHomeGrid() {
+        const grid = document.getElementById('homeGrid');
+        grid.innerHTML = CATEGORIES.map(cat => `
+            <div class="menu-card" onclick="selectCategory('${cat.id}')">
+                <div class="menu-icon">${cat.icon}</div>
+                <div class="menu-label">${cat.name}</div>
+                <div class="menu-sub">${cat.sub}</div>
+            </div>
+        `).join('');
+    }
+
+    function selectCategory(catId) {
+        currentCategory = catId;
+        document.getElementById('searchInput').value = '';
+        const catObj = CATEGORIES.find(c => c.id === catId);
+        document.getElementById('currentCategoryTitle').textContent = `${catObj.icon} ${catObj.name}`;
+        
+        document.getElementById('homeGrid').style.display = 'none';
+        document.getElementById('contentArea').style.display = 'block';
+
+        const filtered = HANDBOOK_DATA.filter(item => item.category === catId);
+        renderItemList(filtered);
+    }
+
+    function showHome() {
+        currentCategory = null;
+        document.getElementById('searchInput').value = '';
+        document.getElementById('homeGrid').style.display = 'grid';
+        document.getElementById('contentArea').style.display = 'none';
+    }
+
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (!query) {
+            if (currentCategory) {
+                selectCategory(currentCategory);
+            } else {
+                showHome();
+            }
+            return;
+        }
+
+        document.getElementById('homeGrid').style.display = 'none';
+        document.getElementById('contentArea').style.display = 'block';
+        document.getElementById('currentCategoryTitle').textContent = `🔍 搜索结果: "${query}"`;
+
+        const results = HANDBOOK_DATA.filter(item => 
+            item.code.toLowerCase().includes(query) ||
+            item.title.toLowerCase().includes(query) ||
+            item.desc.toLowerCase().includes(query)
+        );
+        renderItemList(results);
+    }
+
+    function renderItemList(items) {
+        const listEl = document.getElementById('itemList');
+        if (items.length === 0) {
+            listEl.innerHTML = `<div class="empty-state">未找到匹配的学习条目，可尝试其他关键词或补充数据。</div>`;
+            return;
+        }
+
+        listEl.innerHTML = items.map((item, idx) => {
+            // 传递原始索引以便弹窗读取
+            const globalIndex = HANDBOOK_DATA.indexOf(item);
+            return `
+                <div class="list-card" onclick="openDetail(${globalIndex})">
+                    <div>
+                        <span class="item-code">${item.code}</span>
+                        <span class="item-title">${item.title}</span>
+                    </div>
+                    <span class="item-tag">${item.tag}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function openDetail(index) {
+        const item = HANDBOOK_DATA[index];
+        document.getElementById('modalCode').textContent = item.code;
+        document.getElementById('modalTitle').textContent = item.title;
+        document.getElementById('modalDesc').textContent = item.desc;
+
+        const noteEl = document.getElementById('modalNote');
+        if (item.note) {
+            noteEl.textContent = `⚠️ 注意事项: ${item.note}`;
+            noteEl.style.display = 'block';
+        } else {
+            noteEl.style.display = 'none';
+        }
+
+        document.getElementById('detailModal').classList.add('open');
+    }
+
+    function closeModal(event) {
+        if (!event || event.target.id === 'detailModal') {
+            document.getElementById('detailModal').classList.remove('open');
+        }
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('themeBtn');
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            btn.textContent = '🌙 夜间模式';
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            btn.textContent = '☀️ 日间模式';
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>
