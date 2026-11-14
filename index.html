@@ -7,22 +7,26 @@
     <style>
         :root {
             --primary: #00205b;       /* Airbus Navy */
-            --secondary: #0072ce;     /* Aviation Blue */
-            --accent: #e4002b;        /* Caution/Warning Red */
-            --bg-body: #f1f5f9;
+            --secondary: #0055a5;     /* Classic Mobile Tech Blue */
+            --accent: #d90429;        /* Warning Red */
+            --pass-green: #15803d;
+            --bg-body: #e9edf2;
             --bg-card: #ffffff;
-            --text-main: #0f172a;
+            --bg-sub: #f8fafc;
+            --text-main: #1e293b;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --shadow: 0 2px 6px rgba(0, 32, 91, 0.06);
+            --border-color: #cbd5e1;
+            --shadow: 0 2px 6px rgba(0, 32, 91, 0.08);
         }
 
         [data-theme="dark"] {
             --primary: #0f172a;
             --secondary: #38bdf8;
+            --pass-green: #4ade80;
             --bg-body: #090d16;
             --bg-card: #1e293b;
-            --text-main: #f8fafc;
+            --bg-sub: #0f172a;
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: #334155;
             --shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
@@ -38,24 +42,24 @@
             transition: background-color 0.2s, color 0.2s;
         }
 
-        /* Header */
+        /* Top Bar */
         header {
-            background-color: var(--primary);
+            background: linear-gradient(180deg, #1e3a8a 0%, #00205b 100%);
             color: #fff;
             padding: 12px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .header-left { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .header-title { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.4px; }
-        .badge { background: var(--secondary); color: #fff; font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .header-title { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.3px; }
+        .badge { background: rgba(255,255,255,0.2); color: #fff; font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
         .theme-btn {
-            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff;
             padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
         }
 
@@ -68,18 +72,14 @@
             top: 48px;
             z-index: 90;
         }
-        .search-box {
-            max-width: 820px;
-            margin: 0 auto;
-            position: relative;
-        }
+        .search-box { max-width: 840px; margin: 0 auto; position: relative; }
         .search-input {
             width: 100%;
             padding: 10px 36px 10px 14px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 0.95rem;
-            background: var(--bg-body);
+            background: var(--bg-sub);
             color: var(--text-main);
             outline: none;
         }
@@ -90,9 +90,9 @@
             cursor: pointer; display: none;
         }
 
-        .container { max-width: 820px; margin: 0 auto; padding: 16px; }
+        .container { max-width: 840px; margin: 0 auto; padding: 16px; }
 
-        /* Home Banner & Grid */
+        /* Home Grid */
         .home-banner {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -101,12 +101,12 @@
             margin-bottom: 14px;
             box-shadow: var(--shadow);
         }
-        .home-banner h2 { font-size: 1rem; margin-bottom: 4px; color: var(--secondary); }
+        .home-banner h2 { font-size: 1rem; margin-bottom: 2px; color: var(--secondary); }
         .home-banner p { font-size: 0.84rem; color: var(--text-muted); }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
             gap: 12px;
         }
         .module-card {
@@ -126,9 +126,9 @@
         .module-card:hover { border-color: var(--secondary); transform: translateY(-2px); }
         .module-icon { font-size: 1.8rem; }
         .module-title { font-weight: 700; font-size: 0.92rem; }
-        .module-count { font-size: 0.74rem; color: var(--text-muted); background: var(--bg-body); padding: 2px 8px; border-radius: 10px; }
+        .module-count { font-size: 0.74rem; color: var(--text-muted); background: var(--bg-sub); padding: 2px 8px; border-radius: 10px; }
 
-        /* Navigation Header */
+        /* Breadcrumb Header */
         .view-header {
             display: flex;
             justify-content: space-between;
@@ -137,6 +137,7 @@
             padding-bottom: 8px;
             border-bottom: 2px solid var(--secondary);
             gap: 10px;
+            flex-wrap: wrap;
         }
         .view-title { font-size: 1.05rem; font-weight: 700; color: var(--secondary); }
         .nav-actions { display: flex; gap: 6px; flex-shrink: 0; }
@@ -147,26 +148,15 @@
         }
         .btn-back:hover { border-color: var(--secondary); }
 
-        /* Alphabet Filter Bar */
+        /* Alphabet Bar */
         .alpha-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: 12px;
-            background: var(--bg-card);
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px;
+            background: var(--bg-card); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color);
         }
         .alpha-btn {
-            padding: 4px 8px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            border: 1px solid var(--border-color);
-            background: var(--bg-body);
-            color: var(--text-main);
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 4px 8px; font-size: 0.78rem; font-weight: 700;
+            border: 1px solid var(--border-color); background: var(--bg-sub); color: var(--text-main);
+            border-radius: 4px; cursor: pointer;
         }
         .alpha-btn.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
 
@@ -186,36 +176,74 @@
         }
         .list-item:hover { border-color: var(--secondary); }
         .item-left { display: flex; flex-direction: column; gap: 2px; }
-        .item-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--secondary); font-size: 0.92rem; }
-        .item-name { font-size: 0.92rem; font-weight: 600; color: var(--text-main); }
-        .item-sub { font-size: 0.78rem; color: var(--text-muted); }
+        .item-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--secondary); font-size: 0.88rem; }
+        .item-name { font-size: 0.94rem; font-weight: 700; color: var(--text-main); }
         .item-badge {
             font-size: 0.72rem; padding: 3px 8px; border-radius: 6px;
-            background: var(--bg-body); color: var(--text-muted); white-space: nowrap; flex-shrink: 0; font-weight: 600;
+            background: var(--bg-sub); color: var(--text-muted); white-space: nowrap; flex-shrink: 0; font-weight: 600;
         }
+        .badge-ok { color: var(--pass-green); border: 1px solid var(--pass-green); }
 
-        /* Modal */
-        .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            display: none; justify-content: center; align-items: flex-end; z-index: 200;
+        /* Original Mobile Tech Style Detail Sheet */
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: var(--shadow);
         }
-        .modal-backdrop.show { display: flex; }
-        .modal-box {
-            background: var(--bg-card); width: 100%; max-width: 760px; max-height: 85vh;
-            border-radius: 16px 16px 0 0; padding: 20px; overflow-y: auto;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        .detail-graytitle {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary);
         }
-        @media (min-width: 640px) {
-            .modal-backdrop { align-items: center; }
-            .modal-box { border-radius: 12px; width: 92%; }
+        .field-block { margin-bottom: 14px; }
+        .field-header {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
         }
-        .modal-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 12px; }
-        .modal-close { background: none; border: none; font-size: 1.6rem; color: var(--text-muted); cursor: pointer; line-height: 1; }
-        .modal-body { font-size: 0.94rem; white-space: pre-line; line-height: 1.6; }
-        .ref-tag {
-            margin-top: 14px; padding: 10px 12px; border-left: 4px solid var(--secondary);
-            background: rgba(0, 114, 206, 0.08); font-size: 0.82rem; border-radius: 0 6px 6px 0;
+        .field-text {
+            font-size: 0.92rem;
+            color: var(--text-main);
+            padding-left: 10px;
+            white-space: pre-line;
+        }
+        .pass-line { color: var(--pass-green); font-weight: 600; padding-left: 10px; font-size: 0.92rem; }
+        .fail-line { color: var(--accent); font-weight: 600; padding-left: 10px; font-size: 0.92rem; }
+        .bold-line { font-weight: 700; padding-left: 10px; font-size: 0.92rem; white-space: pre-line; }
+
+        /* Circuit Breaker Table (Replaces legacy GIFs & Pipe tables) */
+        .cb-table-wrap {
+            background: #94a3b833;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            margin: 6px 0 4px 10px;
+            overflow-x: auto;
+        }
+        table.cb-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
             font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        }
+        table.cb-table th {
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 2px solid var(--text-main);
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        table.cb-table td {
+            padding: 6px 8px;
+            background: var(--bg-card);
+            border-bottom: 4px solid transparent;
+            font-weight: 700;
         }
 
         footer {
@@ -230,15 +258,15 @@
 
 <header>
     <div class="header-left" onclick="goHome()">
-        <span class="header-title">✈️ A320 / A321 Mobile Tech</span>
-        <span class="badge">REFERENCE</span>
+        <span class="header-title">✈️ 320 Reset & Tech Reference</span>
+        <span class="badge">ARCHIVE EDITION</span>
     </div>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 Dark Mode</button>
 </header>
 
 <div class="search-bar">
     <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Global Search: Faults, ATA Chapters, Acronyms (e.g., CAB PRESS, FADEC, 21)..." oninput="onSearch()">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Global Search: Faults, C/B (e.g. 49VU, Y17, B02), AMM, MEL, Acronyms..." oninput="onSearch()">
         <button class="clear-search" id="clearBtn" onclick="clearSearch()">✕</button>
     </div>
 </div>
@@ -248,1368 +276,54 @@
     <div id="homeView">
         <div class="home-banner">
             <h2>320 Home Page</h2>
-            <p>Enter into the specific region below or use the global search bar above.</p>
+            <p>Enter into the specific region below or search across all reset procedures, circuit breakers, and acronyms.</p>
         </div>
         <div class="menu-grid" id="moduleGrid"></div>
     </div>
 
-    <!-- List View -->
+    <!-- List / Submenu View -->
     <div id="listView" style="display: none;">
         <div class="view-header">
             <span class="view-title" id="viewTitle">Section</span>
-            <div class="nav-actions" id="navActions">
-                <button class="btn-back" onclick="goHome()">320 Home</button>
-            </div>
+            <div class="nav-actions" id="navActions"></div>
         </div>
         <div id="alphaFilter" class="alpha-bar" style="display: none;"></div>
         <div id="itemsContainer" class="list-group"></div>
     </div>
 
+    <!-- Full Reset Procedure Detail View (Replicates Original Mobile Tech Page Layout) -->
+    <div id="detailView" style="display: none;">
+        <div class="view-header">
+            <span class="view-title" id="detailBreadcrumb">320 Reset</span>
+            <div class="nav-actions" id="detailNavActions"></div>
+        </div>
+        <div id="detailContent"></div>
+    </div>
+
     <footer>
-        <p>Powered By: Tobin Miklas — Mobile Airlinetechs Archive</p>
+        <p>Powered By: Tobin Miklas — Mobile Airlinetechs</p>
         <p style="margin-top: 6px;">This is for <strong>REFERENCE ONLY</strong>, it is not approved material and should not be used for signoff's, it's strictly for reference purposes only.</p>
         <p style="margin-top: 4px;">Training Only</p>
     </footer>
 </div>
 
-<!-- Detail Modal -->
-<div class="modal-backdrop" id="modal" onclick="closeModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
-        <div class="modal-top">
-            <div>
-                <div class="item-code" id="mCode"></div>
-                <h3 id="mTitle" style="margin-top: 4px;"></h3>
-            </div>
-            <button class="modal-close" onclick="closeModal()">×</button>
-        </div>
-        <div class="modal-body" id="mDesc"></div>
-        <div class="ref-tag" id="mPath"></div>
-    </div>
-</div>
-
+<script src="resets-data.js"></script>
 <script>
-// =========================================================================
-// 1. 7 Main Modules (airbusHome.php)
-// =========================================================================
-const MODULES = [
-    { id: 'resets', title: 'Resets', icon: '🔄', sub: '23 ATA Chapters & Faults' },
-    { id: 'locations', title: 'Locations', icon: '📍', sub: 'C/B, E&E, 80VU & Panels' },
-    { id: 'lights', title: 'Light Bulb Part Numbers', icon: '💡', sub: 'Ext, Cockpit, Int & Cargo' },
-    { id: 'acronyms', title: 'Airbus Acronyms', icon: '🔤', sub: 'A-Z Maintenance Terms' },
-    { id: 'fuel', title: '321 Fuel Transfer Procedure', icon: '⛽', sub: 'ACT & Wing XFR Ops' },
-    { id: 'mel', title: 'Airbus 320 MEL List', icon: '⚠️', sub: '29 MEL ATA Chapters' },
-    { id: 'callups', title: 'Airbus Alpha Call Up Menu', icon: '📢', sub: 'AIDS Alpha Call Ups' }
-];
-
-// =========================================================================
-// 2. Complete Reset ATA Chapters & Fault Menus (airbusATA.html + Achapter21..79.html)
-// =========================================================================
-const RESET_CHAPTERS = [
-    {
-        ata: '21',
-        title: 'Chapter 21 - Air Conditioning & Pressurization',
-        header: 'Airconditioning & Pressurization',
-        source: 'airbus/21/Achapter21.html',
-        faults: [
-            { name: 'CAB PRESS 1(2) FAULT', file: '21/21cabpress.html' },
-            { name: 'AIR- PACK 1(2) FAULT', file: '21/21airpackfault.html' },
-            { name: 'VENT-AVNC BLOWER FAULT', file: '21/21ventavncsblower.html' },
-            { name: 'VENT-AVNC EXTRACT FAULT', file: '21/21ventavncsextract.html' },
-            { name: 'VENT-AVNC SKIN VAL. FAULT', file: '21/21ventavncsskinvalve.html' },
-            { name: 'VENT-AVNC SYS FAULT', file: '21/21ventavncssys.html' },
-            { name: 'COND-ZONE REGUL FAULT', file: '21/21condzoneregul.html' },
-            { name: 'COND-TRIM AIR SYS FAULT', file: '21/21condtrimair.html' },
-            { name: 'COND-AFT CARGO HEAT FAULT', file: '21/21condaftcargoheat.html' },
-            { name: 'AIR-PACK 1(2) REGUL FAULT', file: '21/21airpackregul.html' },
-            { name: 'COND- RECIRC FAN FAULT', file: '21/21condrecircfan.html' },
-            { name: 'LAV/GALLEY VENT EXTRACT FAN FAULT', file: '21/21lavgalleyextractfan.html' },
-            { name: 'ALL CHAPTER 21 CIRCUIT BREAKERS', file: '21/21allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '22',
-        title: 'Chapter 22 - Auto Flight',
-        header: 'Auto Flight',
-        source: 'airbus/22/Achapter22.html',
-        faults: [
-            { name: 'OFFSIDE RANGE MODE (ON NAV DISPLAY)', file: '22/22offsiderangemode.html' },
-            { name: 'MCDU 1(2) SCREENS BLANK', file: '22/22mcdublank.html' },
-            { name: 'AUTO FLT-RUD TRIM 1(2) FAULT', file: '22/22ruddertrim.html' },
-            { name: 'AUTO FLT-RUD TRIM SYS FAULT', file: '22/22ruddertrimsys.html' },
-            { name: 'AUTO FLT-RUD TRV LIM 1(2) FAULT', file: '22/22ruddertravellimit.html' },
-            { name: 'AUTO FLT-RUD TRV LIM SYS FAULT', file: '22/22ruddertravellimitsys.html' },
-            { name: 'AUTO FLT-YAW DAMPER 1(2) FAULT', file: '22/22yawdamper.html' },
-            { name: 'AUTO FLT-A/P OFF DISPLAYED ON GRND', file: '22/22autofltapoff.html' },
-            { name: 'AUTO FLT-A/P 1(2) DISPLAYED IN INOP STATUS', file: '22/22autofltapinop.html' },
-            { name: 'AUTO FLT-A/THR OFF DISPLAYED ON GRND', file: '22/22autofltathroff.html' },
-            { name: 'OPPOSITE FM IN PROCESS ON MCDU', file: '22/22oppsitefminprocess.html' },
-            { name: 'AUTO FLT-FCU 1(2) FAULT', file: '22/22autofltfcu.html' },
-            { name: 'WINDSHEAR FAULT DISPLAYED', file: '22/22windshear.html' },
-            { name: 'BARO REF FAULT DISPLAYED', file: '22/22baroref.html' },
-            { name: 'RUDDER ARTIFICIAL FEEL INOP', file: '22/22rudderartificialfeel.html' },
-            { name: 'SIDESTICK LOCK', file: '22/22sidesticklock.html' },
-            { name: 'ALL CHAPTER 22 CIRCUIT BREAKERS', file: '22/22allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '23',
-        title: 'Chapter 23 - Communications',
-        header: 'Communications',
-        source: 'airbus/23/Achapter23.html',
-        faults: [
-            { name: 'COM-VHF 1 (2) (3) EMITTING MESSAGE', file: '23/23emiting.html' },
-            { name: 'VHF TRANSMISSION PROBLEMS', file: '23/23vhftransmission.html' },
-            { name: 'RMP-LOCKED UP OR WINDOW BLANK', file: '23/23rmplock.html' },
-            { name: 'ACP INOP', file: '23/23acplock.html' },
-            { name: 'AMU (AUDIO MANAGEMENT UNIT) FAULT', file: '23/23amu.html' },
-            { name: 'ACARS TRANSMISSION PROBLEMS', file: '23/23acars.html' },
-            { name: 'COM-HF 1 (2) FAULT', file: '23/23hf.html' },
-            { name: 'CIDS SYSTEM FAULTS - CAUTION LIGHT ON', file: '23/23cids.html' },
-            { name: 'FLIGHT ATTENDANT PANEL (FAP) LOCKED UP', file: '23/23fap.html' },
-            { name: 'FWD FLIGHT ATTENDANT “PTP” PANEL INOP', file: '23/23ptp.html' },
-            { name: 'FLIGHT INTERPHONE INOP', file: '23/23flightinterphone.html' },
-            { name: 'CABIN PA INOP', file: '23/23pa.html' },
-            { name: 'DEU-A FAULT ON CIDS', file: '23/23deua.html' },
-            { name: 'DEU-B FAULT ON CIDS', file: '23/23deub.html' },
-            { name: 'ALL CHAPTER 23 CIRCUIT BREAKERS', file: '23/23allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '24',
-        title: 'Chapter 24 - Electrical Power',
-        header: 'Electrical Power',
-        source: 'airbus/24/Achapter24.html',
-        faults: [
-            { name: 'ENGINE GENERATOR PARAMETERS NOT SHOWN', file: '24/24engineparameters.html' },
-            { name: 'ELEC-CIRCUIT BREAKER TRIPPED', file: '24/24circuitbreaker.html' },
-            { name: 'TRANSFORMER RECTIFIER PROBLEM', file: '24/24tr.html' },
-            { name: 'ELEC-BCL 1(2) FAULT', file: '24/24bcl.html' },
-            { name: 'GROUND POWER WILL NOT CONNECT', file: '24/24groundpower.html' },
-            { name: 'ALL CHAPTER 24 CIRCUIT BREAKERS', file: '24/24allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '25',
-        title: 'Chapter 25 - Equipment & Furnishings',
-        header: 'Equipment & Furnishings',
-        source: 'airbus/25/Achapter25.html',
-        faults: [
-            { name: 'CREW SEAT PROBLEMS', file: '25/25crewseat.html' },
-            { name: 'OVEN OR TIMER', file: '25/25oven.html' },
-            { name: 'ALL CHAPTER 25 CIRCUIT BREAKERS', file: '25/25allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '26',
-        title: 'Chapter 26 - Fire Protection',
-        header: 'Fire Protection',
-        source: 'airbus/26/Achapter26.html',
-        faults: [
-            { name: 'SMOKE - LAVATORY DET FAULT', file: '26/26lavdet.html' },
-            { name: 'SMOKE - FWD & AFT CARGO DET FAULT', file: '26/26cargosmoke.html' },
-            { name: 'SDCU TROUBLE SHOOTING DATA (TSD) INFO', file: '26/26sdcuts.html' },
-            { name: 'SDCU MAINTENANCE MESSAGE (CLASS 2)', file: '26/26sdcu.html' },
-            { name: 'COND/AIR - AFT CARGO HEAT/VENT FAULTS', file: '26/26aftcargoheat.html' },
-            { name: 'ALL CHAPTER 26 CIRCUIT BREAKERS', file: '26/26allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '27',
-        title: 'Chapter 27 - Flight Controls',
-        header: 'Flight Controls',
-        source: 'airbus/27/Achapter27.html',
-        faults: [
-            { name: 'F/CTL FCDC 1(2) FAULT', file: '27/27fcdc.html' },
-            { name: 'F/CTL MAINTENANCE STATUS (CLASS 2)', file: '27/27class2.html' },
-            { name: 'THS DIDN’T RETURN TO ZERO AFTER LANDING', file: '27/27thszero.html' },
-            { name: 'F/CTL-SEC 1(2)(3) FAULT OR F/CTL-SPLR FAULT', file: '27/27sec.html' },
-            { name: 'F/CTL-ELAC 1(2) FAULTS', file: '27/27elac.html' },
-            { name: 'F/CTL-AIL SERVO FAULT', file: '27/27aileronservo.html' },
-            { name: 'F/CTL ALTN LAW DISPLAYED AT ENG. START', file: '27/27altnlaw.html' },
-            { name: 'F/CTL-FLAP OR SLAT SYS 1(2) FAULT OR SLOW', file: '27/27flapsslow.html' },
-            { name: 'F/CTL-FLAPS (SLATS) LOCKED', file: '27/27flapslocked.html' },
-            { name: 'F/CTL-FLAP/SLAT INDICATION AMBER', file: '27/27flapindication.html' },
-            { name: 'SIDE STICK PRIORITY MESSAGE', file: '27/27sidestick.html' },
-            { name: 'ALL CHAPTER 27 CIRCUIT BREAKERS', file: '27/27allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '28',
-        title: 'Chapter 28 - Fuel',
-        header: 'Fuel (T/S all popped fuel C/B\'s)',
-        source: 'airbus/28/Achapter28.html',
-        faults: [
-            { name: 'FUEL-FQI CHANNEL 1(2) FAULT', file: '28/28fqis.html' },
-            { name: 'FUEL- AUTOFEED FAULT', file: '28/28autofeed.html' },
-            { name: 'CENTER TANK LOW PRESSURE WARNING', file: '28/28centertank.html' },
-            { name: 'INTERCELL TRANSFER VALVES OPEN', file: '28/28intercelltransfer.html' },
-            { name: 'FUEL-APU LP VALVE FAULT MESSAGE', file: '28/28apufuel.html' },
-            { name: 'ALL CHAPTER 28 CIRCUIT BREAKERS', file: '28/28allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '29',
-        title: 'Chapter 29 - Hydraulics',
-        header: 'Hydraulics',
-        source: 'airbus/29/Achapter29.html',
-        faults: [
-            { name: 'HYD RESERVOIR LOW AIR-PRESSURE MSG', file: '29/29lowairpressure.html' },
-            { name: 'PTU FAULT', file: '29/29ptu.html' },
-            { name: 'HYDRAULIC SYSTEM SCHEMATIC', file: '29/29schematic.html' },
-            { name: 'ALL CHAPTER 29 CIRCUIT BREAKERS', file: '29/29allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '30',
-        title: 'Chapter 30 - Ice & Rain',
-        header: 'Ice and Rain',
-        source: 'airbus/30/Achapter30.html',
-        faults: [
-            { name: 'ANTI ICE - LEFT OR RIGHT WINDOW', file: '30/30window.html' },
-            { name: 'ANTI ICE - L (R) WINDSHIELD HEAT FAULTS', file: '30/30windshield.html' },
-            { name: 'DRAIN MAST HEATER FAULTS (FWD/AFT)', file: '30/30drainmast.html' },
-            { name: 'ANTI ICE MESSAGE', file: '30/30antiice.html' },
-            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #1', file: '30/30probe1.html' },
-            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #2', file: '30/30probe2.html' },
-            { name: 'ANTI ICE - PROBE MESSAGE SYSTEM #3', file: '30/30probe3.html' },
-            { name: 'ENGINE 1 (2) ANTI-ICE FAULTS', file: '30/30engineantiice.html' },
-            { name: 'ALL CHAPTER 30 CIRCUIT BREAKERS', file: '30/30allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '31',
-        title: 'Chapter 31 - Indications',
-        header: 'Indications',
-        source: 'airbus/31/Achapter31.html',
-        faults: [
-            { name: 'CLASS 2 ACMS MESSAGE', file: '31/31acms.html' },
-            { name: 'DISPLAY UNITS SHOWS TELELOADING', file: '31/31teleloading.html' },
-            { name: 'DISPLAY UNIT IS BLANK OR HAS DIAGONAL LINE', file: '31/31blankscreens.html' },
-            { name: 'EIS - DMC 1(2)(3) FAULT', file: '31/31DMC.html' },
-            { name: 'UNABLE TO SWITCH DISPLAY UNITS (DU’s)', file: '31/31switching.html' },
-            { name: 'NO AIDS PROMPT DISPLAYED ON MCDU', file: '31/31aids.html' },
-            { name: 'PFR PRINTS AUTOMATICALLY AFTER LANDING', file: '31/31pfrprints.html' },
-            { name: 'FLIGHT CONTROL PAGE WON’T AUTO-DISPLAY', file: '31/31autodisplay.html' },
-            { name: 'CLOCK DOESN’T AGREE WITH LOWER ECAM', file: '31/31clock.html' },
-            { name: 'CFDS FAULT MESSAGE PRINTS IN FLIGHT', file: '31/31faultmessage.html' },
-            { name: 'SDAC 1(2) FAULT', file: '31/31SDAC.html' },
-            { name: 'ECAM PAGE(s) LOCKED (DOOR,WHEELS,ETC)', file: '31/31ecamlocked.html' },
-            { name: 'ALL CHAPTER 31 CIRCUIT BREAKERS', file: '31/31allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '32',
-        title: 'Chapter 32 - Landing Gear',
-        header: 'Landing Gear',
-        source: 'airbus/32/Achapter32.html',
-        faults: [
-            { name: 'LGCIU SYSTEM 1(2) FAULTS', file: '32/32LGCIU.html' },
-            { name: 'L/G SYSTEM DISAGREE', file: '32/32LGdisagree.html' },
-            { name: 'BRAKES GRABBING DURING TAXI', file: '32/32brakesgrab.html' },
-            { name: 'BSCU CHANNEL 1(2) FAULTS', file: '32/32BSCU.html' },
-            { name: 'BRAKE SYSTEM 1(2) FAULTS', file: '32/32brakesystem.html' },
-            { name: 'NO BRAKE TEMPS DISPLAYED ON ECAM', file: '32/32braketemps.html' },
-            { name: 'NOSE WHEEL STEERING FAULTY', file: '32/32NWSfault.html' },
-            { name: 'NOSE WHEEL FAULTS @ FLT CONT. CHECK', file: '32/32flightcontrolstearing.html' },
-            { name: 'ALL CHAPTER 32 CIRCUIT BREAKERS', file: '32/32allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '33',
-        title: 'Chapter 33 - Lights',
-        header: 'Lights',
-        source: 'airbus/33/Achapter33.html',
-        faults: [
-            { name: 'INTEGRAL PANEL LIGHTING INOP', file: '33/33integralpanel.html' },
-            { name: 'CABIN LIGHTS STUCK IN BRIGHT', file: '33/33cabinbrite.html' },
-            { name: 'STROBE LIGHT WON’T SHUT OFF', file: '33/33strobelight.html' },
-            { name: 'COCKPIT FLOOR LIGHTING INOP', file: '33/33briefcaselights.html' },
-            { name: 'CABIN LIGHTS WON’T TURN ON', file: '33/33cabinlightsoff.html' },
-            { name: 'PASSENGER READING LIGHTS INOP', file: '33/33readinglight.html' },
-            { name: 'NO LIGHTS IN MLG WHEEL WELL AREA', file: '33/33wheelwell.html' },
-            { name: 'EMERGENCY LIGHTS INOP', file: '33/33EPSU.html' },
-            { name: 'ALL CHAPTER 33 CIRCUIT BREAKERS', file: '33/33allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '34',
-        title: 'Chapter 34 - Navigation',
-        header: 'Navigation',
-        source: 'airbus/34/Achapter34.html',
-        faults: [
-            { name: 'NAV - GPS 1(2) FAULT ONLY', file: '34/34gps.html' },
-            { name: 'MMR OR ILS 1(2) FAULT', file: '34/34ILS.html' },
-            { name: 'ADIRU ALIGN LIGHTS FLASHING AT ALIGNMENT', file: '34/34adiruflashingalignment.html' },
-            { name: 'ADR OR IR 1(2)(3) FAULTS', file: '34/34adiruflashingtakeoff.html' },
-            { name: 'NAV - GPWS FAULT', file: '34/34GPWS.html' },
-            { name: 'WINDSHEAR DET FAULT', file: '34/34windshear.html' },
-            { name: 'NAV - PRED WINDSHEAR DET FAULT', file: '34/34PREDwindshear.html' },
-            { name: 'NAV - TCAS FAULT', file: '34/34TCAS.html' },
-            { name: 'FLIGHT RECORDER FAULT', file: '34/34flightrecorder.html' },
-            { name: 'AUTO-TUNE INOP', file: '34/34autotune.html' },
-            { name: 'WHITE “GPS PRIMARY” MESSAGE SHOWN', file: '34/34gpsprimary.html' },
-            { name: 'NAV RA 1(2) FAULT', file: '34/34RA.html' },
-            { name: 'ALL CHAPTER 34 CIRCUIT BREAKERS', file: '34/34allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '35',
-        title: 'Chapter 35 - Oxygen',
-        header: 'Oxygen',
-        source: 'airbus/35/Achapter35.html',
-        faults: [
-            { name: 'OXYGEN LOW PRESSURE MESSAGE', file: '35/35lowpress.html' },
-            { name: 'ALL CHAPTER 35 CIRCUIT BREAKERS', file: '35/35allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '36',
-        title: 'Chapter 36 - Pneumatic Systems',
-        header: 'Pneumatic',
-        source: 'airbus/36/Achapter36.html',
-        faults: [
-            { name: 'CLASS 2 AIR BLEED MESSAGE', file: '36/36class2airbleed.html' },
-            { name: 'AIR BLEED - LEFT WING LOOP/LEAK MSG', file: '36/36leftwingleak.html' },
-            { name: 'AIR BLEED - RIGHT WING LOOP/LEAK MSG', file: '36/36rightwingleak.html' },
-            { name: 'BMC PROBLEMS', file: '36/36bmcproblem.html' },
-            { name: 'CROSS BLEED VALVE MESSAGE', file: '36/36crossbleedvalve.html' },
-            { name: 'ALL CHAPTER 36 CIRCUIT BREAKERS', file: '36/36allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '38',
-        title: 'Chapter 38 - Water & Waste',
-        header: 'Water & Waste',
-        source: 'airbus/38/Achapter38.html',
-        faults: [
-            { name: 'TOILETS WON’T FLUSH', file: '38/38toilets.html' },
-            { name: 'NO WATER PRESSURE', file: '38/38waterpressure.html' },
-            { name: 'ALL CHAPTER 38 CIRCUIT BREAKERS', file: '38/38allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '46',
-        title: 'Chapter 46 - Information System (ATSU)',
-        header: 'Information Systems',
-        source: 'airbus/46/Achapter46.html',
-        faults: [
-            { name: 'TROUBLE LOADING ATSU SOFTWARE', file: '46/46atsu.html' },
-            { name: 'ATSU LOCKED UP ON MCDU', file: '46/46atsulocked.html' },
-            { name: 'ALL CHAPTER 46 CIRCUIT BREAKERS', file: '46/46allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '49',
-        title: 'Chapter 49 - APU',
-        header: 'APU',
-        source: 'airbus/49/Achapter49.html',
-        faults: [
-            { name: 'APU AUTO SHUTDOWN (131-9A HONEYWELL T/S GUIDE)', file: '49/49honeywell.html' },
-            { name: 'APU WILL NOT START', file: '49/49apu.html' },
-            { name: 'APU WILL NOT SHUT DOWN', file: '49/49apushutdown.html' },
-            { name: 'APU BLEED FAULTS', file: '49/49apubleed.html' },
-            { name: 'APU ELECTRICS NO VOLTS OR FREQS', file: '49/49apugen.html' },
-            { name: 'ALL CHAPTER 49 CIRCUIT BREAKERS', file: '49/49allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '52',
-        title: 'Chapter 52 - Doors',
-        header: 'Doors',
-        source: 'airbus/52/Achapter52.html',
-        faults: [
-            { name: 'COCKPIT DOOR FAULT', file: '52/52cockpit.html' },
-            { name: 'CABIN DOOR PRESSURE LIGHT FLASHES', file: '52/52flashing.html' },
-            { name: 'ALL CHAPTER 52 CIRCUIT BREAKERS', file: '52/52allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '73',
-        title: 'Chapter 73 - Engine',
-        header: 'Engines',
-        source: 'airbus/73/Achapter73.html',
-        faults: [
-            { name: 'ENGINE 1(2) OVERSPEED', file: '73/73overspeed.html' },
-            { name: 'ENGINE 1(2) OVERSPEED PROTECTION FAULT V2500', file: '73/73overspeedprotectionfault.html' },
-            { name: 'ENGINE 1(2) EGT OVERLIMIT', file: '73/73EGT.html' },
-            { name: 'ENGINE 1(2) FADEC A(B) CHANNEL FAULT', file: '73/73fadecchannel.html' },
-            { name: 'ENGINE 1(2) EIU MAINTENANCE STATUS MSG', file: '73/73EIUmaintenance.html' },
-            { name: 'ENGINE 1(2) EIU FAULT', file: '73/73EIU.html' },
-            { name: 'ENGINE 1(2) FADEC FAULT', file: '73/73fadecfault.html' },
-            { name: 'ENGINE 1(2) EPR MODE FAULT MESSAGE', file: '73/73eprmode.html' },
-            { name: 'ALL CHAPTER 73 CIRCUIT BREAKERS', file: '73/73allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '78',
-        title: 'Chapter 78 - Exhaust (Reversers)',
-        header: 'Exhaust',
-        source: 'airbus/78/Achapter78.html',
-        faults: [
-            { name: 'THRUST REV. FAULT ON ENGINE SHUTDOWN', file: '78/78engineshutdown.html' },
-            { name: 'THRUST REV. TEST THRU MCDU WON’T PASS', file: '78/78withengines.html' },
-            { name: 'THRUST REV. FAULT AT ENGINE START', file: '78/78enginestart.html' },
-            { name: 'ALL CHAPTER 78 CIRCUIT BREAKERS', file: '78/78allcircuitbreakers.html' }
-        ]
-    },
-    {
-        ata: '79',
-        title: 'Chapter 79 - Engine Oil',
-        header: 'Oil',
-        source: 'airbus/79/Achapter79.html',
-        faults: [
-            { name: 'ENGINE 1(2) OIL FILTER CLOG MESSAGE', file: '79/79clogged.html' },
-            { name: 'ALL CHAPTER 79 CIRCUIT BREAKERS', file: '79/79allcircuitbreakers.html' }
-        ]
-    }
-];
-
-// =========================================================================
-// 3. Other Modules Data (MEL, Fuel XFR, Locations, Lights, Callups)
-// =========================================================================
-const OTHER_ITEMS = [
-    // --- MEL List (MELairbusATA.html) ---
-    { mod: 'mel', code: 'MEL 21', title: 'Chapter 21 - Air Conditioning & Pressurization', tag: 'MEL', source: 'airbus/MEL/21.html', detail: 'ATA 21 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 22', title: 'Chapter 22 - Auto Flight', tag: 'MEL', source: 'airbus/MEL/22.html', detail: 'ATA 22 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 23', title: 'Chapter 23 - Communications', tag: 'MEL', source: 'airbus/MEL/23.html', detail: 'ATA 23 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 24', title: 'Chapter 24 - Electrical Power', tag: 'MEL', source: 'airbus/MEL/24.html', detail: 'ATA 24 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 25', title: 'Chapter 25 - Equipment & Furnishings', tag: 'MEL', source: 'airbus/MEL/25.html', detail: 'ATA 25 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 26', title: 'Chapter 26 - Fire Protection', tag: 'MEL', source: 'airbus/MEL/26.html', detail: 'ATA 26 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 27', title: 'Chapter 27 - Flight Controls', tag: 'MEL', source: 'airbus/MEL/27.html', detail: 'ATA 27 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 28', title: 'Chapter 28 - Fuel', tag: 'MEL', source: 'airbus/MEL/28.html', detail: 'ATA 28 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 29', title: 'Chapter 29 - Hydraulics', tag: 'MEL', source: 'airbus/MEL/29.html', detail: 'ATA 29 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 30', title: 'Chapter 30 - Ice & Rain', tag: 'MEL', source: 'airbus/MEL/30.html', detail: 'ATA 30 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 31', title: 'Chapter 31 - Indications', tag: 'MEL', source: 'airbus/MEL/31.html', detail: 'ATA 31 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 32', title: 'Chapter 32 - Landing Gear', tag: 'MEL', source: 'airbus/MEL/32.html', detail: 'ATA 32 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 33', title: 'Chapter 33 - Lights', tag: 'MEL', source: 'airbus/MEL/33.html', detail: 'ATA 33 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 34', title: 'Chapter 34 - Navigation', tag: 'MEL', source: 'airbus/MEL/34.html', detail: 'ATA 34 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 35', title: 'Chapter 35 - Oxygen', tag: 'MEL', source: 'airbus/MEL/35.html', detail: 'ATA 35 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 36', title: 'Chapter 36 - Pneumatic Systems', tag: 'MEL', source: 'airbus/MEL/36.html', detail: 'ATA 36 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 38', title: 'Chapter 38 - Water & Waste', tag: 'MEL', source: 'airbus/38/Achapter38.html', detail: 'ATA 38 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 46', title: 'Chapter 46 - Information System (ATSU)', tag: 'MEL', source: 'airbus/MEL/46.html', detail: 'ATA 46 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 47', title: 'Chapter 47 - Fuel Inerting Systems', tag: 'MEL', source: 'airbus/MEL/47.html', detail: 'ATA 47 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 49', title: 'Chapter 49 - APU', tag: 'MEL', source: 'airbus/MEL/49.html', detail: 'ATA 49 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 52', title: 'Chapter 52 - Doors', tag: 'MEL', source: 'airbus/MEL/52.html', detail: 'ATA 52 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 56', title: 'Chapter 56 - Windows', tag: 'MEL', source: 'airbus/MEL/56.html', detail: 'ATA 56 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 71', title: 'Chapter 71 - Power Plant', tag: 'MEL', source: 'airbus/MEL/71.html', detail: 'ATA 71 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 73', title: 'Chapter 73 - Engine Fuel & Control', tag: 'MEL', source: 'airbus/MEL/73.html', detail: 'ATA 73 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 74', title: 'Chapter 74 - Engine Ignition', tag: 'MEL', source: 'airbus/MEL/74.html', detail: 'ATA 74 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 77', title: 'Chapter 77 - Engine Indicating', tag: 'MEL', source: 'airbus/MEL/77.html', detail: 'ATA 77 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 78', title: 'Chapter 78 - Exhaust (Reversers)', tag: 'MEL', source: 'airbus/MEL/78.html', detail: 'ATA 78 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 79', title: 'Chapter 79 - Engine Oil', tag: 'MEL', source: 'airbus/MEL/79.html', detail: 'ATA 79 MEL Reference Directory.' },
-    { mod: 'mel', code: 'MEL 80', title: 'Chapter 80 - Starting', tag: 'MEL', source: 'airbus/MEL/80.html', detail: 'ATA 80 MEL Reference Directory.' },
-
-    // --- 321 Fuel Transfer Procedure (XFRmenu.html) ---
-    { mod: 'fuel', code: 'XFR-01', title: 'ACT(s) TO CENTER', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/actcenter.html', detail: 'A321 Fuel Transfer Procedure: ACT(s) to Center Tank.' },
-    { mod: 'fuel', code: 'XFR-02', title: 'WINGS TO ACT(s)', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/wingact.html', detail: 'A321 Fuel Transfer Procedure: Wings to ACT(s).' },
-    { mod: 'fuel', code: 'XFR-03', title: 'CENTER TO WINGS', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/centerwing.html', detail: 'A321 Fuel Transfer Procedure: Center Tank to Wings.' },
-    { mod: 'fuel', code: 'XFR-04', title: 'WINGS TO CENTER', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/wingscenter.html', detail: 'A321 Fuel Transfer Procedure: Wings to Center Tank.' },
-    { mod: 'fuel', code: 'XFR-05', title: 'PRIME ACT PUMPS', tag: '321 Fuel XFR', source: 'airbus/fuel transfer/prime.html', detail: 'A321 Fuel Transfer Procedure: Prime ACT Pumps.' },
-
-    // --- Locations (locationsmenu.html) ---
-    { mod: 'locations', code: 'LOC-CB', title: 'Circuit Breaker Locations', tag: 'Locations', source: 'airbus/CBlocations.html', detail: 'Airbus A320 Circuit Breaker Panel Locations.' },
-    { mod: 'locations', code: 'LOC-EE', title: 'E&E Locations', tag: 'Locations', source: 'airbus/EElocations.html', detail: 'Airbus A320 E&E Compartment Locations.' },
-    { mod: 'locations', code: 'LOC-80VU', title: 'Main E&E/80VU Box Layout', tag: 'Locations', source: 'airbus/80VU.html', detail: 'Main E&E / 80VU Avionics Rack Layout.' },
-    { mod: 'locations', code: 'LOC-OVHD', title: 'Overhead Panel', tag: 'Panels', source: 'airbus/panels/Overhead.html', detail: 'Cockpit Overhead Panel Layout.' },
-    { mod: 'locations', code: 'LOC-PED', title: 'Pedestal Panel', tag: 'Panels', source: 'airbus/panels/Pedestal.html', detail: 'Cockpit Pedestal Panel Layout.' },
-
-    // --- Lights (lightmenu.html) ---
-    { mod: 'lights', code: 'LT-EXT', title: 'Exterior Lights', tag: '320 Lights', source: 'airbus/Exterior lights/exterior.html', detail: 'A320 Exterior Light Bulb Part Numbers.' },
-    { mod: 'lights', code: 'LT-CKPT', title: 'Cockpit Lights', tag: '320 Lights', source: 'airbus/Cockpit lights/cockpit.html', detail: 'A320 Cockpit Light Bulb Part Numbers.' },
-    { mod: 'lights', code: 'LT-INT', title: 'Interior Lights', tag: '320 Lights', source: 'airbus/Interior lights/interior.html', detail: 'A320 Interior Light Bulb Part Numbers.' },
-    { mod: 'lights', code: 'LT-CRG', title: 'Cargo/Service Lights', tag: '320 Lights', source: 'airbus/Cargo lights/cargo.html', detail: 'A320 Cargo & Service Light Bulb Part Numbers.' },
-
-    // --- Alpha Call Up Menu (alphamenu1.html) ---
-    { mod: 'callups', code: 'ALPHA-SYS', title: 'CALL UPS BY SYSTEM', tag: 'AIDS Call Ups', source: 'airbus/callups/allcallups.html', detail: 'AIDS - Alpha Call Ups Sorted By System.' },
-    { mod: 'callups', code: 'ALPHA-ALL', title: 'ALL CALL UPS', tag: 'AIDS Call Ups', source: 'airbus/callups/allcallups.html', detail: 'AIDS - Complete Alpha Call Up Parameter List.' }
-];
-
-// =========================================================================
-// 4. Full Airbus Acronyms Dictionary (acronyms.html)
-// =========================================================================
-const RAW_ACRONYMS = `
-A - Amber
-A - Alternate
-A/C - Aircraft
-A/D - Analog/Digital
-A/DC - Analog-to-Digital Converter
-A/R - Audio Reproducer
-A/SKID - Anti-Skid
-A/THR - Autothrust
-A/XFMR - Autotransformer
-ABCU - Alternate Braking Control Unit
-AC - Alternating Current
-ACARS - Aircraft Communication Addressing and Reporting System
-ACC - Active Clearance Control
-ACCEL - Acceleration/Accelerate
-ACCLRM - Accelerometer
-ACCU - ACCUMULATOR
-ACMM - Abbreviated Component Maintenance Manual
-ACMS - Aircraft Condition Monitoring System
-ACP - Area Call Panel
-ACP - Audio Control Panel
-ACQN - Acquisition
-ACSC - Air Conditioning System Controller
-ACT - Active
-ACTR - Actuator
-ADC - Air Data Computer
-ADF - Automatic Direction Finder
-ADIRS - Air Data/Inertial Reference System
-ADIRU - Air Data/Inertial Reference Unit
-ADM - Air Data Module
-ADR - Air Data Reference
-ADS - Air Data System
-ADV - Advisory
-AEVC - Avionics Equipment Ventilation Computer
-AF - Audio Frequency
-AFS - Automatic Flight System
-AGB - Accessory Gearbox
-AGC - Automatic Gain Control
-AGL - Above Ground Level
-AGW - Actual Gross Weight
-AIL - Aileron
-AIM - Aircraft Integrated Maintenance
-AIP - Attendant Indication Panel
-ALIGN - ALIGNMENT
-ALT - Altitude
-ALTM - Altimeter
-ALTN - Alternate, Alternative
-AM - Amplitude Modulation
-AMM - Aircraft Maintenance Manual
-AMU - Audio Management Unit
-ANI - Analog Input
-ANN - Annunciator
-ANN LT - Annunciator Light
-ANO - Analog Output
-ANT - Antenna
-AOA - Angle-of-Attack
-AP - Autopilot
-AP/FD - Autopilot/Flight Director
-APPR - Approach
-APPU - Asymmetry Position Pick Off Unit
-APU - Auxiliary Power Unit
-ARINC - Aeronautical Radio Incorporated
-ARPT - Airport
-ASCII - American Standard Code for Information Interchange
-ASI - Airspeed Indicator
-ASIC - Application Specific Integrated Circuits
-ASM - Aircraft Schematics Manual
-ASP - Audio Selector Panel
-ASSY - Assembly
-ATA - Air Transport Association of America
-ATC - Air Traffic Control
-ATE - Automatic Test Equipment
-ATLAS - Abbreviated Test Language for All Systems
-ATS - Autothrottle System
-ATSU - Air Traffic Service Unit
-ATT - Attitude
-ATTND - Attendant
-AUTO - Automatic
-AUX - Auxiliary
-AVAIL - Available
-AVNCS - Avionics
-AWM - Aircraft Wiring Manual
-AWY - Airway
-AZ - Azimuth
-B - Blue
-BARO - Barometric
-BAT - Battery
-BCD - Binary Coded Decimal
-BCL - Battery Charge Limiter
-BFO - Beat Frequency Oscillator
-BGM - Boarding Music
-BITE - Built-in Test Equipment
-BMC - Bleed Monitoring Computer
-BNR - BINARY
-BOT - Begin of Tape
-BP - Bottom Plug
-BRG - Bearing
-BRK - Brake
-BRKR - Breaker
-BRKT - Bracket
-BRT - Bright, Brightness
-BSCS - Braking and Steering Control System
-BSCU - Braking/Steering Control Unit
-BTC - Bus Tie Contactor
-BTMU - Brake Temperature Monitoring Unit
-BTN - Button
-BTR - Bus Tie Relay
-BU - Battery Unit
-BUS - Busbar
-BYDU - Back-Up Yaw Damper Unit
-C - Close
-C - Celsius, Centigrade
-C/B - Circuit Breaker
-C/L - Check List
-CAB - Cabin
-CAM - Cabin Assignment Module
-CAPT - Captain
-CAS - Calibrated Air Speed
-CAUT - Caution
-CAUT LT - Caution Light
-CBMS - Circuit Breaker Monitoring System
-CBMU - Circuit Breaker Monitoring Unit
-CCS - Cabin Communications System
-CCW - Counter Clockwise
-CDP - Compressor Discharge Pressure
-CDU - Control and Display Unit
-CFDIU - Centralized Fault Display Interface Unit
-CFDS - Centralized Fault Display System
-CFMI - CFM International
-CFRP - Carbon Fiber Reinforced Plastic
-CG - Center of Gravity
-CGCS - Center of Gravity Control System
-CHAN - Channel
-CHG - Change
-CIDS - Cabin Intercommunication Data System
-CK - Check
-CKPT - Cockpit
-CKT - Circuit
-CL - Center Line
-CLB - Climb
-CLG - Centerline Landing Gear
-CLOG - Clogging
-CLR - Clear
-CMC - Central Maintenance Computer
-CMD - Command
-CMM - Component Maintenance Manual
-CMS - Central Maintenance System
-CNTOR - Contactor
-CO - Company
-COM - Communication
-COMPT - Compartment
-COMPTR - Comparator
-COND - Conditioned, Conditioning
-CONFIG - Configuration
-CONT - Controller
-CONV - Converter
-COOL - Cooling, Cooler
-COS - Cosine
-CPC - Cabin Pressure Controller
-CPLR - Coupler
-CPMS - Cabin and Passenger Management System
-CPMU - Cabin Passenger Management Unit
-CPRSR - Compressor
-CPU - Central Processing Unit
-CRC - Continuous Repetitive Chime
-CRG - Cargo
-CRS - Course
-CRT - Cathode Ray Tube
-CRZ - Cruise
-CSD - Constant Speed Drive
-CSM/G - Constant Speed Motor/Generator
-CSTR - Constraint
-CSU - Command Sensor Unit
-CT - Current Transformer
-CTL - Central
-CTL - Control
-CTR - Center
-CU - Control Unit
-CUDU - Current Unbalance Detection Unit
-CUR - Current
-CVR - Cockpit Voice Recorder
-CVT - Center Vent Tube
-CW - Clockwise
-D/D - Engine Out Drift Down Point
-D/O - Description and Operation
-DA - Drift Angle
-DAC - Digital to Analog Converter
-DAR - Digital ACMS Recorder
-DC - Direct Current
-DDRMI - Digital Distance and Radio Magnetic Indicator
-DEC - Declination
-DECEL - Decelerate
-DECR - Decrease
-DEF - Definition
-DELTA P - Differential Pressure
-DES - Descent
-DEST - Destination
-DET - Detection, Detector
-DEU - Decoder/Encoder Unit
-DEV - Deviation
-DFDR - Digital Flight Data Recorder
-DFDRS - Digital Flight Data Recording System
-DGI - Digital Input
-DGO - Digital Output
-DH - Decision Height
-DIA - Diameter
-DIFF - Differential
-DIM - Dimming, Dimension
-DIR - Direction, Direct, Director
-DISC - Disconnect, Disconnected
-DIST - Distance
-DMA - Direct Memory Access
-DMC - Display Management Computer
-DME - Distance Measuring Equipment
-DMU - Data Management Unit
-DN - Down
-DNLK - Downlock
-DPDT - Double Pole/Double Throw
-DPI - Differential Pressure Indicator
-DR - Dead Reckoning
-DRVR - Driver
-DSCRT - Discrete
-DSDL - Dedicated Serial Data Link
-DSI - Discrete Input
-DSO - Discrete Output
-DSPL - Display
-DTG - Distance to Go
-DTMF - Dual Tone Multiple Frequency
-DU - Display Unit
-E - East
-ECAM - Electronic Centralized Aircraft Monitoring
-ECB - Electronic Control Box (APU)
-ECM - Engine Condition Monitoring
-ECMU - Electrical Contactor Management Unit
-ECON - Economy
-ECP - Ecam Control Panel
-ECS - Environmental Control System
-ECU - Electronic Control Unit
-EEC - Electronic Engine Control
-EEPROM - Electrically Eraseable Programmable Read Only Memory
-EFCS - Electrical Flight Control System
-EFF - Effective, Effectivity
-EFIS - Electronic Flight Instrument System
-EGIU - Electrical Generation Interface Unit
-EGT - Exhaust Gas Temperature
-EIS - Electronic Instrument System
-EIU - Engine Interface Unit
-EIVMU - Engine Interface and Vibration Monitoring Unit
-ELEC - Electric, Electrical, Electricity
-ELEV - Elevation, Elevator
-EMER - Emergency
-EMI - Electromagnetic Interference
-EMM - Enhanced Maintaining and Manufacturing
-END - Endurance
-ENG - Engine
-EO - Engine Out
-EOSID - Engine Out Standard Instrument Departure
-EOT - End of Tape
-EPC - External Power Contactor
-EPGS - Electrical Power Generation System
-EPR - Engine Pressure Ratio
-EPROM - Erasable Programmable Read Only Memory
-EPSU - Emergency Power Supply Unit
-EQPT - Equipment
-ESS - Essential
-EST - Estimated
-ETA - Estimated Time of Arrival
-ETE - Estimated Time en Route
-ETP - Equal Time Point
-EVAC - Evacuation
-EWD - Engine/Warning Display
-EXC - Excitation, Excite
-EXCESS - Excessive
-EXT - Exterior, External
-F - Fahrenheit
-F-PLN - Flight Plan
-F/O - First Officer
-FAC - Flight Augmentation Computer
-FADEC - Full Authority Digital Engine Control
-FAIL - Failed, Failure
-FAP - Forward Attendant Panel
-FC - Fully Closed
-FCDC - Flight Control Data Concentrator
-FCMS - Fuel Control Monitoring System
-FCOM - Flight Crew Operating Manual
-FCPC - Flight Control Primary Computer
-FCSC - Flight Control Secondary Computer
-FCTN - Function
-FCU - Flight Control Unit
-FCV - Flow Control Valve
-FD - Flight Director
-FDBK - Feedback
-FDIU - Flight Data Interface Unit
-FDU - Fire Detection Unit
-FE - Flight Envelope
-FF - Fuel Flow
-FG - Flight Guidance
-FIDS - Fault Isolation and Detection System
-FIFO - First Input/First Output
-FIG - Figure
-FIN - Functional Item Number
-FL - Flight Level
-FLEX - Flexible
-FLP - Flap
-FLT - Flight
-FM - Flight Management
-FMA - Flight Mode Annunciator
-FMC - Flight Management Computer
-FMGC - Flight Management and Guidance Computer
-FMGS - Flight Management and Guidance System
-FMS - Flight Management System
-FMV - Fuel Metering Valve
-FO - Fully Open
-FOB - Fuel On Board
-FPA - Flight Path Angle
-FPEEPMS - Floor Proximity Emergency Escape Path Marking System
-FPPU - Feedback Position Pick-off Unit
-FPV - Flight Path Vector
-FQ - Fuel Quantity
-FQI - Fuel Quantity Indicating/Indication/Indicator
-FR - Frame
-FREQ - Frequency
-FRU - Frequency Reference Unit
-FRV - Fuel Return Valve
-FSB - Fasten Seat Belts
-FW - Failure Warning
-FWC - Flight Warning Computer
-FWD - Forward
-FWS - Flight Warning System
-G - Green
-G/S - Glide Slope
-GA - Go-Around
-GAPCU - Ground Auxiliary Power Control Unit
-GCR - Generator Control Relay
-GCU - Generator Control Unit
-GEN - Generator
-GLC - Generator Line Contactor
-GLR - Generator Line Relay
-GMT - Greenwich Mean Time
-GND - Ground
-GPCU - Ground Power Control Unit
-GPS - Global Positioning System
-GPU - Ground Power Unit
-GPWC - Ground Proximity Warning Computer
-GPWS - Ground Proximity Warning System
-GRU - Ground Refrigeration Unit
-GS - Ground Speed
-GSE - Ground Support Equipment
-GW - Gross Weight
-H - Hot (Electrical Point)
-HCU - Hydraulic Control Unit
-HDG - Heading
-HEGS - Hydraulic Electrical Generating System
-HF - High Frequency
-HI - High
-HLAC - High Level Alternating Current Voltage
-HLDC - High Level Direct Current Voltage
-HMU - Hydromechanical Unit
-HP - High Pressure
-HPC - High Pressure Compressor
-HPT - High Pressure Turbine
-HPTACC - High Pressure Turbine Active Clearance Control
-HS - High Speed
-HSI - Horizontal Situation Indicator
-HSMU - Hydraulic System Monitoring Unit
-HUDC - Head Up Display Computer
-HYD - Hydraulic
-I/O - Input/Output
-I/P - Intercept Profile
-I/P - Input
-IAE - International Aero Engines
-IAS - Indicated Airspeed
-IDENT - Identification, Identifier, Identify
-IDG - Integrated Drive Generator
-IGB - Inlet Gear Box
-IGN - Ignition
-IGV - Inlet Guide Vane
-ILS - Instrument Landing System (LOC and G/S)
-IMM - Immediate
-INB - Inbound
-INBD - Inboard
-INCR - Increment
-IND - Indicator
-INFO - Information
-INHIB - Inhibition, Inhibit, Inhibited
-INIT - Initial(ization)
-INOP - Inoperative
-INR - Inner
-INT - Interrupt
-INTCP - Intercept
-INTFC - Interface
-INTL - Internal
-INTRG - Interrogate, Interrogator
-INV - Inverter
-IP - Intermediate Pressure
-IPC - Illustrated Parts Catalog
-IPPU - Instrumentation Position Pick-off Unit
-IR - Inertial Reference
-IRS - Inertial Reference System
-ISA - International Standard Atmosphere
-ISO - International Standardization Organisation
-ISOL - Isolation
-IVS - Inertial Vertical Speed
-JAM - Jammed, Jamming
-JAR - Joint Airworthiness Requirements
-L - Left
-L - Length
-L/G - Landing Gear
-LA - Linear Accelerometer
-LAT - Lateral
-LAT - Latitude
-LAV - Lavatory
-LBP - Left Bottom Plug
-LCD - Liquid Crystal Display
-LCIT - Load Compressor Inlet Temperature
-LDG - Landing
-LE - Leading Edge
-LED - Light Emitting Diode
-LGCIU - Landing Gear Control and Interface Unit
-LIM - Limit, Limitation, Limiting, Limiter
-LKD - Locked
-LL - Lat/Long
-LLDC - Low Level Direct Current Voltage
-LMP - Left Middle Plug
-LNG - Long
-LMS - Leakage Measurement System
-LO - Low
-LOC - Localizer
-LONG - Longitude
-LONGN - Longeron
-LOP - Low Oil Pressure
-LP - Low Pressure
-LPT - Low Pressure Turbine
-LPTACC - Low Pressure Turbine Active Clearance Control
-LRU - Line Replaceable Unit
-LS - Loudspeaker
-LSB - Least Significant Bit
-LSI - Large Scale Integration
-LT - Light
-LTP - Left Top Plug
-LV - Low Voltage
-LVDT - Linear Variable Differential Transducer
-LVL - Level
-LW - Landing Weight
-LWR - Lower
-MAC - Mean Aerodynamic Chord
-MAG - Magnetic
-MAINT - Maintenance
-MAN - Manual
-MAX - Maximum
-MCDU - Multipurpose Control & Display Unit
-MCL - Maximum Climb
-MCT - Maximum Continuous Thrust
-MCU - Modular Concept Unit
-MDA - Minimum Descent Altitude
-MDDU - Multipurpose Disk Drive Unit
-MECH - Mechanic, Mechanical, Mechanism
-MED - Medium
-MES - Main Engine Start
-MI - Magnetic Indicator
-MIC - Microphone
-MICBAC - Micro-System Bus Access Channel
-MID - Middle
-MIN - Minimum
-MISC - Miscellaneous
-MKR - Marker (radio) Beacon
-MLA - Maneuver Load Alleviation
-MLG - Main Landing Gear
-MLI - Magnetic Level Indicator
-MLS - Microwave Landing System
-MLW - Maximum Design Landing Weight
-MMEL - Master Minimum Equipment List
-MMO - Maximum Operating Mach
-MMR - Multi Mode Receiver
-MODLTR - Modulator
-MON - Monitor, Monitored
-MONG - Monitoring
-MORA - Minimum Off Route Altitude
-MOT - Motor, Motorized
-MPD - Maintenance Planning Document
-MSA - Minimum Safe Altitude
-MSB - Most Significant Bit
-MSG - Message
-MSL - Mean Sea Level
-MSU - Mode Selector Unit (IRS)
-MSW - Microswitch
-MTBF - Mean Time Between Failure
-MTBUR - Mean Time Between Unscheduled Removals
-MTG - Mounting
-MTO - Maximum Take-Off
-MTOGW - Maximum Takeoff Gross Weight
-MU - Management Unit
-MUX - Multiplex, Multiplexer
-MVT - Movement
-MZFW - Maximum Design Zero Fuel Weight
-N - Normal, North
-N/A - Not Applicable
-N/P - Next Page
-N/W - Nose Wheel
-N/WS - Nose Wheel Steering
-NAC - Nacelle
-NAS - Navy and Army Standard
-NAV - Navigation
-NAVAID - Navigation Aid
-NBPT - No Break Power Transfer
-NC - Normally Closed
-NCD - No Computed Data
-ND - Navigation Display
-NDB - Non-Directional Beacon
-NEG - Negative
-NLG - Nose Landing Gear
-NMI - Non Maskable Interrupt
-No - Number
-NO - Normally Open
-NO - Normal Operation in SSM
-NORM - Normal
-NS - No Smoking
-NUM - Numerical
-NVM - Non-Volatile Memory
-N1 - Low Pressure Rotor Speed
-N2 - High Pressure Rotor Speed
-O - Open
-O/P - Output
-OAT - Outside Air Temperature
-OBRM - On Board Replaceable Module
-OC - Open Circuit
-OC - Overcurrent
-OF - Overfrequency
-OFST - Offset
-OFV - Outflow Valve
-OGV - Outlet Guide Vane
-OHU - Optical Head Unit
-OIT - Oil Inlet Temperature
-OK - Correct
-OMS - Onboard Maintenance System
-OOT - Oil Outlet Temperature
-OP - Operational
-OPP - Opposite
-OPS - Operation
-OPT - Optimum
-OPV - Overpressure Valve
-OUTBD - Outboard
-OVBD - Overboard
-OVHD - Overhead
-OVHT - Overheat
-OVLD - Overload
-OVRD - Override
-OVSP - Overspeed
-OXY - Oxygen
-P/B - Pushbutton
-P/BSW - Pushbutton Switch
-PA - Passenger Address
-PATS - Passenger Air-to-Ground Telephone System
-PAX - Passenger
-PC - Pack Controller
-PCB - Printed Circuit Board
-PCM - Pulse Code Modulation
-PCU - Passenger Control Unit
-PCU - Power Control Unit
-PED - Pedestal
-PERF - Performance
-PES - Passenger Entertainment (System)
-PF - Power Factor
-PFD - Primary Flight Display
-PH - Phase
-PHC - Probe Heat Computer
-PIU - Passenger Information Unit
-PMA - Permanent Magnet Alternator
-PMG - Permanent Magnet Generator
-PN - Part Number
-PNL - Panel
-POB - Pressure-Off Brake
-POR - Point of Regulation
-POS - Position
-POT - Potentiometer
-PPOS - Present Position
-PR - Power Ready Relay
-PRAM - Prerecorded Announcement and Music
-PREAMP - Preamplifier
-PRED - Prediction
-PRESEL - Preselector/Preselection
-PRESS - Pressure, Pressurization, Pressurize
-PREV - Previous
-PRIM - Primary
-PROC T - Procedure Turn
-PROF - Profile
-PROG - Progress
-PROM - Programmable Read Only Memory
-PROT - Protection
-PROX - Proximity
-PRR - Power Ready Relay
-PSCU - Proximity Switch Control Unit
-PSDU - Power Supply Decoupling Unit
-PSI - Pound per Square Inch
-PSS - Passenger Services System
-PSU - Passenger Service Unit
-PT - Point
-PTC - Positive Temperature Coefficient
-PTT - Push to Test
-PTT - Push-to-Talk
-PU - Panel Unit
-PVI - Paravisual Indicating
-PVIS - Passenger Visual Information System
-PWR - Power
-Q - Pitch Rate
-QAD - Quick-Attach-Detach
-QAR - Quick Access Recorder
-QAT - Quadruple ARINC Transmitter
-QEC - Quick Engine Change
-QFE - Field Elevation Atmospheric Pressure
-QFU - Runway Heading
-QNE - Sea Level Standard Atmosphere Pressure
-QNH - Sea Level Atmospheric Pressure
-QTY - Quantity
-R - Red
-R - Right
-R/I - Radio/Inertial
-RA - Radio Altimeter, Radio Altitude
-RAC - Rotor Active Clearance
-RACC - Rotor Active Clearance Control
-RACSB - Rotor Active Clearance Start Bleed
-RAD - Radio
-RAM - Random Access Memory
-RAT - Ram Air Turbine
-RBP - Right Bottom Plug
-RC - Repetitive Chime
-RCC - Remote Charge Converter
-RCCB - Remote Control Circuit Breaker
-RCDR - Recorder
-RCL - Recall
-RCPT - Receptacle
-RCPTN - Reception
-RCVR - Receiver
-RECIRC - Recirculate, Recirculation
-RECT - Rectifier
-RED - Reduction
-REF - Reference
-REFUEL - Refueling
-REG - Regulator
-REGUL - Regulation
-REL - Release
-RES - Resistance
-RET - Return
-REV - Reverse
-REV - Revise, Revision
-RF - Radio Frequency
-RLA - Reverser Lever Angle
-RLS - Remote Light Sensor
-RLY - Relay
-RMP - Radio Management Panel
-RNG - Range
-ROM - Read Only Memory
-RPCU - Residual Pressure Control Unit
-RPLNT - Repellent
-RPM - Revolution per Minute
-RQRD - Required
-RST - Reset
-RSV - Reserve
-RSVR - Reservoir
-RTE - Route
-RTN - Return
-RTP - Right Top Plug
-RTS - Return to Seat
-RTOK - Retest OK
-RUD - Rudder
-RVDT - Rotary Variable Differential Transducer
-RVR - Runway Visual Range
-RWY - Runway
-S - South
-S/C - Step Climb
-S/D - Step Descent
-SAF - Safety
-SAT - Static Air Temperature
-SC - Single Chime
-SD - System Display
-SDAC - System Data Acquisition Concentrator
-SDCU - Smoke Detection Control Unit
-SDN - System Description Note
-SEB - Seat Electronic Box
-SEC - Secondary
-SEL - Select, Selected, Selector, Selection
-SELCAL - Selective Calling System
-SFCC - Slat Flap Control Computer
-SH ABS - Shock Absorber
-SHED - Shedding
-SHT - Short
-SIC - System Isolation Contactor
-SID - Standard Instrument Departure
-SIG - Signal
-SLT - Slat
-SMK - Smoke
-SN - Serial Number
-SOL - Solenoid
-SOV - Shut-Off Valve
-SPD - Speed
-SPLY - Supply
-SQ - Squelch
-SRU - Shop Replaceable Unit
-SSB - Single Side Band
-SSEC - Static Source Error Correction
-SSM - Sign Status Matrix
-SSTU - Side Stick Transducer Unit
-STA - Station
-STAB - Stabilizer
-STAR - Standard Terminal Arrival Route
-STAT - Static
-STBY - Standby
-STD - Standard
-STGR - Stringer
-STS - Status
-SVCE - Service
-SW - Switch
-SWTG - Switching
-SYNTHR - Synthetizer
-SYS - System
-T - True, Turn
-T/C - Top of Climb
-T/D - Top of Descent
-T/R - Thrust Reverser
-T-P - Turn Point
-TACT - Tactical
-TAS - True Airspeed
-TAT - Total Air Temperature
-TBC - To Be Confirmed
-TBD - To be Determined
-TCAS - Traffic Alert and Collision Avoidance System
-T2CAS - Traffic and Terrain Collision Avoidance System
-TCC - Turbine Case Cooling
-TDS - Technical Data Sheet
-TE - Trailing Edge
-TEC - Turbine Exhaust Case
-TEMP - Temperature
-TFU - Technical Follow-Up
-TGT - Target
-THR - Thrust
-THRM - Thermal
-THS - Trimmable Horizontal Stabilizer
-TIT - Turbine Inlet Temperature
-TK - Tank
-TKE - Track Angle Error
-TLA - Throttle Lever Angle
-TLU - Travel Limitation Unit
-TMR - Timer
-TO - Takeoff
-TOGW - Takeoff Gross Weight
-TOT - Total
-TPIC - Tire Pressure Indicating Computer
-TPIS - Tire Pressure Indicating System
-TR - Transformer Rectifier
-TRA - Throttle Resolver Angle
-TRANS - Transition
-TRDV - Thrust Reverser Directional Valve
-TRF - Turbine Rear Frame
-TRIG - Trigger
-TRK - Track (angle)
-TROPO - Tropopause
-TRPV - Thrust Reverser Pressurizing Valve
-TRV - Travel
-TSM - Trouble Shooting Manual
-TTG - Time to Go
-TTL - Transistor Transistor Logic
-TTS - Trim Tank System
-TURB - Turbulent, Turbulence
-UF - Underfrequency
-UHF - Ultra High Frequency
-UNLK - Unlock
-UNLKD - Unlocked, Unlocking
-UNSD - UNUSED
-UPR - Upper
-UTC - Universal Time Coordinated
-UV - Under Voltage
-V/S - Vertical Speed
-Vc - Calibrated Airspeed
-VAC - Voltage Alternating Current
-VAR - Variable, Variation
-VBV - Variable Bleed Valve
-VC - Ventilation Controller
-VCO - Voltage Controlled Oscillator
-VCU - Video Control Unit
-VDC - Voltage Direct Current
-VDEV - Vertical Deviation
-VEL - Velocity
-VENT - Ventilation
-VERT - Vertical
-VFE - Maximum Flat Extended Speed
-VFTO - Final Takeoff Speed
-VHF - Very High Frequency
-VHV - Very High Voltage
-VIB - Vibration
-VLE - Maximum Landing Gear Extended Speed
-VLO - Maximum Landing Gear Operating Speed
-VLS - Lower Selectable Speed
-VM - Voltmeter
-VMAX - Maximum Allowable Airspeed
-VMO - Maximum Operating Speed
-VOR - VHF Omnidirectional Range
-VOR.D - VOR-DME
-VR - Rotation Speed
-VRMS - Volt Root Mean Square
-VRS - V2500 Repair Scheme
-VSC - Vacuum System Controller
-VSCF - Variable Speed Constant Frequency
-VSV - Variable Stator Vane
-VSWR - Voltage Standing Wave Ratio
-V1 - Critical Engine Failure Speed
-V2 - Takeoff Safety Speed
-V3 - Flap Retraction Speed
-V4 - Slat Retraction Speed
-W - Weight
-W - White
-WARN - Warning
-WBC - Weight & Balance Computer
-WBS - Weight and Balance System
-WD - Warning Display
-WHC - Window Heat Computer
-WHL - Wheel
-WIPCU - Water Ice Protection Control Unit
-WIPDU - Water Ice Protection Data Unit
-WPT - Waypoint
-WTB - Wing Tip Brake
-WXR - Weather Radar
-X FEED - Crossfeed
-X-TALK - Cross-Talk
-XCVR - Transceiver
-XDCR - Transducer
-XFMR - Transformer
-XFR - Transfer
-XMSN - Transmission
-XMTR - Transmitter
-XPDR - Transponder
-Y - Yellow
-Z - Zone
-ZFCG - Zero Fuel Center of Gravity
-ZFW - Zero Fuel Weight
-3D - Three Dimensional (Lat, Long, Alt)
-4D - Four Dimensional (Lat, Long, Alt, Time)
-`;
-
-// Build searchable flat array for global search
-const ACRONYM_ITEMS = RAW_ACRONYMS.trim().split('\n').map(line => {
-    const idx = line.indexOf(' - ');
-    const code = idx > -1 ? line.slice(0, idx).trim() : line.trim();
-    const title = idx > -1 ? line.slice(idx + 3).trim() : '';
-    return {
-        mod: 'acronyms',
-        code: code,
-        title: title,
-        tag: 'Acronym',
-        source: 'airbus/Acronyms/acronyms.html',
-        detail: `${code} — ${title}`
-    };
-});
-
-const RESET_FAULT_ITEMS = [];
-RESET_CHAPTERS.forEach(ch => {
-    ch.faults.forEach(f => {
-        RESET_FAULT_ITEMS.push({
-            mod: 'resets',
-            ata: ch.ata,
-            code: `ATA ${ch.ata}`,
-            title: f.name,
-            tag: `Chapter ${ch.ata}`,
-            source: `airbus/${f.file}`,
-            detail: `System: ${ch.header} (ATA ${ch.ata})\nFault / Reset Topic: ${f.name}\n\n[Reset procedure & C/B details ready for subpage data: airbus/${f.file}]`
-        });
-    });
-});
-
-const ALL_SEARCHABLE = [...RESET_FAULT_ITEMS, ...OTHER_ITEMS, ...ACRONYM_ITEMS];
-
-// =========================================================================
-// 5. View & Navigation Logic
-// =========================================================================
 let activeModule = null;
 let activeAtaChapter = null;
 let activeLetter = 'ALL';
 
 function initApp() {
+    if (!window.TECH_DATA) {
+        document.getElementById('homeView').innerHTML = '<p style="color:red;padding:20px;">Error: resets-data.js not loaded. Make sure both files are in the same folder.</p>';
+        return;
+    }
+    const { MODULES, RESET_CHAPTERS, RESET_FAULTS, OTHER_ITEMS, ACRONYMS } = window.TECH_DATA;
     const grid = document.getElementById('moduleGrid');
     grid.innerHTML = MODULES.map(m => {
         let countLabel = '';
-        if (m.id === 'resets') countLabel = `${RESET_CHAPTERS.length} ATA / ${RESET_FAULT_ITEMS.length} Faults`;
-        else if (m.id === 'acronyms') countLabel = `${ACRONYM_ITEMS.length} Terms`;
+        if (m.id === 'resets') countLabel = `${RESET_CHAPTERS.length} ATA / ${RESET_FAULTS.length} Procedures`;
+        else if (m.id === 'acronyms') countLabel = `${ACRONYMS.length} Terms`;
         else countLabel = `${OTHER_ITEMS.filter(i => i.mod === m.id).length} Items`;
 
         return `
@@ -1622,14 +336,20 @@ function initApp() {
     }).join('');
 }
 
+function switchView(viewName) {
+    document.getElementById('homeView').style.display = viewName === 'home' ? 'block' : 'none';
+    document.getElementById('listView').style.display = viewName === 'list' ? 'block' : 'none';
+    document.getElementById('detailView').style.display = viewName === 'detail' ? 'block' : 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function goHome() {
     activeModule = null;
     activeAtaChapter = null;
     activeLetter = 'ALL';
     document.getElementById('searchInput').value = '';
     document.getElementById('clearBtn').style.display = 'none';
-    document.getElementById('homeView').style.display = 'block';
-    document.getElementById('listView').style.display = 'none';
+    switchView('home');
 }
 
 function openModule(modId) {
@@ -1639,51 +359,143 @@ function openModule(modId) {
     document.getElementById('searchInput').value = '';
     document.getElementById('clearBtn').style.display = 'none';
 
+    const { MODULES, RESET_CHAPTERS, OTHER_ITEMS } = window.TECH_DATA;
     const modInfo = MODULES.find(m => m.id === modId);
     document.getElementById('viewTitle').textContent = `${modInfo.icon} ${modInfo.title}`;
     document.getElementById('navActions').innerHTML = `<button class="btn-back" onclick="goHome()">320 Home</button>`;
 
-    document.getElementById('homeView').style.display = 'none';
-    document.getElementById('listView').style.display = 'block';
-
+    switchView('list');
     const alphaBar = document.getElementById('alphaFilter');
+
     if (modId === 'acronyms') {
         alphaBar.style.display = 'flex';
         renderAlphaBar();
         renderAcronymList();
     } else if (modId === 'resets') {
         alphaBar.style.display = 'none';
-        renderResetChapters();
+        document.getElementById('itemsContainer').innerHTML = RESET_CHAPTERS.map(ch => `
+            <div class="list-item" onclick="openAtaChapter('${ch.ata}')">
+                <div class="item-left">
+                    <span class="item-code">ATA ${ch.ata}</span>
+                    <span class="item-name">${ch.title}</span>
+                </div>
+                <span class="item-badge">${ch.count} Items →</span>
+            </div>
+        `).join('');
     } else {
         alphaBar.style.display = 'none';
-        renderItemList(OTHER_ITEMS.filter(i => i.mod === modId));
+        renderGenericList(OTHER_ITEMS.filter(i => i.mod === modId));
     }
-}
-
-function renderResetChapters() {
-    const container = document.getElementById('itemsContainer');
-    container.innerHTML = RESET_CHAPTERS.map(ch => `
-        <div class="list-item" onclick="openAtaChapter('${ch.ata}')">
-            <div class="item-left">
-                <span class="item-code">ATA ${ch.ata}</span>
-                <span class="item-name">${ch.title}</span>
-            </div>
-            <span class="item-badge">${ch.faults.length} Items →</span>
-        </div>
-    `).join('');
 }
 
 function openAtaChapter(ata) {
     activeAtaChapter = ata;
+    const { RESET_CHAPTERS, RESET_FAULTS } = window.TECH_DATA;
     const ch = RESET_CHAPTERS.find(c => c.ata === ata);
     document.getElementById('viewTitle').textContent = `Chapter ${ch.ata} — ${ch.header}`;
     document.getElementById('navActions').innerHTML = `
         <button class="btn-back" onclick="openModule('resets')">ATA List</button>
         <button class="btn-back" onclick="goHome()">320 Home</button>
     `;
+    switchView('list');
+    const items = RESET_FAULTS.filter(f => f.ata === ata);
+    renderResetFaultList(items);
+}
 
-    const chapterItems = RESET_FAULT_ITEMS.filter(i => i.ata === ata);
-    renderItemList(chapterItems);
+function renderResetFaultList(items) {
+    const container = document.getElementById('itemsContainer');
+    container.innerHTML = items.map(item => {
+        const idx = window.TECH_DATA.RESET_FAULTS.indexOf(item);
+        const statusBadge = item.archived
+            ? `<span class="item-badge badge-ok">Chapter ${item.ata} ✓</span>`
+            : `<span class="item-badge">Chapter ${item.ata}</span>`;
+        return `
+            <div class="list-item" onclick="openResetDetail(${idx})">
+                <div class="item-left">
+                    <span class="item-code">ATA ${item.ata}</span>
+                    <span class="item-name">${item.title}</span>
+                </div>
+                ${statusBadge}
+            </div>
+        `;
+    }).join('');
+}
+
+function openResetDetail(idx) {
+    const item = window.TECH_DATA.RESET_FAULTS[idx];
+    document.getElementById('detailBreadcrumb').textContent = `320 Reset — Chapter ${item.ata}`;
+    document.getElementById('detailNavActions').innerHTML = `
+        <button class="btn-back" onclick="openAtaChapter('${item.ata}')">Chapter ${item.ata}</button>
+        <button class="btn-back" onclick="openModule('resets')">ATA List</button>
+        <button class="btn-back" onclick="goHome()">320 Home</button>
+    `;
+
+    let cbHtml = '';
+    if (item.cbs && item.cbs.length > 0) {
+        const headers = item.cbHeaders || ['LABEL', 'PANEL', 'NUMBER'];
+        cbHtml = `
+            <div class="cb-table-wrap">
+                <table class="cb-table">
+                    <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+                    <tbody>
+                        ${item.cbs.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    } else {
+        cbHtml = `<div class="field-text">✓ ${item.cbText || 'None'}</div>`;
+    }
+
+    const html = `
+        <div class="detail-card">
+            <div class="detail-graytitle">${item.title}</div>
+
+            <div class="field-block">
+                <div class="field-header">Aircraft configuration prior to reset:</div>
+                <div class="field-text">✓ ${item.config || 'No specific.'}</div>
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Circuit breakers to reset:</div>
+                ${cbHtml}
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Steps to clear warning:</div>
+                <div class="field-text">✓ ${item.steps || 'See AMM / TSM reference.'}</div>
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Reset duration:</div>
+                <div class="field-text">✓ ${item.duration || 'N/A'}</div>
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Results of power up test or reset:</div>
+                <div class="pass-line">Pass: ${item.pass || 'Fault clears.'}</div>
+                <div class="fail-line">Fail: ${item.fail || 'Fault remains.'}</div>
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Notes:</div>
+                <div class="field-text">✓ ${item.notes || 'No notes at this time.'}</div>
+            </div>
+
+            <div class="field-block">
+                <div class="field-header">Sign off:</div>
+                <div class="bold-line">${item.signoff || 'N/A'}</div>
+            </div>
+
+            <div class="field-block" style="margin-bottom:0;">
+                <div class="field-header">Applicable deferrals:</div>
+                <div class="bold-line">${item.mel || 'No MEL'}</div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('detailContent').innerHTML = html;
+    switchView('detail');
 }
 
 function renderAlphaBar() {
@@ -1700,7 +512,7 @@ function filterByLetter(letter) {
 }
 
 function renderAcronymList() {
-    let items = ACRONYM_ITEMS;
+    let items = window.TECH_DATA.ACRONYMS;
     if (activeLetter !== 'ALL') {
         items = items.filter(i => {
             const first = i.code.charAt(0).toUpperCase();
@@ -1708,7 +520,25 @@ function renderAcronymList() {
             return first === activeLetter;
         });
     }
-    renderItemList(items);
+    renderGenericList(items);
+}
+
+function renderGenericList(items) {
+    const container = document.getElementById('itemsContainer');
+    if (items.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">No matching items found.</div>`;
+        return;
+    }
+    container.innerHTML = items.map(item => `
+        <div class="list-item" style="cursor:default;">
+            <div class="item-left">
+                <span class="item-code">${item.code}</span>
+                <span class="item-name">${item.title}</span>
+                ${item.detail ? `<span style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">${item.detail}</span>` : ''}
+            </div>
+            <span class="item-badge">${item.tag}</span>
+        </div>
+    `).join('');
 }
 
 function onSearch() {
@@ -1722,58 +552,51 @@ function onSearch() {
         return;
     }
 
-    document.getElementById('homeView').style.display = 'none';
-    document.getElementById('listView').style.display = 'block';
+    switchView('list');
     document.getElementById('alphaFilter').style.display = 'none';
     document.getElementById('viewTitle').textContent = `🔍 Search Results: "${q}"`;
     document.getElementById('navActions').innerHTML = `<button class="btn-back" onclick="goHome()">320 Home</button>`;
 
-    const matches = ALL_SEARCHABLE.filter(i =>
-        i.code.toLowerCase().includes(q) ||
-        i.title.toLowerCase().includes(q) ||
-        i.detail.toLowerCase().includes(q)
-    );
-    renderItemList(matches);
+    const { RESET_FAULTS, OTHER_ITEMS, ACRONYMS } = window.TECH_DATA;
+    const container = document.getElementById('itemsContainer');
+    let html = '';
+
+    RESET_FAULTS.forEach((f, idx) => {
+        const hay = `${f.ata} ${f.title} ${f.config} ${f.steps} ${f.notes} ${f.signoff} ${f.mel} ${JSON.stringify(f.cbs || '')}`.toLowerCase();
+        if (hay.includes(q)) {
+            html += `
+                <div class="list-item" onclick="openResetDetail(${idx})">
+                    <div class="item-left">
+                        <span class="item-code">ATA ${f.ata} — RESET</span>
+                        <span class="item-name">${f.title}</span>
+                    </div>
+                    <span class="item-badge badge-ok">View Procedure →</span>
+                </div>
+            `;
+        }
+    });
+
+    [...OTHER_ITEMS, ...ACRONYMS].forEach(item => {
+        const hay = `${item.code} ${item.title} ${item.detail || ''}`.toLowerCase();
+        if (hay.includes(q)) {
+            html += `
+                <div class="list-item" style="cursor:default;">
+                    <div class="item-left">
+                        <span class="item-code">${item.code}</span>
+                        <span class="item-name">${item.title}</span>
+                    </div>
+                    <span class="item-badge">${item.tag}</span>
+                </div>
+            `;
+        }
+    });
+
+    container.innerHTML = html || `<div style="text-align:center; padding:40px; color:var(--text-muted);">No matching items found.</div>`;
 }
 
 function clearSearch() {
     document.getElementById('searchInput').value = '';
     onSearch();
-}
-
-function renderItemList(items) {
-    const container = document.getElementById('itemsContainer');
-    if (items.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">No matching items found.</div>`;
-        return;
-    }
-    container.innerHTML = items.map(item => {
-        const idx = ALL_SEARCHABLE.indexOf(item);
-        return `
-            <div class="list-item" onclick="showDetail(${idx})">
-                <div class="item-left">
-                    <span class="item-code">${item.code}</span>
-                    <span class="item-name">${item.title}</span>
-                </div>
-                <span class="item-badge">${item.tag}</span>
-            </div>
-        `;
-    }).join('');
-}
-
-function showDetail(index) {
-    const item = ALL_SEARCHABLE[index];
-    document.getElementById('mCode').textContent = item.code;
-    document.getElementById('mTitle').textContent = item.title;
-    document.getElementById('mDesc').textContent = item.detail;
-    document.getElementById('mPath').textContent = `Archive Source Path: ${item.source}`;
-    document.getElementById('modal').classList.add('show');
-}
-
-function closeModal(e) {
-    if (!e || e.target.id === 'modal') {
-        document.getElementById('modal').classList.remove('show');
-    }
 }
 
 function toggleTheme() {
