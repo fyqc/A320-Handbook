@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Airbus 机务快速参考手册 (Tech Reference)</title>
+    <title>Airbus A320/A321 Mobile Tech Reference</title>
     <style>
         :root {
             --primary: #00205b;       /* Airbus 经典深蓝 */
             --secondary: #0072ce;     /* 航空亮蓝 */
-            --accent: #e4002b;        /* 警戒/MEL 提示红 */
-            --bg-body: #f4f6f9;
+            --accent: #e4002b;        /* 警戒红 */
+            --bg-body: #f1f5f9;
             --bg-card: #ffffff;
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --shadow: 0 2px 8px rgba(0, 32, 91, 0.08);
+            --shadow: 0 2px 6px rgba(0, 32, 91, 0.06);
         }
 
         [data-theme="dark"] {
-            --primary: #1e3a8a;
+            --primary: #0f172a;
             --secondary: #38bdf8;
-            --bg-body: #0f172a;
+            --bg-body: #090d16;
             --bg-card: #1e293b;
-            --text-main: #f1f5f9;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #334155;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -34,42 +34,48 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.5;
-            padding-bottom: 60px;
+            padding-bottom: 50px;
             transition: background-color 0.2s, color 0.2s;
         }
 
-        /* 顶部导航栏 */
+        /* 顶部导航 */
         header {
             background-color: var(--primary);
             color: #fff;
-            padding: 14px 16px;
+            padding: 12px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
-        .badge { background: var(--secondary); font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+        .header-left { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .header-title { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.4px; }
+        .badge { background: var(--secondary); color: #fff; font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
         .theme-btn {
-            background: rgba(255,255,255,0.15); border: none; color: #fff;
-            padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: #fff;
+            padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
         }
 
-        /* 全局搜索框 */
-        .search-container {
-            padding: 12px 16px;
+        /* 全局搜索栏 */
+        .search-bar {
             background: var(--bg-card);
+            padding: 10px 16px;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
-            top: 52px;
+            top: 48px;
             z-index: 90;
+        }
+        .search-box {
+            max-width: 820px;
+            margin: 0 auto;
+            position: relative;
         }
         .search-input {
             width: 100%;
-            padding: 10px 14px;
+            padding: 10px 36px 10px 14px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 0.95rem;
@@ -78,371 +84,1312 @@
             outline: none;
         }
         .search-input:focus { border-color: var(--secondary); }
-
-        /* 主容器 */
-        .container { max-width: 800px; margin: 0 auto; padding: 16px; }
-
-        /* 首页九宫格模块入口（还原原站 thumbs 图标菜单） */
-        .grid-menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+        .clear-search {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: var(--text-muted); font-size: 1.1rem;
+            cursor: pointer; display: none;
         }
-        .menu-card {
+
+        .container { max-width: 820px; margin: 0 auto; padding: 16px; }
+
+        /* 首页 7 大核心模块（严格还原 airbusHome.php） */
+        .home-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow);
+        }
+        .home-banner h2 { font-size: 1rem; margin-bottom: 4px; color: var(--secondary); }
+        .home-banner p { font-size: 0.82rem; color: var(--text-muted); }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .module-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             padding: 16px 12px;
-            text-align: center;
             cursor: pointer;
             box-shadow: var(--shadow);
-            transition: transform 0.15s, border-color 0.15s;
+            transition: transform 0.12s, border-color 0.15s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            text-align: center;
+            gap: 6px;
         }
-        .menu-card:active { transform: scale(0.97); }
-        .menu-card.active { border: 2px solid var(--secondary); background: rgba(0, 114, 206, 0.05); }
-        .menu-icon { font-size: 1.8rem; }
-        .menu-label { font-weight: 600; font-size: 0.9rem; }
-        .menu-sub { font-size: 0.75rem; color: var(--text-muted); }
+        .module-card:hover { border-color: var(--secondary); transform: translateY(-2px); }
+        .module-icon { font-size: 1.8rem; }
+        .module-title { font-weight: 700; font-size: 0.92rem; }
+        .module-count { font-size: 0.74rem; color: var(--text-muted); background: var(--bg-body); padding: 2px 8px; border-radius: 10px; }
 
-        /* 列表展示区 */
-        .section-header {
+        /* 列表头部与返回按钮 */
+        .view-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
-            padding-bottom: 6px;
+            padding-bottom: 8px;
             border-bottom: 2px solid var(--secondary);
         }
-        .section-title { font-size: 1.05rem; font-weight: 700; color: var(--secondary); }
-        .back-btn {
+        .view-title { font-size: 1.05rem; font-weight: 700; color: var(--secondary); }
+        .btn-back {
             background: var(--bg-card); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 4px 10px; border-radius: 6px;
-            font-size: 0.85rem; cursor: pointer;
+            color: var(--text-main); padding: 5px 12px; border-radius: 6px;
+            font-size: 0.85rem; cursor: pointer; font-weight: 600;
         }
 
-        .item-list { display: flex; flex-direction: column; gap: 10px; }
-        .list-card {
+        /* 字母快捷索引条（专用于 Acronyms） */
+        .alpha-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 12px;
+            background: var(--bg-card);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .alpha-btn {
+            padding: 4px 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-main);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .alpha-btn.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+
+        /* 列表项卡片 */
+        .list-group { display: flex; flex-direction: column; gap: 8px; }
+        .list-item {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 12px 14px;
-            cursor: pointer;
             box-shadow: var(--shadow);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            cursor: pointer;
         }
-        .list-card:hover { border-color: var(--secondary); }
-        .item-code {
-            font-family: monospace; font-weight: 700; font-size: 0.95rem;
-            color: var(--secondary); margin-right: 8px;
-        }
-        .item-title { font-weight: 600; font-size: 0.95rem; }
-        .item-tag {
-            font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;
-            background: var(--bg-body); color: var(--text-muted); white-space: nowrap;
+        .list-item:hover { border-color: var(--secondary); }
+        .item-left { display: flex; flex-direction: column; gap: 2px; }
+        .item-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; color: var(--secondary); font-size: 0.95rem; }
+        .item-name { font-size: 0.9rem; color: var(--text-main); }
+        .item-badge {
+            font-size: 0.72rem; padding: 3px 8px; border-radius: 6px;
+            background: var(--bg-body); color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
         }
 
-        /* 详情弹窗 (Modal) */
-        .modal-overlay {
+        /* 详情弹窗 */
+        .modal-backdrop {
             position: fixed; inset: 0; background: rgba(0,0,0,0.6);
             display: none; justify-content: center; align-items: flex-end; z-index: 200;
         }
-        .modal-overlay.open { display: flex; }
-        .modal-content {
-            background: var(--bg-card);
-            width: 100%; max-width: 800px; max-height: 85vh;
-            border-radius: 16px 16px 0 0;
-            padding: 20px;
-            overflow-y: auto;
-            animation: slideUp 0.2s ease-out;
+        .modal-backdrop.show { display: flex; }
+        .modal-box {
+            background: var(--bg-card); width: 100%; max-width: 760px; max-height: 85vh;
+            border-radius: 16px 16px 0 0; padding: 20px; overflow-y: auto;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
         }
-        @media (min-width: 600px) {
-            .modal-overlay { align-items: center; }
-            .modal-content { border-radius: 12px; width: 90%; }
+        @media (min-width: 640px) {
+            .modal-backdrop { align-items: center; }
+            .modal-box { border-radius: 12px; width: 92%; }
         }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 12px; }
+        .modal-close { background: none; border: none; font-size: 1.6rem; color: var(--text-muted); cursor: pointer; line-height: 1; }
+        .modal-body { font-size: 0.94rem; white-space: pre-line; line-height: 1.6; }
+        .ref-tag {
+            margin-top: 14px; padding: 10px 12px; border-left: 4px solid var(--secondary);
+            background: rgba(0, 114, 206, 0.08); font-size: 0.84rem; border-radius: 0 6px 6px 0;
+        }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .modal-close { background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1; }
-        .modal-body { font-size: 0.92rem; white-space: pre-line; }
-        .warning-box {
-            margin-top: 12px; padding: 10px; border-left: 4px solid var(--accent);
-            background: rgba(228, 0, 43, 0.08); font-size: 0.85rem; border-radius: 0 6px 6px 0;
+        footer {
+            text-align: center; margin-top: 32px; padding: 16px;
+            font-size: 0.78rem; color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
         }
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+        footer strong { color: var(--accent); }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-title">
-        <span>✈️ AIRBUS TECH REF</span>
-        <span class="badge">A320 / A330</span>
+    <div class="header-left" onclick="goHome()">
+        <span class="header-title">✈️ A320 / A321 Mobile Tech</span>
+        <span class="badge">OFFLINE REF</span>
     </div>
-    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 夜间模式</button>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 夜间模式</button>
 </header>
 
-<div class="search-container">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 搜索 ATA 章节、MEL 条目、缩写 (如: PACK, 21, XFR, Reset)..." oninput="handleSearch()">
+<div class="search-bar">
+    <div class="search-box">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 全局搜索：输入缩略语 (如 FADEC, BSCU)、ATA 章节 (如 21, 32) 或程序..." oninput="onSearch()">
+        <button class="clear-search" id="clearBtn" onclick="clearSearch()">✕</button>
+    </div>
 </div>
 
 <div class="container">
-    <!-- 模块导航网格（对应原站 airbusHome.php 的全部核心分类） -->
-    <div id="homeGrid" class="grid-menu"></div>
-
-    <!-- 内容列表区域 -->
-    <div id="contentArea" style="display: none;">
-        <div class="section-header">
-            <span class="section-title" id="currentCategoryTitle">分类列表</span>
-            <button class="back-btn" onclick="showHome()">← 返回主菜单</button>
+    <!-- 首页 7 大核心板块 -->
+    <div id="homeView">
+        <div class="home-banner">
+            <h2>320 Home Page — 机务快速参考导航</h2>
+            <p>已完整迁移原 Mobile Airlinetechs 架构及全量 480+ 条 Airbus 缩略语词典。点击下方模块或直接使用顶部搜索。</p>
         </div>
-        <div id="itemList" class="item-list"></div>
+        <div class="menu-grid" id="moduleGrid"></div>
     </div>
+
+    <!-- 模块列表视图 -->
+    <div id="listView" style="display: none;">
+        <div class="view-header">
+            <span class="view-title" id="viewTitle">模块列表</span>
+            <button class="btn-back" onclick="goHome()">← 返回 320 Home</button>
+        </div>
+        <div id="alphaFilter" class="alpha-bar" style="display: none;"></div>
+        <div id="itemsContainer" class="list-group"></div>
+    </div>
+
+    <footer>
+        <p>Original Architecture & Data Reference: Mobile Airlinetechs (Tobin Miklas)</p>
+        <p style="margin-top: 4px;">This is for <strong>REFERENCE & TRAINING ONLY</strong>. Not approved maintenance data.</p>
+    </footer>
 </div>
 
-<!-- 详情查看弹窗 -->
-<div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-header">
+<!-- 详情弹窗 -->
+<div class="modal-backdrop" id="modal" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-top">
             <div>
-                <span class="item-code" id="modalCode"></span>
-                <h3 id="modalTitle" style="margin-top: 4px;"></h3>
+                <div class="item-code" id="mCode"></div>
+                <h3 id="mTitle" style="margin-top: 4px;"></h3>
             </div>
             <button class="modal-close" onclick="closeModal()">×</button>
         </div>
-        <div class="modal-body" id="modalDesc"></div>
-        <div class="warning-box" id="modalNote" style="display: none;"></div>
+        <div class="modal-body" id="mDesc"></div>
+        <div class="ref-tag" id="mPath"></div>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // 1. 模块分类定义（完全对应原网页架构）
-    // ==========================================
-    const CATEGORIES = [
-        { id: 'ata', name: 'ATA Chapters', sub: '系统章节目录', icon: '📘' },
-        { id: 'mel', name: 'MEL Reference', sub: '最低设备清单', icon: '⚠️' },
-        { id: 'reset', name: 'System Resets', sub: '计算机复位指南', icon: '🔄' },
-        { id: 'acronyms', name: 'Acronyms', sub: '机务缩略语词典', icon: '🔤' },
-        { id: 'fuel', name: 'Fuel Transfer', sub: '燃油交输与操作', icon: '⛽' },
-        { id: 'lights', name: 'Exterior/Int Lights', sub: '灯光系统索引', icon: '💡' },
-        { id: 'locations', name: 'Component Locations', sub: '部件与跳开关位置', icon: '📍' },
-        { id: 'callups', name: 'ECAM / Callups', sub: '警告与口令参考', icon: '📢' }
-    ];
+// =========================================================================
+// 1. 7 大核心模块定义（完全对应 airbusHome.php.html）
+// =========================================================================
+const MODULES = [
+    { id: 'acronyms', title: 'Airbus Acronyms', icon: '🔤', desc: '全量缩略语词典' },
+    { id: 'resets', title: 'Resets (ATA List)', icon: '🔄', desc: '23 个系统复位章节' },
+    { id: 'mel', title: 'Airbus 320 MEL List', icon: '⚠️', desc: '29 个 MEL 章节目录' },
+    { id: 'fuel', title: '321 Fuel Transfer', icon: '⛽', desc: '5 项燃油交输程序' },
+    { id: 'locations', title: 'Locations', icon: '📍', desc: '跳开关与电子舱位置' },
+    { id: 'lights', title: 'Light Bulb Part Numbers', icon: '💡', desc: '4 大区域灯光件号索引' },
+    { id: 'callups', title: 'Alpha Call Up Menu', icon: '📢', desc: 'AIDS 监控参数呼叫' }
+];
 
-    // ==========================================
-    // 2. 示例数据库（你可将抓取的本地 HTML 内容整理填入此处）
-    // ==========================================
-    const HANDBOOK_DATA = [
-        {
-            category: 'ata',
-            code: 'ATA 21',
-            title: 'Air Conditioning (空调与增压系统)',
-            tag: 'ATA System',
-            desc: '包含组件控制器(Pack Controller)、区域控制器(Zone Controller)、客舱压力控制器(CPC)及电子舱通风(AEVC)。\n\n常见检查点：\n• Pack Flow Control Valve (流量控制活门)\n• Trim Air Valve (配平空气活门)\n• Outflow Valve (外流活门)',
-            note: '进行气源或空调测试前，确认地面气源车压力稳定在 35-45 PSI。'
-        },
-        {
-            category: 'ata',
-            code: 'ATA 24',
-            title: 'Electrical Power (电源系统)',
-            tag: 'ATA System',
-            desc: '涵盖 IDG（整体驱动发电机）、APU 发电机、TRU（变压整流器）、电瓶(BAT 1/2)及静变流机(Static Inv)。',
-            note: '断开 IDG 脱开电门前，发动机必须处于慢车或关车状态，严禁在地面未运转时按下超过3秒。'
-        },
-        {
-            category: 'mel',
-            code: 'MEL 21-51-01',
-            title: 'Air Conditioning Pack 1 or 2 (空调组件失效)',
-            tag: 'Cat C',
-            desc: '修复期限：10个日历日。\n\n放行条件：\n1. 另一套空调组件工作正常；\n2. 飞行高度限制在 FL310 以下（视具体构型而定）；\n3. 确认失效组件的流量控制活门关闭。',
-            note: '放行前需执行 OEB/MEL 规定的跳开关拔出与挂牌程序 (C/B Pull & Collar)。'
-        },
-        {
-            category: 'reset',
-            code: 'RESET - ATA 22',
-            title: 'FMGC (飞行管理制导计算机) 复位',
-            tag: 'C/B Reset',
-            desc: '适用故障：MCDU 屏幕卡死、双套 FMGC 数据不同步或导航数据库加载异常。\n\n标准复位步骤：\n1. 确认飞机在地面且处于停机刹车状态；\n2. 拔出对应跳开关（FMGC 1: B02 / FMGC 2: M17）；\n3. 等待至少 10 秒钟；\n4. 重新闭合跳开关，等待约 45 秒完成自检。',
-            note: '严禁在空中或滑行过程中同时复位两部 FMGC！'
-        },
-        {
-            category: 'acronyms',
-            code: 'FADEC',
-            title: 'Full Authority Digital Engine Control',
-            tag: 'Abbreviation',
-            desc: '全权限数字式发动机控制。负责控制发动机的燃油流量、放气活门(VBV/VSV)、点火及反推逻辑。',
-            note: ''
-        },
-        {
-            category: 'acronyms',
-            code: 'BSCU',
-            title: 'Brake and Steering Control Unit',
-            tag: 'Abbreviation',
-            desc: '刹车与转弯控制组件（ATA 32）。控制正常刹车、防滞(Anti-skid)及前轮转弯系统。',
-            note: ''
-        },
-        {
-            category: 'fuel',
-            code: 'XFR - DEFUEL',
-            title: 'Gravity / Suction Defueling & Transfer',
-            tag: 'Fuel Ops',
-            desc: '燃油交输基本步骤：\n1. 打开交输活门 (X-FEED ON)；\n2. 关闭目标油箱的燃油泵 (Target Tank Pumps OFF)；\n3. 保持供油油箱燃油泵开启 (Source Tank Pumps ON)；\n4. 监控 ECAM FUEL 页面油量平衡状态。',
-            note: '操作期间必须有专人监控机翼油箱通气口及油量指示，防止溢油。'
-        },
-        {
-            category: 'lights',
-            code: 'ATA 33-40',
-            title: 'Exterior Lighting (外部灯光位置与规格)',
-            tag: 'Lights',
-            desc: '• Nav & Logo Lights: 翼尖及垂尾\n• Strobe Lights: 翼尖及尾椎（高强度闪光，地面测试注意人员安全）\n• Landing Lights: 左右机翼根部收放式\n• Runway Turnoff / Taxi: 前起落架减震支柱',
-            note: '更换大功率着陆灯或频闪灯前，务必切断对应电源并等待灯具冷却。'
-        },
-        {
-            category: 'locations',
-            code: 'ZONE 120',
-            title: 'Avionics Compartment (电子舱设备架)',
-            tag: 'Location',
-            desc: '包含 80VU / 90VU 计算机架：\n• ADIRU 1/2/3\n• ELAC 1/2, SEC 1/2/3\n• FWC 1/2, SDAC 1/2\n• LGCIU 1/2',
-            note: '进入前电子舱需注意头顶天线及静电防护。'
-        },
-        {
-            category: 'callups',
-            code: 'CALLUP - 31',
-            title: 'ECAM Warning & Memo Logic',
-            tag: 'Callups',
-            desc: 'Level 3 (红警告): 需立即采取行动（如 ENG FIRE, CAB PR EXCESS ALT）。\nLevel 2 (琥珀色警戒): 需机组注意但不必立即动作（如 BLEED, HYD）。\nLevel 1 (琥珀色信息): 仅状态提示，无音响警告。',
-            note: ''
-        }
-    ];
+// =========================================================================
+// 2. 结构化数据（100% 源自你上传的 7 个 HTML 文件）
+// =========================================================================
+const STATIC_ITEMS = [
+    // --- Resets (来自 airbusATA.html) ---
+    { mod: 'resets', code: 'ATA 21', title: 'Air Conditioning & Pressurization', tag: 'Reset Chapter', source: 'airbus/21/Achapter21.html', detail: '空调与增压系统计算机复位指南（包含 Pack Controller、Zone Controller、CPC 1/2、AEVC 等复位步骤及跳开关位置）。\n\n[待补充具体子页面数据：请抓取原站 21/Achapter21.html 填入此处]' },
+    { mod: 'resets', code: 'ATA 22', title: 'Auto Flight', tag: 'Reset Chapter', source: 'airbus/22/Achapter22.html', detail: '自动飞行系统复位指南（包含 FMGC 1/2、FCU、FAC 1/2 等计算机复位步骤）。\n\n[待补充具体子页面数据：请抓取原站 22/Achapter22.html 填入此处]' },
+    { mod: 'resets', code: 'ATA 23', title: 'Communications', tag: 'Reset Chapter', source: 'airbus/23/Achapter23.html', detail: '通讯系统复位指南（包含 CIDS Director 1/2、AMU、RMP 1/2/3、ACP、VHF/HF 收发机等）。' },
+    { mod: 'resets', code: 'ATA 24', title: 'Electrical Power', tag: 'Reset Chapter', source: 'airbus/24/Achapter24.html', detail: '电源系统复位指南（包含 GCU、BCL 1/2、GPCU、ECMU 等）。' },
+    { mod: 'resets', code: 'ATA 25', title: 'Equipment & Furnishings', tag: 'Reset Chapter', source: 'airbus/25/Achapter25.html', detail: '设备与客舱装饰系统复位（包含客舱座椅电源、厨房设备、应急撤离系统相关控制盒）。' },
+    { mod: 'resets', code: 'ATA 26', title: 'Fire Protection', tag: 'Reset Chapter', source: 'airbus/26/Achapter26.html', detail: '防火系统复位指南（包含 FDU 1/2、APU FDU、SDCU 烟雾探测控制组件等）。' },
+    { mod: 'resets', code: 'ATA 27', title: 'Flight Controls', tag: 'Reset Chapter', source: 'airbus/27/Achapter27.html', detail: '飞行控制系统复位指南（包含 ELAC 1/2、SEC 1/2/3、FCDC 1/2、SFCC 1/2 襟缝翼控制计算机等）。' },
+    { mod: 'resets', code: 'ATA 28', title: 'Fuel', tag: 'Reset Chapter', source: 'airbus/28/Achapter28.html', detail: '燃油系统复位指南（包含 FQI 燃油油量指示计算机、FLSCU 油面传感控制组件等）。' },
+    { mod: 'resets', code: 'ATA 29', title: 'Hydraulics', tag: 'Reset Chapter', source: 'airbus/29/Achapter29.html', detail: '液压系统复位指南（包含 HSMU 液压系统监控组件、电动泵及 PTU 控制电路）。' },
+    { mod: 'resets', code: 'ATA 30', title: 'Ice & Rain', tag: 'Reset Chapter', source: 'airbus/30/Achapter30.html', detail: '防冰与排雨系统复位指南（包含 PHC 1/2/3 探头加温计算机、WHC 1/2 风挡加温计算机、WIPCU 等）。' },
+    { mod: 'resets', code: 'ATA 31', title: 'Indications', tag: 'Reset Chapter', source: 'airbus/31/Achapter31.html', detail: '指示与记录系统复位指南（包含 DMC 1/2/3、FWC 1/2、SDAC 1/2、CFDIU、DFDRS/DMU 等）。' },
+    { mod: 'resets', code: 'ATA 32', title: 'Landing Gear', tag: 'Reset Chapter', source: 'airbus/32/Achapter32.html', detail: '起落架系统复位指南（包含 LGCIU 1/2、BSCU 刹车与转弯控制组件、TPIS 胎压指示系统等）。' },
+    { mod: 'resets', code: 'ATA 33', title: 'Lights', tag: 'Reset Chapter', source: 'airbus/33/Achapter33.html', detail: '灯光系统复位指南（包含 EPSU 应急电源组件、客舱灯光控制模块等）。' },
+    { mod: 'resets', code: 'ATA 34', title: 'Navigation', tag: 'Reset Chapter', source: 'airbus/34/Achapter34.html', detail: '导航系统复位指南（包含 ADIRU 1/2/3、RA 1/2、ILS/MMR、TCAS、GPWS/EGPWS、WXR 气象雷达等）。' },
+    { mod: 'resets', code: 'ATA 35', title: 'Oxygen', tag: 'Reset Chapter', source: 'airbus/35/Achapter35.html', detail: '氧气系统复位指南（包含客舱氧气面罩自动脱落控制电路及 TMR 定时器复位）。' },
+    { mod: 'resets', code: 'ATA 36', title: 'Pneumatic Systems', tag: 'Reset Chapter', source: 'airbus/36/Achapter36.html', detail: '气源系统复位指南（包含 BMC 1/2 引气监控计算机复位步骤）。' },
+    { mod: 'resets', code: 'ATA 38', title: 'Water & Waste', tag: 'Reset Chapter', source: 'airbus/38/Achapter38.html', detail: '水与废水系统复位指南（包含 VSC 真空系统控制器、水量指示及马桶冲洗控制组件）。' },
+    { mod: 'resets', code: 'ATA 46', title: 'Information System (ATSU)', tag: 'Reset Chapter', source: 'airbus/46/Achapter46.html', detail: '信息系统复位指南（包含 ATSU 空中交通服务组件、DCDU、打印机等）。' },
+    { mod: 'resets', code: 'ATA 49', title: 'APU', tag: 'Reset Chapter', source: 'airbus/49/Achapter49.html', detail: '辅助动力装置复位指南（包含 ECB 电子控制盒复位及关车冷却要求）。' },
+    { mod: 'resets', code: 'ATA 52', title: 'Doors', tag: 'Reset Chapter', source: 'airbus/52/Achapter52.html', detail: '舱门系统复位指南（包含舱门警告近地电门及滑梯预位指示电路）。' },
+    { mod: 'resets', code: 'ATA 73', title: 'Engine', tag: 'Reset Chapter', source: 'airbus/73/Achapter73.html', detail: '发动机燃油与控制系统复位指南（包含 FADEC / ECU / EEC、EIU 1/2 发动机接口组件等）。' },
+    { mod: 'resets', code: 'ATA 78', title: 'Exhaust (Reversers)', tag: 'Reset Chapter', source: 'airbus/78/Achapter78.html', detail: '排气与反推系统复位指南（反推作动筒锁定及控制电路）。' },
+    { mod: 'resets', code: 'ATA 79', title: 'Engine Oil', tag: 'Reset Chapter', source: 'airbus/79/Achapter79.html', detail: '发动机滑油系统复位指南（滑油量及压力/温度指示传感器电路）。' },
 
-    // ==========================================
-    // 3. 页面渲染与交互逻辑
-    // ==========================================
-    let currentCategory = null;
+    // --- MEL List (来自 MELairbusATA.html) ---
+    { mod: 'mel', code: 'MEL 21', title: 'Air Conditioning & Pressurization', tag: 'MEL Chapter', source: 'airbus/MEL/21.html', detail: 'ATA 21 空调与增压系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 22', title: 'Auto Flight', tag: 'MEL Chapter', source: 'airbus/MEL/22.html', detail: 'ATA 22 自动飞行系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 23', title: 'Communications', tag: 'MEL Chapter', source: 'airbus/MEL/23.html', detail: 'ATA 23 通讯系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 24', title: 'Electrical Power', tag: 'MEL Chapter', source: 'airbus/MEL/24.html', detail: 'ATA 24 电源系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 25', title: 'Equipment & Furnishings', tag: 'MEL Chapter', source: 'airbus/MEL/25.html', detail: 'ATA 25 设备与装饰 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 26', title: 'Fire Protection', tag: 'MEL Chapter', source: 'airbus/MEL/26.html', detail: 'ATA 26 防火系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 27', title: 'Flight Controls', tag: 'MEL Chapter', source: 'airbus/MEL/27.html', detail: 'ATA 27 飞行控制系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 28', title: 'Fuel', tag: 'MEL Chapter', source: 'airbus/MEL/28.html', detail: 'ATA 28 燃油系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 29', title: 'Hydraulics', tag: 'MEL Chapter', source: 'airbus/MEL/29.html', detail: 'ATA 29 液压系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 30', title: 'Ice & Rain', tag: 'MEL Chapter', source: 'airbus/MEL/30.html', detail: 'ATA 30 防冰与排雨系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 31', title: 'Indications', tag: 'MEL Chapter', source: 'airbus/MEL/31.html', detail: 'ATA 31 指示与记录系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 32', title: 'Landing Gear', tag: 'MEL Chapter', source: 'airbus/MEL/32.html', detail: 'ATA 32 起落架系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 33', title: 'Lights', tag: 'MEL Chapter', source: 'airbus/MEL/33.html', detail: 'ATA 33 灯光系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 34', title: 'Navigation', tag: 'MEL Chapter', source: 'airbus/MEL/34.html', detail: 'ATA 34 导航系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 35', title: 'Oxygen', tag: 'MEL Chapter', source: 'airbus/MEL/35.html', detail: 'ATA 35 氧气系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 36', title: 'Pneumatic Systems', tag: 'MEL Chapter', source: 'airbus/MEL/36.html', detail: 'ATA 36 气源系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 38', title: 'Water & Waste', tag: 'MEL Chapter', source: 'airbus/38/Achapter38.html', detail: 'ATA 38 水与废水系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 46', title: 'Information System (ATSU)', tag: 'MEL Chapter', source: 'airbus/MEL/46.html', detail: 'ATA 46 信息系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 47', title: 'Fuel Inerting Systems', tag: 'MEL Chapter', source: 'airbus/MEL/47.html', detail: 'ATA 47 燃油箱惰性化系统 (FTIS) MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 49', title: 'APU', tag: 'MEL Chapter', source: 'airbus/MEL/49.html', detail: 'ATA 49 辅助动力装置 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 52', title: 'Doors', tag: 'MEL Chapter', source: 'airbus/MEL/52.html', detail: 'ATA 52 舱门系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 56', title: 'Windows', tag: 'MEL Chapter', source: 'airbus/MEL/56.html', detail: 'ATA 56 风挡与窗户 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 71', title: 'Power Plant', tag: 'MEL Chapter', source: 'airbus/MEL/71.html', detail: 'ATA 71 动力装置 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 73', title: 'Engine Fuel & Control', tag: 'MEL Chapter', source: 'airbus/MEL/73.html', detail: 'ATA 73 发动机燃油与控制 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 74', title: 'Engine Ignition', tag: 'MEL Chapter', source: 'airbus/MEL/74.html', detail: 'ATA 74 发动机点火系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 77', title: 'Engine Indicating', tag: 'MEL Chapter', source: 'airbus/MEL/77.html', detail: 'ATA 77 发动机指示系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 78', title: 'Exhaust (Reversers)', tag: 'MEL Chapter', source: 'airbus/MEL/78.html', detail: 'ATA 78 反推与排气系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 79', title: 'Engine Oil', tag: 'MEL Chapter', source: 'airbus/MEL/79.html', detail: 'ATA 79 发动机滑油系统 MEL 放行条款目录。' },
+    { mod: 'mel', code: 'MEL 80', title: 'Starting', tag: 'MEL Chapter', source: 'airbus/MEL/80.html', detail: 'ATA 80 发动机起动系统 MEL 放行条款目录。' },
 
-    function init() {
-        renderHomeGrid();
-    }
+    // --- 321 Fuel Transfer Procedure (来自 XFRmenu.html) ---
+    { mod: 'fuel', code: 'XFR-01', title: 'ACT(s) TO CENTER', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/actcenter.html', detail: 'A321 附加中央油箱 (ACT) 向中央油箱 (Center Tank) 传输燃油操作程序。' },
+    { mod: 'fuel', code: 'XFR-02', title: 'WINGS TO ACT(s)', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/wingact.html', detail: 'A321 大翼油箱 (Wing Tanks) 向附加中央油箱 (ACT) 传输燃油操作程序。' },
+    { mod: 'fuel', code: 'XFR-03', title: 'CENTER TO WINGS', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/centerwing.html', detail: 'A321 中央油箱 (Center Tank) 向大翼油箱 (Wing Tanks) 传输燃油操作程序。' },
+    { mod: 'fuel', code: 'XFR-04', title: 'WINGS TO CENTER', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/wingscenter.html', detail: 'A321 大翼油箱 (Wing Tanks) 向中央油箱 (Center Tank) 传输燃油操作程序。' },
+    { mod: 'fuel', code: 'XFR-05', title: 'PRIME ACT PUMPS', tag: 'A321 Fuel XFR', source: 'airbus/fuel transfer/prime.html', detail: 'A321 附加中央油箱 (ACT) 燃油泵灌充/排气 (Priming) 标准程序。' },
 
-    function renderHomeGrid() {
-        const grid = document.getElementById('homeGrid');
-        grid.innerHTML = CATEGORIES.map(cat => `
-            <div class="menu-card" onclick="selectCategory('${cat.id}')">
-                <div class="menu-icon">${cat.icon}</div>
-                <div class="menu-label">${cat.name}</div>
-                <div class="menu-sub">${cat.sub}</div>
+    // --- Locations (来自 locationsmenu.html) ---
+    { mod: 'locations', code: 'LOC-CB', title: 'Circuit Breaker Locations', tag: 'Locations', source: 'airbus/CBlocations.html', detail: '驾驶舱头顶板 (49VU)、后跳开关面板 (121VU - 125VU) 及电子舱跳开关分布索引。' },
+    { mod: 'locations', code: 'LOC-EE', title: 'E&E Locations', tag: 'Locations', source: 'airbus/EElocations.html', detail: '前电子舱 (FWD Avionics Compartment) 及主电子舱设备架分布位置图。' },
+    { mod: 'locations', code: 'LOC-80VU', title: 'Main E&E / 80VU Box Layout', tag: 'Locations', source: 'airbus/80VU.html', detail: '80VU / 90VU 主航电设备架计算机安装槽位布局（ADIRU、FMGC、ELAC、SEC、FWC、SDAC 等）。' },
+    { mod: 'locations', code: 'LOC-OVHD', title: 'Overhead Panel', tag: 'Panels', source: 'airbus/panels/Overhead.html', detail: '驾驶舱头顶控制面板 (21VU - 50VU) 功能区划与面板编号索引。' },
+    { mod: 'locations', code: 'LOC-PED', title: 'Pedestal Panel', tag: 'Panels', source: 'airbus/panels/Pedestal.html', detail: '中央操纵台 (Pedestal) 面板布局（MCDU、RMP、ACP、ECAM 控制面板、雷达及应答机面板）。' },
+
+    // --- Light Bulb Part Numbers (来自 lightmenu.html) ---
+    { mod: 'lights', code: 'LT-EXT', title: 'Exterior Lights', tag: 'Part Numbers', source: 'airbus/Exterior lights/exterior.html', detail: '外部灯光灯泡/组件件号索引（着陆灯、滑行灯、跑道脱离灯、航行灯、频闪灯、防撞灯、机翼及发动机扫描灯）。' },
+    { mod: 'lights', code: 'LT-CKPT', title: 'Cockpit Lights', tag: 'Part Numbers', source: 'airbus/Cockpit lights/cockpit.html', detail: '驾驶舱内部照明及信号指示灯件号索引（顶灯、阅读灯、面板泛光灯、遮光罩灯）。' },
+    { mod: 'lights', code: 'LT-INT', title: 'Interior Lights', tag: 'Part Numbers', source: 'airbus/Interior lights/interior.html', detail: '客舱及厨房/盥洗室照明灯管及应急出口指示灯件号索引。' },
+    { mod: 'lights', code: 'LT-CRG', title: 'Cargo / Service Lights', tag: 'Part Numbers', source: 'airbus/Cargo lights/cargo.html', detail: '前后货舱照明灯、电子舱勤务灯及起落架舱照明灯件号索引。' },
+
+    // --- Alpha Call Up Menu (来自 alphamenu1.html) ---
+    { mod: 'callups', code: 'AIDS-SYS', title: 'CALL UPS BY SYSTEM', tag: 'Alpha Call Ups', source: 'airbus/callups/allcallups.html', detail: '按 ATA 系统分类的 MCDU -> AIDS -> Alpha Call-Up 实时参数代码查询列表。' },
+    { mod: 'callups', code: 'AIDS-ALL', title: 'ALL CALL UPS', tag: 'Alpha Call Ups', source: 'airbus/callups/allcallups.html', detail: '全量字母序排列的 AIDS Alpha Call-Up 监控参数代码词典（如 EGT, FF, N1, N2, TAT, SAT, GW 等）。' }
+];
+
+// =========================================================================
+// 3. 全量 Airbus 缩略语数据库（100% 完整提取自 acronyms.html）
+// =========================================================================
+const RAW_ACRONYMS = `
+A - Amber
+A - Alternate
+A/C - Aircraft
+A/D - Analog/Digital
+A/DC - Analog-to-Digital Converter
+A/R - Audio Reproducer
+A/SKID - Anti-Skid
+A/THR - Autothrust
+A/XFMR - Autotransformer
+ABCU - Alternate Braking Control Unit
+AC - Alternating Current
+ACARS - Aircraft Communication Addressing and Reporting System
+ACC - Active Clearance Control
+ACCEL - Acceleration/Accelerate
+ACCLRM - Accelerometer
+ACCU - ACCUMULATOR
+ACMM - Abbreviated Component Maintenance Manual
+ACMS - Aircraft Condition Monitoring System
+ACP - Area Call Panel
+ACP - Audio Control Panel
+ACQN - Acquisition
+ACSC - Air Conditioning System Controller
+ACT - Active
+ACTR - Actuator
+ADC - Air Data Computer
+ADF - Automatic Direction Finder
+ADIRS - Air Data/Inertial Reference System
+ADIRU - Air Data/Inertial Reference Unit
+ADM - Air Data Module
+ADR - Air Data Reference
+ADS - Air Data System
+ADV - Advisory
+AEVC - Avionics Equipment Ventilation Computer
+AF - Audio Frequency
+AFS - Automatic Flight System
+AGB - Accessory Gearbox
+AGC - Automatic Gain Control
+AGL - Above Ground Level
+AGW - Actual Gross Weight
+AIL - Aileron
+AIM - Aircraft Integrated Maintenance
+AIP - Attendant Indication Panel
+ALIGN - ALIGNMENT
+ALT - Altitude
+ALTM - Altimeter
+ALTN - Alternate, Alternative
+AM - Amplitude Modulation
+AMM - Aircraft Maintenance Manual
+AMU - Audio Management Unit
+ANI - Analog Input
+ANN - Annunciator
+ANN LT - Annunciator Light
+ANO - Analog Output
+ANT - Antenna
+AOA - Angle-of-Attack
+AP - Autopilot
+AP/FD - Autopilot/Flight Director
+APPR - Approach
+APPU - Asymmetry Position Pick Off Unit
+APU - Auxiliary Power Unit
+ARINC - Aeronautical Radio Incorporated
+ARPT - Airport
+ASCII - American Standard Code for Information Interchange
+ASI - Airspeed Indicator
+ASIC - Application Specific Integrated Circuits
+ASM - Aircraft Schematics Manual
+ASP - Audio Selector Panel
+ASSY - Assembly
+ATA - Air Transport Association of America
+ATC - Air Traffic Control
+ATE - Automatic Test Equipment
+ATLAS - Abbreviated Test Language for All Systems
+ATS - Autothrottle System
+ATSU - Air Traffic Service Unit
+ATT - Attitude
+ATTND - Attendant
+AUTO - Automatic
+AUX - Auxiliary
+AVAIL - Available
+AVNCS - Avionics
+AWM - Aircraft Wiring Manual
+AWY - Airway
+AZ - Azimuth
+B - Blue
+BARO - Barometric
+BAT - Battery
+BCD - Binary Coded Decimal
+BCL - Battery Charge Limiter
+BFO - Beat Frequency Oscillator
+BGM - Boarding Music
+BITE - Built-in Test Equipment
+BMC - Bleed Monitoring Computer
+BNR - BINARY
+BOT - Begin of Tape
+BP - Bottom Plug
+BRG - Bearing
+BRK - Brake
+BRKR - Breaker
+BRKT - Bracket
+BRT - Bright, Brightness
+BSCS - Braking and Steering Control System
+BSCU - Braking/Steering Control Unit
+BTC - Bus Tie Contactor
+BTMU - Brake Temperature Monitoring Unit
+BTN - Button
+BTR - Bus Tie Relay
+BU - Battery Unit
+BUS - Busbar
+BYDU - Back-Up Yaw Damper Unit
+C - Close
+C - Celsius, Centigrade
+C/B - Circuit Breaker
+C/L - Check List
+CAB - Cabin
+CAM - Cabin Assignment Module
+CAPT - Captain
+CAS - Calibrated Air Speed
+CAUT - Caution
+CAUT LT - Caution Light
+CBMS - Circuit Breaker Monitoring System
+CBMU - Circuit Breaker Monitoring Unit
+CCS - Cabin Communications System
+CCW - Counter Clockwise
+CDP - Compressor Discharge Pressure
+CDU - Control and Display Unit
+CFDIU - Centralized Fault Display Interface Unit
+CFDS - Centralized Fault Display System
+CFMI - CFM International
+CFRP - Carbon Fiber Reinforced Plastic
+CG - Center of Gravity
+CGCS - Center of Gravity Control System
+CHAN - Channel
+CHG - Change
+CIDS - Cabin Intercommunication Data System
+CK - Check
+CKPT - Cockpit
+CKT - Circuit
+CL - Center Line
+CLB - Climb
+CLG - Centerline Landing Gear
+CLOG - Clogging
+CLR - Clear
+CMC - Central Maintenance Computer
+CMD - Command
+CMM - Component Maintenance Manual
+CMS - Central Maintenance System
+CNTOR - Contactor
+CO - Company
+COM - Communication
+COMPT - Compartment
+COMPTR - Comparator
+COND - Conditioned, Conditioning
+CONFIG - Configuration
+CONT - Controller
+CONV - Converter
+COOL - Cooling, Cooler
+COS - Cosine
+CPC - Cabin Pressure Controller
+CPLR - Coupler
+CPMS - Cabin and Passenger Management System
+CPMU - Cabin Passenger Management Unit
+CPRSR - Compressor
+CPU - Central Processing Unit
+CRC - Continuous Repetitive Chime
+CRG - Cargo
+CRS - Course
+CRT - Cathode Ray Tube
+CRZ - Cruise
+CSD - Constant Speed Drive
+CSM/G - Constant Speed Motor/Generator
+CSTR - Constraint
+CSU - Command Sensor Unit
+CT - Current Transformer
+CTL - Central
+CTL - Control
+CTR - Center
+CU - Control Unit
+CUDU - Current Unbalance Detection Unit
+CUR - Current
+CVR - Cockpit Voice Recorder
+CVT - Center Vent Tube
+CW - Clockwise
+D/D - Engine Out Drift Down Point
+D/O - Description and Operation
+DA - Drift Angle
+DAC - Digital to Analog Converter
+DAR - Digital ACMS Recorder
+DC - Direct Current
+DDRMI - Digital Distance and Radio Magnetic Indicator
+DEC - Declination
+DECEL - Decelerate
+DECR - Decrease
+DEF - Definition
+DELTA P - Differential Pressure
+DES - Descent
+DEST - Destination
+DET - Detection, Detector
+DEU - Decoder/Encoder Unit
+DEV - Deviation
+DFDR - Digital Flight Data Recorder
+DFDRS - Digital Flight Data Recording System
+DGI - Digital Input
+DGO - Digital Output
+DH - Decision Height
+DIA - Diameter
+DIFF - Differential
+DIM - Dimming, Dimension
+DIR - Direction, Direct, Director
+DISC - Disconnect, Disconnected
+DIST - Distance
+DMA - Direct Memory Access
+DMC - Display Management Computer
+DME - Distance Measuring Equipment
+DMU - Data Management Unit
+DN - Down
+DNLK - Downlock
+DPDT - Double Pole/Double Throw
+DPI - Differential Pressure Indicator
+DR - Dead Reckoning
+DRVR - Driver
+DSCRT - Discrete
+DSDL - Dedicated Serial Data Link
+DSI - Discrete Input
+DSO - Discrete Output
+DSPL - Display
+DTG - Distance to Go
+DTMF - Dual Tone Multiple Frequency
+DU - Display Unit
+E - East
+ECAM - Electronic Centralized Aircraft Monitoring
+ECB - Electronic Control Box (APU)
+ECM - Engine Condition Monitoring
+ECMU - Electrical Contactor Management Unit
+ECON - Economy
+ECP - Ecam Control Panel
+ECS - Environmental Control System
+ECU - Electronic Control Unit
+EEC - Electronic Engine Control
+EEPROM - Electrically Eraseable Programmable Read Only Memory
+EFCS - Electrical Flight Control System
+EFF - Effective, Effectivity
+EFIS - Electronic Flight Instrument System
+EGIU - Electrical Generation Interface Unit
+EGT - Exhaust Gas Temperature
+EIS - Electronic Instrument System
+EIU - Engine Interface Unit
+EIVMU - Engine Interface and Vibration Monitoring Unit
+ELEC - Electric, Electrical, Electricity
+ELEV - Elevation, Elevator
+EMER - Emergency
+EMI - Electromagnetic Interference
+EMM - Enhanced Maintaining and Manufacturing
+END - Endurance
+ENG - Engine
+EO - Engine Out
+EOSID - Engine Out Standard Instrument Departure
+EOT - End of Tape
+EPC - External Power Contactor
+EPGS - Electrical Power Generation System
+EPR - Engine Pressure Ratio
+EPROM - Erasable Programmable Read Only Memory
+EPSU - Emergency Power Supply Unit
+EQPT - Equipment
+ESS - Essential
+EST - Estimated
+ETA - Estimated Time of Arrival
+ETE - Estimated Time en Route
+ETP - Equal Time Point
+EVAC - Evacuation
+EWD - Engine/Warning Display
+EXC - Excitation, Excite
+EXCESS - Excessive
+EXT - Exterior, External
+F - Fahrenheit
+F-PLN - Flight Plan
+F/O - First Officer
+FAC - Flight Augmentation Computer
+FADEC - Full Authority Digital Engine Control
+FAIL - Failed, Failure
+FAP - Forward Attendant Panel
+FC - Fully Closed
+FCDC - Flight Control Data Concentrator
+FCMS - Fuel Control Monitoring System
+FCOM - Flight Crew Operating Manual
+FCPC - Flight Control Primary Computer
+FCSC - Flight Control Secondary Computer
+FCTN - Function
+FCU - Flight Control Unit
+FCV - Flow Control Valve
+FD - Flight Director
+FDBK - Feedback
+FDIU - Flight Data Interface Unit
+FDU - Fire Detection Unit
+FE - Flight Envelope
+FF - Fuel Flow
+FG - Flight Guidance
+FIDS - Fault Isolation and Detection System
+FIFO - First Input/First Output
+FIG - Figure
+FIN - Functional Item Number
+FL - Flight Level
+FLEX - Flexible
+FLP - Flap
+FLT - Flight
+FM - Flight Management
+FMA - Flight Mode Annunciator
+FMC - Flight Management Computer
+FMGC - Flight Management and Guidance Computer
+FMGS - Flight Management and Guidance System
+FMS - Flight Management System
+FMV - Fuel Metering Valve
+FO - Fully Open
+FOB - Fuel On Board
+FPA - Flight Path Angle
+FPEEPMS - Floor Proximity Emergency Escape Path Marking System
+FPPU - Feedback Position Pick-off Unit
+FPV - Flight Path Vector
+FQ - Fuel Quantity
+FQI - Fuel Quantity Indicating/Indication/Indicator
+FR - Frame
+FREQ - Frequency
+FRU - Frequency Reference Unit
+FRV - Fuel Return Valve
+FSB - Fasten Seat Belts
+FW - Failure Warning
+FWC - Flight Warning Computer
+FWD - Forward
+FWS - Flight Warning System
+G - Green
+G/S - Glide Slope
+GA - Go-Around
+GAPCU - Ground Auxiliary Power Control Unit
+GCR - Generator Control Relay
+GCU - Generator Control Unit
+GEN - Generator
+GLC - Generator Line Contactor
+GLR - Generator Line Relay
+GMT - Greenwich Mean Time
+GND - Ground
+GPCU - Ground Power Control Unit
+GPS - Global Positioning System
+GPU - Ground Power Unit
+GPWC - Ground Proximity Warning Computer
+GPWS - Ground Proximity Warning System
+GRU - Ground Refrigeration Unit
+GS - Ground Speed
+GSE - Ground Support Equipment
+GW - Gross Weight
+H - Hot (Electrical Point)
+HCU - Hydraulic Control Unit
+HDG - Heading
+HEGS - Hydraulic Electrical Generating System
+HF - High Frequency
+HI - High
+HLAC - High Level Alternating Current Voltage
+HLDC - High Level Direct Current Voltage
+HMU - Hydromechanical Unit
+HP - High Pressure
+HPC - High Pressure Compressor
+HPT - High Pressure Turbine
+HPTACC - High Pressure Turbine Active Clearance Control
+HS - High Speed
+HSI - Horizontal Situation Indicator
+HSMU - Hydraulic System Monitoring Unit
+HUDC - Head Up Display Computer
+HYD - Hydraulic
+I/O - Input/Output
+I/P - Intercept Profile
+I/P - Input
+IAE - International Aero Engines
+IAS - Indicated Airspeed
+IDENT - Identification, Identifier, Identify
+IDG - Integrated Drive Generator
+IGB - Inlet Gear Box
+IGN - Ignition
+IGV - Inlet Guide Vane
+ILS - Instrument Landing System (LOC and G/S)
+IMM - Immediate
+INB - Inbound
+INBD - Inboard
+INCR - Increment
+IND - Indicator
+INFO - Information
+INHIB - Inhibition, Inhibit, Inhibited
+INIT - Initial(ization)
+INOP - Inoperative
+INR - Inner
+INT - Interrupt
+INTCP - Intercept
+INTFC - Interface
+INTL - Internal
+INTRG - Interrogate, Interrogator
+INV - Inverter
+IP - Intermediate Pressure
+IPC - Illustrated Parts Catalog
+IPPU - Instrumentation Position Pick-off Unit
+IR - Inertial Reference
+IRS - Inertial Reference System
+ISA - International Standard Atmosphere
+ISO - International Standardization Organisation
+ISOL - Isolation
+IVS - Inertial Vertical Speed
+JAM - Jammed, Jamming
+JAR - Joint Airworthiness Requirements
+L - Left
+L - Length
+L/G - Landing Gear
+LA - Linear Accelerometer
+LAT - Lateral
+LAT - Latitude
+LAV - Lavatory
+LBP - Left Bottom Plug
+LCD - Liquid Crystal Display
+LCIT - Load Compressor Inlet Temperature
+LDG - Landing
+LE - Leading Edge
+LED - Light Emitting Diode
+LGCIU - Landing Gear Control and Interface Unit
+LIM - Limit, Limitation, Limiting, Limiter
+LKD - Locked
+LL - Lat/Long
+LLDC - Low Level Direct Current Voltage
+LMP - Left Middle Plug
+LNG - Long
+LMS - Leakage Measurement System
+LO - Low
+LOC - Localizer
+LONG - Longitude
+LONGN - Longeron
+LOP - Low Oil Pressure
+LP - Low Pressure
+LPT - Low Pressure Turbine
+LPTACC - Low Pressure Turbine Active Clearance Control
+LRU - Line Replaceable Unit
+LS - Loudspeaker
+LSB - Least Significant Bit
+LSI - Large Scale Integration
+LT - Light
+LTP - Left Top Plug
+LV - Low Voltage
+LVDT - Linear Variable Differential Transducer
+LVL - Level
+LW - Landing Weight
+LWR - Lower
+MAC - Mean Aerodynamic Chord
+MAG - Magnetic
+MAINT - Maintenance
+MAN - Manual
+MAX - Maximum
+MCDU - Multipurpose Control & Display Unit
+MCL - Maximum Climb
+MCT - Maximum Continuous Thrust
+MCU - Modular Concept Unit
+MDA - Minimum Descent Altitude
+MDDU - Multipurpose Disk Drive Unit
+MECH - Mechanic, Mechanical, Mechanism
+MED - Medium
+MES - Main Engine Start
+MI - Magnetic Indicator
+MIC - Microphone
+MICBAC - Micro-System Bus Access Channel
+MID - Middle
+MIN - Minimum
+MISC - Miscellaneous
+MKR - Marker (radio) Beacon
+MLA - Maneuver Load Alleviation
+MLG - Main Landing Gear
+MLI - Magnetic Level Indicator
+MLS - Microwave Landing System
+MLW - Maximum Design Landing Weight
+MMEL - Master Minimum Equipment List
+MMO - Maximum Operating Mach
+MMR - Multi Mode Receiver
+MODLTR - Modulator
+MON - Monitor, Monitored
+MONG - Monitoring
+MORA - Minimum Off Route Altitude
+MOT - Motor, Motorized
+MPD - Maintenance Planning Document
+MSA - Minimum Safe Altitude
+MSB - Most Significant Bit
+MSG - Message
+MSL - Mean Sea Level
+MSU - Mode Selector Unit (IRS)
+MSW - Microswitch
+MTBF - Mean Time Between Failure
+MTBUR - Mean Time Between Unscheduled Removals
+MTG - Mounting
+MTO - Maximum Take-Off
+MTOGW - Maximum Takeoff Gross Weight
+MU - Management Unit
+MUX - Multiplex, Multiplexer
+MVT - Movement
+MZFW - Maximum Design Zero Fuel Weight
+N - Normal, North
+N/A - Not Applicable
+N/P - Next Page
+N/W - Nose Wheel
+N/WS - Nose Wheel Steering
+NAC - Nacelle
+NAS - Navy and Army Standard
+NAV - Navigation
+NAVAID - Navigation Aid
+NBPT - No Break Power Transfer
+NC - Normally Closed
+NCD - No Computed Data
+ND - Navigation Display
+NDB - Non-Directional Beacon
+NEG - Negative
+NLG - Nose Landing Gear
+NMI - Non Maskable Interrupt
+No - Number
+NO - Normally Open
+NO - Normal Operation in SSM
+NORM - Normal
+NS - No Smoking
+NUM - Numerical
+NVM - Non-Volatile Memory
+N1 - Low Pressure Rotor Speed
+N2 - High Pressure Rotor Speed
+O - Open
+O/P - Output
+OAT - Outside Air Temperature
+OBRM - On Board Replaceable Module
+OC - Open Circuit
+OC - Overcurrent
+OF - Overfrequency
+OFST - Offset
+OFV - Outflow Valve
+OGV - Outlet Guide Vane
+OHU - Optical Head Unit
+OIT - Oil Inlet Temperature
+OK - Correct
+OMS - Onboard Maintenance System
+OOT - Oil Outlet Temperature
+OP - Operational
+OPP - Opposite
+OPS - Operation
+OPT - Optimum
+OPV - Overpressure Valve
+OUTBD - Outboard
+OVBD - Overboard
+OVHD - Overhead
+OVHT - Overheat
+OVLD - Overload
+OVRD - Override
+OVSP - Overspeed
+OXY - Oxygen
+P/B - Pushbutton
+P/BSW - Pushbutton Switch
+PA - Passenger Address
+PATS - Passenger Air-to-Ground Telephone System
+PAX - Passenger
+PC - Pack Controller
+PCB - Printed Circuit Board
+PCM - Pulse Code Modulation
+PCU - Passenger Control Unit
+PCU - Power Control Unit
+PED - Pedestal
+PERF - Performance
+PES - Passenger Entertainment (System)
+PF - Power Factor
+PFD - Primary Flight Display
+PH - Phase
+PHC - Probe Heat Computer
+PIU - Passenger Information Unit
+PMA - Permanent Magnet Alternator
+PMG - Permanent Magnet Generator
+PN - Part Number
+PNL - Panel
+POB - Pressure-Off Brake
+POR - Point of Regulation
+POS - Position
+POT - Potentiometer
+PPOS - Present Position
+PR - Power Ready Relay
+PRAM - Prerecorded Announcement and Music
+PREAMP - Preamplifier
+PRED - Prediction
+PRESEL - Preselector/Preselection
+PRESS - Pressure, Pressurization, Pressurize
+PREV - Previous
+PRIM - Primary
+PROC T - Procedure Turn
+PROF - Profile
+PROG - Progress
+PROM - Programmable Read Only Memory
+PROT - Protection
+PROX - Proximity
+PRR - Power Ready Relay
+PSCU - Proximity Switch Control Unit
+PSDU - Power Supply Decoupling Unit
+PSI - Pound per Square Inch
+PSS - Passenger Services System
+PSU - Passenger Service Unit
+PT - Point
+PTC - Positive Temperature Coefficient
+PTT - Push to Test
+PTT - Push-to-Talk
+PU - Panel Unit
+PVI - Paravisual Indicating
+PVIS - Passenger Visual Information System
+PWR - Power
+Q - Pitch Rate
+QAD - Quick-Attach-Detach
+QAR - Quick Access Recorder
+QAT - Quadruple ARINC Transmitter
+QEC - Quick Engine Change
+QFE - Field Elevation Atmospheric Pressure
+QFU - Runway Heading
+QNE - Sea Level Standard Atmosphere Pressure
+QNH - Sea Level Atmospheric Pressure
+QTY - Quantity
+R - Red
+R - Right
+R/I - Radio/Inertial
+RA - Radio Altimeter, Radio Altitude
+RAC - Rotor Active Clearance
+RACC - Rotor Active Clearance Control
+RACSB - Rotor Active Clearance Start Bleed
+RAD - Radio
+RAM - Random Access Memory
+RAT - Ram Air Turbine
+RBP - Right Bottom Plug
+RC - Repetitive Chime
+RCC - Remote Charge Converter
+RCCB - Remote Control Circuit Breaker
+RCDR - Recorder
+RCL - Recall
+RCPT - Receptacle
+RCPTN - Reception
+RCVR - Receiver
+RECIRC - Recirculate, Recirculation
+RECT - Rectifier
+RED - Reduction
+REF - Reference
+REFUEL - Refueling
+REG - Regulator
+REGUL - Regulation
+REL - Release
+RES - Resistance
+RET - Return
+REV - Reverse
+REV - Revise, Revision
+RF - Radio Frequency
+RLA - Reverser Lever Angle
+RLS - Remote Light Sensor
+RLY - Relay
+RMP - Radio Management Panel
+RNG - Range
+ROM - Read Only Memory
+RPCU - Residual Pressure Control Unit
+RPLNT - Repellent
+RPM - Revolution per Minute
+RQRD - Required
+RST - Reset
+RSV - Reserve
+RSVR - Reservoir
+RTE - Route
+RTN - Return
+RTP - Right Top Plug
+RTS - Return to Seat
+RTOK - Retest OK
+RUD - Rudder
+RVDT - Rotary Variable Differential Transducer
+RVR - Runway Visual Range
+RWY - Runway
+S - South
+S/C - Step Climb
+S/D - Step Descent
+SAF - Safety
+SAT - Static Air Temperature
+SC - Single Chime
+SD - System Display
+SDAC - System Data Acquisition Concentrator
+SDCU - Smoke Detection Control Unit
+SDN - System Description Note
+SEB - Seat Electronic Box
+SEC - Secondary
+SEL - Select, Selected, Selector, Selection
+SELCAL - Selective Calling System
+SFCC - Slat Flap Control Computer
+SH ABS - Shock Absorber
+SHED - Shedding
+SHT - Short
+SIC - System Isolation Contactor
+SID - Standard Instrument Departure
+SIG - Signal
+SLT - Slat
+SMK - Smoke
+SN - Serial Number
+SOL - Solenoid
+SOV - Shut-Off Valve
+SPD - Speed
+SPLY - Supply
+SQ - Squelch
+SRU - Shop Replaceable Unit
+SSB - Single Side Band
+SSEC - Static Source Error Correction
+SSM - Sign Status Matrix
+SSTU - Side Stick Transducer Unit
+STA - Station
+STAB - Stabilizer
+STAR - Standard Terminal Arrival Route
+STAT - Static
+STBY - Standby
+STD - Standard
+STGR - Stringer
+STS - Status
+SVCE - Service
+SW - Switch
+SWTG - Switching
+SYNTHR - Synthetizer
+SYS - System
+T - True, Turn
+T/C - Top of Climb
+T/D - Top of Descent
+T/R - Thrust Reverser
+T-P - Turn Point
+TACT - Tactical
+TAS - True Airspeed
+TAT - Total Air Temperature
+TBC - To Be Confirmed
+TBD - To be Determined
+TCAS - Traffic Alert and Collision Avoidance System
+T2CAS - Traffic and Terrain Collision Avoidance System
+TCC - Turbine Case Cooling
+TDS - Technical Data Sheet
+TE - Trailing Edge
+TEC - Turbine Exhaust Case
+TEMP - Temperature
+TFU - Technical Follow-Up
+TGT - Target
+THR - Thrust
+THRM - Thermal
+THS - Trimmable Horizontal Stabilizer
+TIT - Turbine Inlet Temperature
+TK - Tank
+TKE - Track Angle Error
+TLA - Throttle Lever Angle
+TLU - Travel Limitation Unit
+TMR - Timer
+TO - Takeoff
+TOGW - Takeoff Gross Weight
+TOT - Total
+TPIC - Tire Pressure Indicating Computer
+TPIS - Tire Pressure Indicating System
+TR - Transformer Rectifier
+TRA - Throttle Resolver Angle
+TRANS - Transition
+TRDV - Thrust Reverser Directional Valve
+TRF - Turbine Rear Frame
+TRIG - Trigger
+TRK - Track (angle)
+TROPO - Tropopause
+TRPV - Thrust Reverser Pressurizing Valve
+TRV - Travel
+TSM - Trouble Shooting Manual
+TTG - Time to Go
+TTL - Transistor Transistor Logic
+TTS - Trim Tank System
+TURB - Turbulent, Turbulence
+UF - Underfrequency
+UHF - Ultra High Frequency
+UNLK - Unlock
+UNLKD - Unlocked, Unlocking
+UNSD - UNUSED
+UPR - Upper
+UTC - Universal Time Coordinated
+UV - Under Voltage
+V/S - Vertical Speed
+Vc - Calibrated Airspeed
+VAC - Voltage Alternating Current
+VAR - Variable, Variation
+VBV - Variable Bleed Valve
+VC - Ventilation Controller
+VCO - Voltage Controlled Oscillator
+VCU - Video Control Unit
+VDC - Voltage Direct Current
+VDEV - Vertical Deviation
+VEL - Velocity
+VENT - Ventilation
+VERT - Vertical
+VFE - Maximum Flat Extended Speed
+VFTO - Final Takeoff Speed
+VHF - Very High Frequency
+VHV - Very High Voltage
+VIB - Vibration
+VLE - Maximum Landing Gear Extended Speed
+VLO - Maximum Landing Gear Operating Speed
+VLS - Lower Selectable Speed
+VM - Voltmeter
+VMAX - Maximum Allowable Airspeed
+VMO - Maximum Operating Speed
+VOR - VHF Omnidirectional Range
+VOR.D - VOR-DME
+VR - Rotation Speed
+VRMS - Volt Root Mean Square
+VRS - V2500 Repair Scheme
+VSC - Vacuum System Controller
+VSCF - Variable Speed Constant Frequency
+VSV - Variable Stator Vane
+VSWR - Voltage Standing Wave Ratio
+V1 - Critical Engine Failure Speed
+V2 - Takeoff Safety Speed
+V3 - Flap Retraction Speed
+V4 - Slat Retraction Speed
+W - Weight
+W - White
+WARN - Warning
+WBC - Weight & Balance Computer
+WBS - Weight and Balance System
+WD - Warning Display
+WHC - Window Heat Computer
+WHL - Wheel
+WIPCU - Water Ice Protection Control Unit
+WIPDU - Water Ice Protection Data Unit
+WPT - Waypoint
+WTB - Wing Tip Brake
+WXR - Weather Radar
+X FEED - Crossfeed
+X-TALK - Cross-Talk
+XCVR - Transceiver
+XDCR - Transducer
+XFMR - Transformer
+XFR - Transfer
+XMSN - Transmission
+XMTR - Transmitter
+XPDR - Transponder
+Y - Yellow
+Z - Zone
+ZFCG - Zero Fuel Center of Gravity
+ZFW - Zero Fuel Weight
+3D - Three Dimensional (Lat, Long, Alt)
+4D - Four Dimensional (Lat, Long, Alt, Time)
+`;
+
+// 解析 RAW_ACRONYMS 为标准对象数组
+const ACRONYM_ITEMS = RAW_ACRONYMS.trim().split('\n').map(line => {
+    const idx = line.indexOf(' - ');
+    const code = idx > -1 ? line.slice(0, idx).trim() : line.trim();
+    const title = idx > -1 ? line.slice(idx + 3).trim() : '';
+    return {
+        mod: 'acronyms',
+        code: code,
+        title: title,
+        tag: 'Acronym',
+        source: 'airbus/Acronyms/acronyms.html',
+        detail: `${code} — ${title}`
+    };
+});
+
+// 合并所有数据
+const ALL_DATA = [...STATIC_ITEMS, ...ACRONYM_ITEMS];
+
+// =========================================================================
+// 4. 界面渲染与交互控制
+// =========================================================================
+let activeModule = null;
+let activeLetter = 'ALL';
+
+function initApp() {
+    const grid = document.getElementById('moduleGrid');
+    grid.innerHTML = MODULES.map(m => {
+        const count = ALL_DATA.filter(i => i.mod === m.id).length;
+        return `
+            <div class="module-card" onclick="openModule('${m.id}')">
+                <div class="module-icon">${m.icon}</div>
+                <div class="module-title">${m.title}</div>
+                <div class="module-count">${count} 条目</div>
             </div>
-        `).join('');
+        `;
+    }).join('');
+}
+
+function goHome() {
+    activeModule = null;
+    activeLetter = 'ALL';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').style.display = 'none';
+    document.getElementById('homeView').style.display = 'block';
+    document.getElementById('listView').style.display = 'none';
+}
+
+function openModule(modId) {
+    activeModule = modId;
+    activeLetter = 'ALL';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearBtn').style.display = 'none';
+
+    const modInfo = MODULES.find(m => m.id === modId);
+    document.getElementById('viewTitle').textContent = `${modInfo.icon} ${modInfo.title}`;
+    document.getElementById('homeView').style.display = 'none';
+    document.getElementById('listView').style.display = 'block';
+
+    // 如果是缩略语模块，显示 A-Z 字母筛选栏
+    const alphaBar = document.getElementById('alphaFilter');
+    if (modId === 'acronyms') {
+        alphaBar.style.display = 'flex';
+        renderAlphaBar();
+    } else {
+        alphaBar.style.display = 'none';
     }
 
-    function selectCategory(catId) {
-        currentCategory = catId;
-        document.getElementById('searchInput').value = '';
-        const catObj = CATEGORIES.find(c => c.id === catId);
-        document.getElementById('currentCategoryTitle').textContent = `${catObj.icon} ${catObj.name}`;
-        
-        document.getElementById('homeGrid').style.display = 'none';
-        document.getElementById('contentArea').style.display = 'block';
+    renderFilteredList();
+}
 
-        const filtered = HANDBOOK_DATA.filter(item => item.category === catId);
-        renderItemList(filtered);
+function renderAlphaBar() {
+    const letters = ['ALL', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), '0-9'];
+    document.getElementById('alphaFilter').innerHTML = letters.map(l => `
+        <button class="alpha-btn ${activeLetter === l ? 'active' : ''}" onclick="filterByLetter('${l}')">${l}</button>
+    `).join('');
+}
+
+function filterByLetter(letter) {
+    activeLetter = letter;
+    renderAlphaBar();
+    renderFilteredList();
+}
+
+function renderFilteredList() {
+    let items = ALL_DATA.filter(i => i.mod === activeModule);
+    if (activeModule === 'acronyms' && activeLetter !== 'ALL') {
+        items = items.filter(i => {
+            const first = i.code.charAt(0).toUpperCase();
+            if (activeLetter === '0-9') return /[0-9]/.test(first);
+            return first === activeLetter;
+        });
+    }
+    renderList(items);
+}
+
+function onSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    document.getElementById('clearBtn').style.display = q ? 'block' : 'none';
+
+    if (!q) {
+        if (activeModule) openModule(activeModule);
+        else goHome();
+        return;
     }
 
-    function showHome() {
-        currentCategory = null;
-        document.getElementById('searchInput').value = '';
-        document.getElementById('homeGrid').style.display = 'grid';
-        document.getElementById('contentArea').style.display = 'none';
+    document.getElementById('homeView').style.display = 'none';
+    document.getElementById('listView').style.display = 'block';
+    document.getElementById('alphaFilter').style.display = 'none';
+    document.getElementById('viewTitle').textContent = `🔍 搜索结果: "${q}"`;
+
+    const matches = ALL_DATA.filter(i =>
+        i.code.toLowerCase().includes(q) ||
+        i.title.toLowerCase().includes(q) ||
+        i.detail.toLowerCase().includes(q)
+    );
+    renderList(matches);
+}
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    onSearch();
+}
+
+function renderList(items) {
+    const container = document.getElementById('itemsContainer');
+    if (items.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">未找到匹配的条目</div>`;
+        return;
     }
-
-    function handleSearch() {
-        const query = document.getElementById('searchInput').value.trim().toLowerCase();
-        if (!query) {
-            if (currentCategory) {
-                selectCategory(currentCategory);
-            } else {
-                showHome();
-            }
-            return;
-        }
-
-        document.getElementById('homeGrid').style.display = 'none';
-        document.getElementById('contentArea').style.display = 'block';
-        document.getElementById('currentCategoryTitle').textContent = `🔍 搜索结果: "${query}"`;
-
-        const results = HANDBOOK_DATA.filter(item => 
-            item.code.toLowerCase().includes(query) ||
-            item.title.toLowerCase().includes(query) ||
-            item.desc.toLowerCase().includes(query)
-        );
-        renderItemList(results);
-    }
-
-    function renderItemList(items) {
-        const listEl = document.getElementById('itemList');
-        if (items.length === 0) {
-            listEl.innerHTML = `<div class="empty-state">未找到匹配的学习条目，可尝试其他关键词或补充数据。</div>`;
-            return;
-        }
-
-        listEl.innerHTML = items.map((item, idx) => {
-            // 传递原始索引以便弹窗读取
-            const globalIndex = HANDBOOK_DATA.indexOf(item);
-            return `
-                <div class="list-card" onclick="openDetail(${globalIndex})">
-                    <div>
-                        <span class="item-code">${item.code}</span>
-                        <span class="item-title">${item.title}</span>
-                    </div>
-                    <span class="item-tag">${item.tag}</span>
+    container.innerHTML = items.map(item => {
+        const idx = ALL_DATA.indexOf(item);
+        return `
+            <div class="list-item" onclick="showDetail(${idx})">
+                <div class="item-left">
+                    <span class="item-code">${item.code}</span>
+                    <span class="item-name">${item.title}</span>
                 </div>
-            `;
-        }).join('');
+                <span class="item-badge">${item.tag}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function showDetail(index) {
+    const item = ALL_DATA[index];
+    document.getElementById('mCode').textContent = item.code;
+    document.getElementById('mTitle').textContent = item.title;
+    document.getElementById('mDesc').textContent = item.detail;
+    document.getElementById('mPath').textContent = `📁 原站档案路径映射: ${item.source}`;
+    document.getElementById('modal').classList.add('show');
+}
+
+function closeModal(e) {
+    if (!e || e.target.id === 'modal') {
+        document.getElementById('modal').classList.remove('show');
     }
+}
 
-    function openDetail(index) {
-        const item = HANDBOOK_DATA[index];
-        document.getElementById('modalCode').textContent = item.code;
-        document.getElementById('modalTitle').textContent = item.title;
-        document.getElementById('modalDesc').textContent = item.desc;
-
-        const noteEl = document.getElementById('modalNote');
-        if (item.note) {
-            noteEl.textContent = `⚠️ 注意事项: ${item.note}`;
-            noteEl.style.display = 'block';
-        } else {
-            noteEl.style.display = 'none';
-        }
-
-        document.getElementById('detailModal').classList.add('open');
+function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('themeBtn');
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        btn.textContent = '🌙 夜间模式';
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀️ 日间模式';
     }
+}
 
-    function closeModal(event) {
-        if (!event || event.target.id === 'detailModal') {
-            document.getElementById('detailModal').classList.remove('open');
-        }
-    }
-
-    function toggleTheme() {
-        const body = document.body;
-        const btn = document.getElementById('themeBtn');
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            btn.textContent = '🌙 夜间模式';
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            btn.textContent = '☀️ 日间模式';
-        }
-    }
-
-    init();
+initApp();
 </script>
 </body>
 </html>
