@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="index,follow" name="robots" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="../../pics/app-icon.png" rel="apple-touch-icon" />
+<meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+<link href="../css/style.css" rel="stylesheet" media="screen" type="text/css" />
+<script src="../../javascript/functions.js" type="text/javascript"></script>
+<title>Mobile Tech</title>
+<meta content="Mobile Airlinetechs,Airbus Resets,ATA,E190 Resets,A&P,Boeing Resets,Airline Mechanics,Tobin Miklas" name="Keywords" />
+<meta content="Your Free Airline Mobile Tech Reset Guide" name="description" />
+</head>
+
+<body>
+
+<div id="topbar">
+	<div id="leftnav">
+		<a href="../index.html"></a></div>
+	<div id="title">320 Resets</div>
+</div>
+<div id="tributton">
+	<div class="links">
+  <a href="../index.html">320 Home</a><a href="../airbusATA.html">ATA List</a><a href="../49/Achapter49.html">Chapter 49</a></div>
+</div>
+<div id="content">
+	<span class="graytitle">Honeywell 131-9(A) APU T/S DATA</span>
+	<ul class="pageitem">
+		<li class="textbox"><span class="header">No Start "Auto Shutdown" Message:</span>
+		<br/><p><strong>(No Acceleration) Reason-Apu Speed < %7 for 30 seconds.</strong>
+          <ul>
+            <li>Action #1 = Restart with both A/C battery switches "ON" prior to master switch "ON".</li>
+            <li>Action #2 = Verify APU rotates freely, if so R/R starter motor(8KA).</li>
+            <li>Action #3 = If APU does not rotate freely (independent of the starter motor) R/R APU.</li>
+            <li><em>General info = If A/C batteries are selected "ON" after the master switch is selected "ON", possible no acceleration auto shutdown can occour, restart with A/C batteries "ON" first.</em></li>
+          </ul>
+          <br/><p><strong>(No Acceleration) Reason-Accel < 0.1-0.5% for 15-60 seconds.</strong>
+          <ul>
+            <li>Action #1 = Verify APU rotates freely. If so bleed the fuel line and perform a restart.</li>
+            <li>Action #2 = If the auto shut down continues, R/R starter motor(8KA).</li>
+            <li>Action #3 = If the auto shut down continues, R/R the Fuel Control Unit.</li>
+            <li><em>General info = Subsequent "No Flame" and "Underspeed" auto shut downs can occur if no T/S action is taken.</em></li>
+            <li><em><strong>CAUTION: LIMIT APU STARTS TO 3/HR, OTHERWISE STARTER MOTOR DAMAGE CAN OCCUR.</strong></em></li>
+          </ul>
+          <br/><p><strong>No Flame.</strong>
+          <ul>
+            <li>Action #1 = Bleed the fuel line and preform a restart.</li>
+            <li>Action #2 = If the auto shut down continues R/R Ignition Exciter(P10).</li>
+            <li><em>General info = Subsequent "No Flame" and "Underspeed" auto shut downs can occur if no T/S action is taken.</em></li>
+            <li><em><strong>CAUTION: LIMIT APU STARTS TO 3/HR, OTHERWISE STARTER MOTOR DAMAGE CAN OCCUR.</strong></em></li>
+          </ul>
+        <br/><br/><span class="header">On Speed "Auto Shutdown" Message:</span>
+          <br/><p><strong>Emergency.</strong>
+          <ul>
+            <li>Action #1 = Inspect 108VU panel for water ingestion and contamination of "APU EMERGENCY SHUT DOWN" button (1KL). R/R 108VU panel per AIRBUS SB A320-92-1011.</li>
+          </ul>
+          <br/><p><strong>Clogged Oil Filter.</strong>
+          <ul>
+            <li>Action #1 = Inspect mag plug for metal contamination R/R lube and generator filter elements.</li>
+            <li>Action #2 = If auto shut down continues, R/R both differential pressure switches.</li>
+            <li>Action #3 = If metal contanimation found on mag plug and auto shut down continues, R/R APU.</li>
+            <li><em>General info = Oil brand changes have been linked to filter clogging auto shutdowns. (no adverse inpact to APU).</em></li>
+          </ul>
+          <br/><p><strong>Overtemperature (High temp onspeed or high temp on droop)</strong>
+          <ul>
+            <li>Action #1 = Most Overtemp auto shut downs are due to E/C-(engine cooling) shroud delamination failures.</li>
+            <li>Action #2 = If shroud is delamed, replace the shroud.</li>
+            <li>Action #3 = If shroud is ok and auto shut downs continue, R/R APU.</li>
+          </ul>
+          <br/><p><strong>Low Fuel Pressure.</strong>
+          <ul>
+            <li>Action #1 = If the fault is in conjunction with an auto shut down(No Flame/No Acceleration/or Underspeed) see ASD T/S recommendations above.</li>
+            <li>Action #2 = If the fault continues however the APU still starts, R/R A/C Fuel Pressure Switch(5030QM).</li>
+            <li>Action #3 = If the fault continues, check for possible defects with the A/C Fuel Pressure Switch (7QC). APU Fuel Pump, or Air Release Valve.</li>
+            <li><em><strong>CAUTION: LIMIT APU STARTS TO 3/HR, OTHERWISE STARTER MOTOR DAMAGE CAN OCCUR.</strong></em></li>
+          </ul>
+        <br/><br/><span class="header">No, Low, or Fluctuating Bleed Air Pressure:</span>
+          <p><strong>No Air.</strong>
+          <ul>
+            <li>Action #1 = If no APU LRU faults are found in the CFDS, restart APU and verify bleed air operations in ECS 2-Pack mode.</li>
+            <li>Action #2 = If NO AIR continues, R/R A/C Bleed Switch.</li>
+            <li><em>General info = Most "NO AIR" defects should have a Faulted LRU observed in the CFDS last leg reports.</em></li>
+          </ul>
+        <br/><br/><span class="header">FCN(Fault Code Number) = TSM Task.</span>
+        <p><strong>(007, 008, 009, 010)=<em>TSM49-70-00-810-816.</em></strong>
+        <br/><br/><p><strong>(016, 017, 018, 019)=<em>TSM49-00-81-810-853.</em></strong>
+        <br/><br/><p><strong>(026, 027, 028, 029)=<em>TSM49-00-81-810-854.</em></strong>
+        <br/><br/><p><strong>(031)=<em>TSM49-00-81-810-852.</em></strong>
+        <br/><br/><p><strong>(076, 077, 215)=<em>TSM49-00-81-810-835.</em></strong>
+        <br/><br/><p><strong>(079)=<em>TSM49-00-81-810-802/806/813/824/836.</em></strong>
+        <br/><br/><p><strong>(081, 082)=<em>TSM49-00-81-810-858.</em></strong>
+        <br/><br/><p><strong>(083)=<em>TSM49-00-81-810-811/840.</em></strong>
+        <br/><br/><p><strong>(088, 096, 097)=<em>TSM49-00-81-810-861.</em></strong>
+        <br/><br/><p><strong>(089, 091)=<em>TSM49-00-81-810-856.</em></strong>
+        <br/><br/><p><strong>(099, 245)=<em>TSM49-00-81-810-818/820/867.</em></strong>
+        <br/><br/><p><strong>(100)=<em>TSM49-00-81-810-808/822/839.</em></strong>
+        <br/><br/><p><strong>(102)=<em>TSM49-00-81-810-849.</em></strong>
+        <br/><br/><p><strong>(105, 106, 107)=<em>TSM49-00-81-810-807/823/857.</em></strong>
+        <br/><br/><p><strong>(109, 110)=<em>TSM49-00-81-810-851.</em></strong>
+        <br/><br/><p><strong>(113, 114)=<em>TSM49-00-81-810-834.</em></strong>
+        <br/><br/><p><strong>(120)=<em>TSM49-00-81-810-832.</em></strong>
+        <br/><br/><p><strong>(123)=<em>TSM49-00-81-810-831.</em></strong>
+        <br/><br/><p><strong>(128, 146)=<em>TSM49-00-81-810-825.</em></strong>
+        <br/><br/><p><strong>(204)=<em>TSM49-00-81-810-805.</em></strong>
+        <br/><br/><p><strong>(205)=<em>TSM49-00-81-810-810.</em></strong>
+        <br/><br/><p><strong>(206)=<em>TSM49-00-81-810-812.</em></strong>
+        <br/><br/><p><strong>(208)=<em>TSM49-00-81-810-819.</em></strong>
+        <br/><br/><p><strong>(209)=<em>TSM49-00-81-810-821.</em></strong>
+        <br/><br/><p><strong>(211)=<em>TSM49-00-81-810-829.</em></strong>
+        <br/><br/><p><strong>(212)=<em>TSM49-00-81-810-830.</em></strong>
+        <br/><br/><p><strong>(215)=<em>TSM49-00-81-810-835.</em></strong>
+        <br/><br/><p><strong>(216)=<em>TSM49-00-81-810-847.</em></strong>
+        <br/><br/><p><strong>(218)=<em>TSM49-00-81-810-850.</em></strong>
+        <br/><br/><p><strong>(240, 241, 242, 243, 244)=<em>TSM49-00-81-810-821.</em></strong>
+        <br/><br/><br/><span class="header">CFDS Diagram:</span>
+        <br/><p><span class="chk">✓</span>Refer to Chapter Circuit Breaker Location list (or MCDU/CFDS).</p>         
+	  </li>
+	</ul>
+</div>
+<div id="footer">
+<span>Powered By: Gemini Hydrogen</span>
+<p>Training Only</p></div>
+
+</body>
+
+</html>

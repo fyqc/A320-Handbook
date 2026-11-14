@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="index,follow" name="robots" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="../../pics/app-icon.png" rel="apple-touch-icon" />
+<meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+<link href="../css/style.css" rel="stylesheet" media="screen" type="text/css" />
+<script src="../../javascript/functions.js" type="text/javascript"></script>
+<title>Mobile Tech</title>
+<meta content="Mobile Airlinetechs,Airbus Resets,ATA,E190 Resets,A&P,Boeing Resets,Airline Mechanics,Tobin Miklas" name="Keywords" />
+<meta content="Your Free Airline Mobile Tech Reset Guide" name="description" />
+</head>
+
+<body>
+
+<div id="topbar">
+	<div id="leftnav">
+		<a href="../index.html"></a></div>
+	<div id="title">320 Resets</div>
+</div>
+<div id="tributton">
+	<div class="links">
+  <a href="../index.html">320 Home</a><a href="../airbusATA.html">ATA List</a><a href="../73/Achapter73.html">Chapter 73</a></div>
+</div>
+<div id="content">
+	<span class="graytitle">ENGINE 1(2) OVERSPEED PROTECTION FAULT V2500</span>
+	<ul class="pageitem">
+		<li class="textbox"><span class="header">Aircraft configuration prior to reset:</span>
+		<p><span class="chk">✓</span>Overspeed Protection Fault identified by FMU/HC/EEC1/2 on PFR with fault code "OSFFMU".</p>
+		<br/>
+        <span class="header">Circuit breakers to reset:</span>
+		<p>None.</p>
+        <br/>
+        <span class="header">Steps to clear warning:</span>
+        <p><span class="chk">✓</span>Read the FADEC fault codes shown in the FLIGHT DATA and GROUND DATA sections. If you have fault code <strong>"OSFFMU"</strong> attempt to clear the overspeed protection fault as follow's. All other fault codes trouble shoot iaw TSM.</p>
+        <br/>1. On the 50VU, push the ENG FADEC GRD PWR pushbutton switch and release it again. (Resets FADEC)
+        <br/>
+        <br/>2. Push INT mode key on the MCDU and enter a new flight number.
+        <br/>
+        <br/>3. Start the engine and run at idle for 4 minutes with engine generator on, then turnoff associated engine generator for 1 minute.
+        <br/>
+        <br/>4. Shutdown the engine, and if there are no ECAM/PFR faults, return to service.
+        <br/>
+        <br/>5. If fault code <strong>OSFFMU</strong> continues, repeat above steps, If fault still wont clear, check "B" and "C" contectors (Pins J/H) on FMU. Also check "J5" and "J11" contectors (Pins J/d) at EEC. Check TSM for torque motor resistance valves.
+        <br/>
+        <span class="header">Reset duration:</span>
+        <p><span class="chk">✓</span>N/A.</p>
+        <br/>
+		<span class="header">Results of power up test or reset:</span>
+        <p class="links"><strong class="pass-badge">PASS</strong> Return to service.</p>
+        <p><strong class="fail-badge">FAIL</strong> Repeat above steps until cleared.</p>
+        <br/>
+        <span class="header">Notes:</span>
+        <p><span class="chk">✓</span>There is no limit to the number of times you may perform this procedure, and can be performed by the crew after pushback without delaying the flight as long as the ecam message clears.</p>
+		<br/><span class="header">Sign off:</span>
+        <p><strong>Supplement to TSM73-22-00-810-851.
+        <br/>
+        <span class="header">Applicable deferrals:</span>
+        <p><strong>No MEL.</p>
+	  </li>
+	</ul>
+</div>
+<div id="footer">
+<span>Powered By: Gemini Hydrogen</span>
+<p>Training Only</p></div>
+
+</body>
+
+</html>
